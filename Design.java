@@ -126,7 +126,48 @@ public class Design {
 //	    }
 //	}
 //	--------------------- 
-
+//==================reload method, eaiser than upper method 
+//	public class LRUCache {
+//	    Map<Integer, Integer> cache;
+//	    int capacity;
+//	    
+//	    /*
+//	    * @param capacity: An integer
+//	    */public LRUCache(int capacity) {
+//	        // do intialization if necessary
+//	        this.capacity = capacity;
+//	        //https://www.baeldung.com/java-linked-hashmap
+//	        //The first parameter is the initial capacity, followed by the load factor and the last param is the ordering mode. So, by passing in true, we turned out access-order, whereas the default was insertion-order.
+//	        //https://www.geeksforgeeks.org/linkedhashmap-removeeldestentry-method-in-java
+//	        cache = new LinkedHashMap<Integer, Integer>(capacity, 0.75f, true) { 
+//	            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) { 
+//	                return size() > capacity; 
+//	            } 
+//	        }; 
+//	    }
+//
+//	    /*
+//	     * @param key: An integer
+//	     * @return: An integer
+//	     */
+//	    public int get(int key) {
+//	        // write your code here
+//	        if (!cache.containsKey(key)) {
+//	            return -1;
+//	        }
+//	        return cache.get(key);
+//	    }
+//
+//	    /*
+//	     * @param key: An integer
+//	     * @param value: An integer
+//	     * @return: nothing
+//	     */
+//	    public void set(int key, int value) {
+//	        // write your code here
+//	        cache.put(key, value);
+//	    }
+//	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		LRUCache t =new LRUCache(2);
