@@ -25,17 +25,16 @@ public class Design {
 		public void put(int key, int value) {
 			
 			if (map.size() < size) {
-				if(!map.containsKey(key));
+					freq.append(key);
+					map.put(key, value);
+			} else {
+				if(map.containsKey(key))
 				{
 					freq.append(key);
 					map.put(key, value);
-				}
-			} else {
-				freq.append(key);
-				if(map.containsKey(key))
-				{
 					return;
 				}
+				freq.append(key);
 				map.put(key, value);
 				StringBuffer temp = new StringBuffer();
 				int tsize = size;
@@ -51,6 +50,83 @@ public class Design {
 			
 		}
 	}
+	//===================================================
+	//method use linkedhashmap (without using removeEldestEntry)
+//	public class LRUCache {
+//	    Map<Integer, Integer> map = new LinkedHashMap<Integer, Integer>();
+//	    int cap;
+//	    
+//	    public LRUCache(int capacity) {
+//	        cap = capacity;
+//	    }
+//	    
+//	    public int get(int key) {
+//	        if (!map.containsKey(key))
+//	            return -1;
+//	            
+//	        int val = map.remove(key);
+//	        map.put(key, val);
+//	        return val;
+//	    }
+//	    
+//	    public void set(int key, int value) {
+//	        if (map.containsKey(key)) {
+//	            map.remove(key);
+//	            map.put(key, value);
+//	            return;
+//	        }
+//	        
+//	        map.put(key, value);
+//	        
+//	        if (map.size() > cap)
+//	            map.remove(map.entrySet().iterator().next().getKey());
+//	    }
+//	}
+	//====================================
+	//method three with removeEldestEntry
+//	public class LRU<K,V> extends LinkedHashMap<K, V> implements Map<K, V>{
+//
+//	    private static final long serialVersionUID = 1L;
+//
+//	    public LRU(int initialCapacity,
+//	             float loadFactor,
+//	                        boolean accessOrder) {
+//	        super(initialCapacity, loadFactor, accessOrder);
+//	    }
+//
+//	    /** 
+//	     * @description 重写LinkedHashMap中的removeEldestEntry方法，当LRU中元素多余6个时，
+//	     *              删除最不经常使用的元素    
+//	     * @created 2017年5月12日 上午11:32:51      
+//	     * @param eldest
+//	     * @return     
+//	     * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)     
+//	     */  
+//	    @Override
+//	    protected boolean removeEldestEntry(java.util.Map.Entry<K, V> eldest) {
+//	        // TODO Auto-generated method stub
+//	        if(size() > 6){
+//	            return true;
+//	        }
+//	        return false;
+//	    }
+//
+//	    public static void main(String[] args) {
+//
+//	        LRU<Character, Integer> lru = new LRU<Character, Integer>(
+//	                16, 0.75f, true);
+//
+//	        String s = "abcdefghijkl";
+//	        for (int i = 0; i < s.length(); i++) {
+//	            lru.put(s.charAt(i), i);
+//	        }
+//	        System.out.println("LRU中key为h的Entry的值为： " + lru.get('h'));
+//	        System.out.println("LRU的大小 ：" + lru.size());
+//	        System.out.println("LRU ：" + lru);
+//	    }
+//	}
+//	--------------------- 
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		LRUCache t =new LRUCache(2);
