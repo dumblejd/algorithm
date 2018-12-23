@@ -89,7 +89,7 @@ public class BinarySearch {
 			if (s[mid] == num) {
 				return mid;
 			}
-			if (s[mid] > s[start]) {
+			if (s[mid] >= s[start]) { //added equal or it will fail for [3,1] search for 1     return -1   
 				if (num >= s[start] && num <= s[mid]) {
 					end = mid - 1;
 				} else {
