@@ -81,6 +81,7 @@ public class BinarySearch {
 		return result;
 	}
 
+	// =====#33
 	public static int rotateBinary(int[] s, int num) {
 		int start = 0;
 		int end = s.length - 1;
@@ -89,7 +90,7 @@ public class BinarySearch {
 			if (s[mid] == num) {
 				return mid;
 			}
-			if (s[mid] >= s[start]) { //added equal or it will fail for [3,1] search for 1     return -1   
+			if (s[mid] >= s[start]) { // added equal or it will fail for [3,1] search for 1 return -1
 				if (num >= s[start] && num <= s[mid]) {
 					end = mid - 1;
 				} else {
@@ -113,41 +114,76 @@ public class BinarySearch {
 
 	}
 
-	public static int findkth(int a[],int starta,int b[],int startb,int findk)
-	{
-		//end condition
-		if(starta>=a.length)  //if a is ended and  smaller 
+	public static int findkth(int a[], int starta, int b[], int startb, int findk) {
+		// end condition
+		if (starta >= a.length) // if a is ended and smaller
 		{
-			return b[startb+findk-1];
+			return b[startb + findk - 1];
 		}
-		if(startb>=b.length)// if b is ended and smaller 
+		if (startb >= b.length)// if b is ended and smaller
 		{
-			return a[starta+findk-1];
+			return a[starta + findk - 1];
 		}
-		if(findk==1)
-		{
+		if (findk == 1) {
 			return Math.min(a[starta], b[startb]);
 		}
-		//check if out of range
-		int avalue_halfk= starta+findk/2-1<a.length?a[starta+findk/2-1]:Integer.MAX_VALUE;
-		int bvalue_halfk= startb+findk/2-1<b.length?b[startb+findk/2-1]:Integer.MAX_VALUE; 
-		//compare the half kth value of both to delete half of k each time
-		if(avalue_halfk<bvalue_halfk)
-		{
-			return findkth(a,starta+findk/2,b,startb,findk-findk/2);
-		}
-		else
-		{
-			return findkth(a,starta,b,startb+findk/2,findk-findk/2);
+		// check if out of range
+		int avalue_halfk = starta + findk / 2 - 1 < a.length ? a[starta + findk / 2 - 1] : Integer.MAX_VALUE;
+		int bvalue_halfk = startb + findk / 2 - 1 < b.length ? b[startb + findk / 2 - 1] : Integer.MAX_VALUE;
+		// compare the half kth value of both to delete half of k each time
+		if (avalue_halfk < bvalue_halfk) {
+			return findkth(a, starta + findk / 2, b, startb, findk - findk / 2);
+		} else {
+			return findkth(a, starta, b, startb + findk / 2, findk - findk / 2);
 		}
 	}
 
+	// ========#34
+	public static int[] searchRange(int[] nums, int target) {
+		if(nums.length==0)
+		{
+			return new int[] { -1, -1 };
+		}
+		int s = 0;
+		int e = nums.length-1;
+		while (s <= e) {
+			int m = s + (e - s) / 2;
+			if (nums[m] == target) {
+				int left = m;
+				int right = m;
+				while (nums[left] == target || nums[right] == target) 
+				{
+					if(left-1<0&&right+1>=nums.length)
+					{
+						break;
+					}
+					if (left > 0 && nums[left - 1] == nums[m]) {
+						left--;
+					}else if (right < nums.length - 1 && nums[right + 1] == nums[m]) {
+						right++;
+					}
+					else {//if doesn't have this , will not stop.
+						break;
+					}
+				}
+				return new int[] { left, right };
+			} else if (nums[m] < target) {
+				s = m + 1;
+			} else {
+				e = m - 1;
+			}
+		}
+
+		return new int[] { -1, -1 };
+	}
+
 	public static void main(String[] args) {
-		int[] s = { 1, 2, 3, 4, 5, 6, 7 };
+		int[] s = {5,7,7,8,8,10};
 		int[] s2 = { 1, 3, 5, 6 };
 		int[][] ss = { { 1, 2, 3, 4, 5 }, { 6, 7, 8, 9, 10 }, { 11, 12, 13, 14, 15 }, { 16, 17, 18, 19, 20 },
 				{ 21, 22, 23, 24, 25 }, { 26, 27, 28, 29, 30 } };
 		int[] ranges = { 5, 6, 7, 8, 0, 1, 2, 3 };
 		System.out.println(rotateBinary(ranges, 0));
+		searchRange(s, 8);
 	}
 }
