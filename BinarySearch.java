@@ -140,29 +140,25 @@ public class BinarySearch {
 
 	// ========#34
 	public static int[] searchRange(int[] nums, int target) {
-		if(nums.length==0)
-		{
+		if (nums.length == 0) {
 			return new int[] { -1, -1 };
 		}
 		int s = 0;
-		int e = nums.length-1;
+		int e = nums.length - 1;
 		while (s <= e) {
 			int m = s + (e - s) / 2;
 			if (nums[m] == target) {
 				int left = m;
 				int right = m;
-				while (nums[left] == target || nums[right] == target) 
-				{
-					if(left-1<0&&right+1>=nums.length)
-					{
+				while (nums[left] == target || nums[right] == target) {
+					if (left - 1 < 0 && right + 1 >= nums.length) {
 						break;
 					}
 					if (left > 0 && nums[left - 1] == nums[m]) {
 						left--;
-					}else if (right < nums.length - 1 && nums[right + 1] == nums[m]) {
+					} else if (right < nums.length - 1 && nums[right + 1] == nums[m]) {
 						right++;
-					}
-					else {//if doesn't have this , will not stop.
+					} else {// if doesn't have this , will not stop.
 						break;
 					}
 				}
@@ -173,17 +169,51 @@ public class BinarySearch {
 				e = m - 1;
 			}
 		}
-
 		return new int[] { -1, -1 };
 	}
-
+	//#50  pow
+	public static double pow(double x, int n) {
+        if(n == 0)
+            return 1;
+        if(n<0){
+            n = -n;
+            x = 1/x;
+        }
+        return (n%2 == 0) ? pow(x*x, n/2) : x*pow(x*x, n/2);
+    }
+	//#69  sqrt
+public static int mySqrt(int x) {
+	if (x < 0)  throw new IllegalArgumentException();
+    else if (x <= 1)    return x;
+        int s=1;
+        int e=x;
+        while (s+1<e)
+        {
+        	int m=s+(e-s)/2;
+        	if (m<x/m)
+        	{
+        		s=m;
+        	}
+        	else if(m>x/m)
+        	{
+        		e=m;
+        	}
+        	else
+        	{
+        		return m;
+        	}
+        }
+       if (e > x / e)  return s;
+	return e;
+    }
 	public static void main(String[] args) {
-		int[] s = {5,7,7,8,8,10};
+		int[] s = { 5, 7, 7, 8, 8, 10 };
 		int[] s2 = { 1, 3, 5, 6 };
 		int[][] ss = { { 1, 2, 3, 4, 5 }, { 6, 7, 8, 9, 10 }, { 11, 12, 13, 14, 15 }, { 16, 17, 18, 19, 20 },
 				{ 21, 22, 23, 24, 25 }, { 26, 27, 28, 29, 30 } };
 		int[] ranges = { 5, 6, 7, 8, 0, 1, 2, 3 };
 		System.out.println(rotateBinary(ranges, 0));
 		searchRange(s, 8);
+		System.out.println(mySqrt(9));
 	}
 }
