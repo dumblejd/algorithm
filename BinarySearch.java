@@ -171,41 +171,100 @@ public class BinarySearch {
 		}
 		return new int[] { -1, -1 };
 	}
-	//#50  pow
+
+	// #50 pow
 	public static double pow(double x, int n) {
-        if(n == 0)
-            return 1;
-        if(n<0){
-            n = -n;
-            x = 1/x;
-        }
-        return (n%2 == 0) ? pow(x*x, n/2) : x*pow(x*x, n/2);
-    }
-	//#69  sqrt
-public static int mySqrt(int x) {
-	if (x < 0)  throw new IllegalArgumentException();
-    else if (x <= 1)    return x;
-        int s=1;
-        int e=x;
-        while (s+1<e)
-        {
-        	int m=s+(e-s)/2;
-        	if (m<x/m)
-        	{
-        		s=m;
-        	}
-        	else if(m>x/m)
-        	{
-        		e=m;
-        	}
-        	else
-        	{
-        		return m;
-        	}
-        }
-       if (e > x / e)  return s;
-	return e;
-    }
+		if (n == 0)
+			return 1;
+		if (n < 0) {
+			n = -n;
+			x = 1 / x;
+		}
+		return (n % 2 == 0) ? pow(x * x, n / 2) : x * pow(x * x, n / 2);
+	}
+
+	// #69 sqrt
+	public static int mySqrt(int x) {
+		if (x < 0)
+			throw new IllegalArgumentException();
+		else if (x <= 1)
+			return x;
+		int s = 1;
+		int e = x;
+		while (s + 1 < e) {
+			int m = s + (e - s) / 2;
+			if (m < x / m) {
+				s = m;
+			} else if (m > x / m) {
+				e = m;
+			} else {
+				return m;
+			}
+		}
+		if (e > x / e)
+			return s;
+		return e;
+	}
+
+	// #74
+	public boolean searchMatrix(int[][] matrix, int target) {
+		if (matrix.length == 0 || matrix[0].length == 0) {
+			return false;
+		}
+		int s = 0;
+		int e = matrix.length * matrix[0].length - 1;
+		while (s <= e) {
+			int m = s + (e - s) / 2;
+			int row = m / matrix[0].length;
+			int column = m - row * matrix[0].length;
+			if (matrix[row][column] == target) {
+				return true;
+			} else if (matrix[row][column] > target) {
+				e = m - 1;
+			} else {
+				s = m + 1;
+			}
+		}
+		return false;
+	}
+
+	// #81
+	 public boolean search(int[] nums, int target) {
+			int s = 0;
+			int e = nums.length-1;
+			while (s <= e) {
+				int m = s + (e - s) / 2;
+				if (nums[m] == target) {
+					return true;
+				}
+				else if (nums[m] < nums[s]) {
+					if(target>=nums[m]&&target<=nums[e])
+					{
+						s=m+1;
+					}
+					else {
+						e=m-1;
+					}
+				}
+				else if(nums[m] == nums[s]) // condition that mid=s  like [1,1,1,1,0,1,1,1,1,1,1] it can be used partition so it's o(n)
+				{
+					s++;
+				}
+				else
+				{
+					if(target<=nums[m]&&target>=nums[s])
+					{
+						e=m-1;
+					}
+					else
+					{
+						s=m+1;
+					}
+				}
+			}
+			return false;
+		}
+
 	public static void main(String[] args) {
 		int[] s = { 5, 7, 7, 8, 8, 10 };
 		int[] s2 = { 1, 3, 5, 6 };
