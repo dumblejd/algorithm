@@ -1,5 +1,9 @@
 package algorithmtest;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class BinarySearch {
 	public static int basicBinary(int[] s, int num)
 
@@ -229,50 +233,161 @@ public class BinarySearch {
 	}
 
 	// #81
-	 public boolean search(int[] nums, int target) {
-			int s = 0;
-			int e = nums.length-1;
-			while (s <= e) {
-				int m = s + (e - s) / 2;
-				if (nums[m] == target) {
-					return true;
+	public boolean search(int[] nums, int target) {
+		int s = 0;
+		int e = nums.length - 1;
+		while (s <= e) {
+			int m = s + (e - s) / 2;
+			if (nums[m] == target) {
+				return true;
+			} else if (nums[m] < nums[s]) {
+				if (target >= nums[m] && target <= nums[e]) {
+					s = m + 1;
+				} else {
+					e = m - 1;
 				}
-				else if (nums[m] < nums[s]) {
-					if(target>=nums[m]&&target<=nums[e])
-					{
-						s=m+1;
-					}
-					else {
-						e=m-1;
-					}
-				}
-				else if(nums[m] == nums[s]) // condition that mid=s  like [1,1,1,1,0,1,1,1,1,1,1] it can be used partition so it's o(n)
-				{
-					s++;
-				}
-				else
-				{
-					if(target<=nums[m]&&target>=nums[s])
-					{
-						e=m-1;
-					}
-					else
-					{
-						s=m+1;
-					}
+			} else if (nums[m] == nums[s]) // condition that mid=s like [1,1,1,1,0,1,1,1,1,1,1] it can be used partition
+											// so it's o(n)
+			{
+				s++;
+			} else {
+				if (target <= nums[m] && target >= nums[s]) {
+					e = m - 1;
+				} else {
+					s = m + 1;
 				}
 			}
-			return false;
 		}
+		return false;
+	}
 
+	// #153
+	public int findMin(int[] nums) {
+		int s = 0;
+		int min = Integer.MAX_VALUE;
+		int e = nums.length - 1;
+		while (s <= e) {
+			int m = s + (e - s) / 2;
+			if (nums[m] <= nums[s]) {
+				min = Math.min(nums[m], min);
+				e = m - 1;
+			} else {
+				min = Math.min(nums[s], min);
+				s = m + 1;
+			}
+		}
+		return min;
+	}
+
+	// #154
+	public int findMin154(int[] nums) {
+		int s = 0;
+		int min = Integer.MAX_VALUE;
+		int e = nums.length - 1;
+		while (s <= e) {
+			int m = s + (e - s) / 2;
+			if (nums[m] < nums[s]) {
+				min = Math.min(nums[m], min);
+				e = m - 1;
+			} else if (nums[m] > nums[s]) {
+				min = Math.min(nums[s], min);
+				s = m + 1;
+			} else {
+				min = Math.min(nums[s], min);
+				s++;
+			}
+
+		}
+		return min;
+	}
+
+	// #162
+	public int findPeakElement(int[] nums) {
+		int s = 0;
+		int e = nums.length - 1;
+		while (s < e) {
+			int m = s + (e - s) / 2;
+			if (nums[m] <= nums[m + 1]) {
+				s = m + 1;
+			} else {
+				e = m;
+			}
+		}
+		return s;
+	}
+
+	// #240  find from right top
+	public boolean searchMatrix240(int[][] matrix, int target) {
+		 if (matrix.length==0||matrix[0].length==0)
+	            return false;
+		int m=matrix.length, n=matrix[0].length, i=0, j=n-1;
+	    while (i<m && j>=0) {
+	        if (matrix[i][j]==target) return true;
+	        else if (matrix[i][j]<target) i++;
+	        else j--;
+	    }
+	    return false;
+	}
+//#658 
+	//this solution doesn't contain itself and result is not sorted
+	
+public static List<Integer>  findClosestElements(int[] arr, int k, int x) { 
+		List<Integer> res = new ArrayList<Integer>();
+		int index=basicBinary(arr, x);
+		if(index==-1)
+		{
+			for(int i=0;i<k;i++)
+				res.add(arr[i]);
+			return res;
+		}
+		int s=index-1;
+		int e=index;
+		while(s>=0||e<=arr.length-1)
+		{
+			if(sCloser(arr,index,s,e))
+			{
+				res.add(arr[s]);
+				s--;
+			}
+			else
+			{
+				res.add(arr[e]);
+				e++;
+			}
+			
+			if(res.size()==k)
+				break;
+		}
+		Collections.sort(res);
+        return res;
+    }
+ public static boolean sCloser(int[]arr,int index,int s,int e)
+ {
+	 if(e>=arr.length)
+	 {
+		 return true;
+	 }
+	 else if(s<0)
+	 {
+		 return false;
+	 }
+	 else if(arr[e]-arr[index]>=arr[index]-arr[s])
+	 {
+		 return true;
+	 }
+	 else {
+		 return false;
+	 }
+ }
 	public static void main(String[] args) {
 		int[] s = { 5, 7, 7, 8, 8, 10 };
-		int[] s2 = { 1, 3, 5, 6 };
+		int[] s2 = { 0,0,1,2,3,3,4,7,7,8
+				 };
 		int[][] ss = { { 1, 2, 3, 4, 5 }, { 6, 7, 8, 9, 10 }, { 11, 12, 13, 14, 15 }, { 16, 17, 18, 19, 20 },
 				{ 21, 22, 23, 24, 25 }, { 26, 27, 28, 29, 30 } };
 		int[] ranges = { 5, 6, 7, 8, 0, 1, 2, 3 };
 		System.out.println(rotateBinary(ranges, 0));
 		searchRange(s, 8);
-		System.out.println(mySqrt(9));
+		findClosestElements(s2, 3, 5);
 	}
 }
