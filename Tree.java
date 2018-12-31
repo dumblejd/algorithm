@@ -120,7 +120,7 @@ public class Tree {
 		if (p == null && q == null) {
 			return true;
 		}
-		if (p != null || q != null) // since last if have exclude both null condition
+		if (p == null || q == null) // since last if have exclude both null condition
 		{
 			return false;
 		}
