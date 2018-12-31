@@ -89,31 +89,54 @@ public class Tree {
 	}
 
 	// #99
-	private TreeNode pre=null;
-	private TreeNode first=null;
-	private TreeNode second=null;
+	private TreeNode pre = null;
+	private TreeNode first = null;
+	private TreeNode second = null;
+
 	public void recoverTree(TreeNode root) {
 		traverse99(root);
-		int temp=first.val;
-		first.val=second.val;
-		second.val=temp;
+		int temp = first.val;
+		first.val = second.val;
+		second.val = temp;
 	}
-	public void traverse99(TreeNode root)
-	{
-		if(root==null)
+
+	public void traverse99(TreeNode root) {
+		if (root == null)
 			return;
 		traverse99(root.left);
-		if(root.val<pre.val){
-			if(first==null)
-			{
-			first=pre;
+		if (root.val < pre.val) {
+			if (first == null) {
+				first = pre;
 			}
-			second=root;
+			second = root;
 		}
-		pre=root;
+		pre = root;
 		traverse99(root.right);
-		
+
 	}
+
+	// #100
+	public boolean isSameTree(TreeNode p, TreeNode q) {
+		if (p == null && q == null) {
+			return true;
+		}
+		if (p != null || q != null) // since last if have exclude both null condition
+		{
+			return false;
+		}
+		if (p.val != q.val) {
+			return false;
+		}
+		if (!isSameTree(p.left, q.left)) {
+			return false;
+		}
+		if (!isSameTree(p.right, q.right)) {
+			return false;
+		}
+		return true;
+
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
