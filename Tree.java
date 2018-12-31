@@ -15,9 +15,86 @@ public class Tree {
 		return num[n];
 	}
 
+	  public static class TreeNode {
+	      int val;
+	      TreeNode left;
+	     TreeNode right;
+	      TreeNode(int x) { val = x; }
+	  }
+	 
+//#98
+	  //this version is wrong since it allows [10,5,15,null,null,6,20] to be true which 6 is in wrong place
+//public static boolean isValidBST(TreeNode root) {
+//	boolean judge=true;
+//	
+//		if(root.left!=null)
+//		{
+//			if(root.val<=root.left.val)
+//				return false;
+//			judge=judge==false?false:isValidBST(root.left);
+//		}
+//		 if(root.right!=null)
+//		{
+//			if(root.val>=root.right.val)
+//				return false;
+//			judge=judge==false?false:isValidBST(root.right);
+//		}
+//	
+//	return judge;
+//    }
+	   // # failed version will not pass [3,1,5,0,2,4,6] 
+//	  public static boolean isValidBST(TreeNode root,int sup) {
+//			boolean judge=true;
+//			if(root==null)
+//			{
+//				return true;
+//			}
+//				if(root.left!=null)
+//				{
+//					if(root.val<=root.left.val||root.left.val<=sup)
+//						return false;
+//					judge=judge==false?false:isValidBST(root.left,root.val);
+//				}
+//				 if(root.right!=null)
+//				{
+//					if(root.val>=root.right.val||root.right.val>=sup)
+//						return false;
+//					judge=judge==false?false:isValidBST(root.right,root.val);
+//				}
+//			
+//			return judge;
+//		    }
+	  //#98
+	  private static int lastVal = Integer.MIN_VALUE;
+	    private static boolean firstNode = true;
+	    public static boolean isValidBST(TreeNode root) {
+	        if (root == null) {
+	            return true;
+	        }
+	        if (!isValidBST(root.left)) {
+	            return false;
+	        }
+	        if (!firstNode && lastVal >= root.val) {
+	            return false;
+	        }
+	        firstNode = false;
+	        lastVal = root.val;
+	        if (!isValidBST(root.right)) {
+	            return false;
+	        }
+	        return true;
+	    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		TreeNode a=new TreeNode(5);
+		TreeNode b=new TreeNode(10);
+		
+		TreeNode c=new TreeNode(15);
+		TreeNode d=new TreeNode(8);
+		c.left=d;
+		b.left=a;b.right=c;
+		isValidBST(b);
+		
 	}
 
 }
