@@ -137,6 +137,31 @@ public class Tree {
 
 	}
 
+	// #101
+	public boolean isSymmetric(TreeNode root) {
+		if(root==null)
+        {
+            return true;
+        }
+		return helper101(root.left,root.right);
+	}
+	public boolean helper101(TreeNode left,TreeNode right)
+	{
+		if(left==null&&right==null)
+		{
+			return true;
+		}
+		if(left==null||right==null)
+		{
+			return false;
+		}
+		if(left.val!=right.val)
+		{
+			return false;
+		}
+		return helper101(left.left,right.right)&&helper101(left.right,right.left);
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);

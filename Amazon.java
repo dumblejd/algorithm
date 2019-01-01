@@ -81,7 +81,7 @@ public void reorderfile(String []file)
 			
 			if(valuea.equals(valueb))
 			{
-				return ;
+				//return ;
 			}
 			return false;
 			
