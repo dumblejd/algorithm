@@ -1,5 +1,10 @@
 package algorithmtest;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
+
 public class Tree {
 	// #96
 	public int numTrees(int n) {
@@ -139,27 +144,90 @@ public class Tree {
 
 	// #101
 	public boolean isSymmetric(TreeNode root) {
-		if(root==null)
-        {
-            return true;
-        }
-		return helper101(root.left,root.right);
-	}
-	public boolean helper101(TreeNode left,TreeNode right)
-	{
-		if(left==null&&right==null)
-		{
+		if (root == null) {
 			return true;
 		}
-		if(left==null||right==null)
-		{
+		return helper101(root.left, root.right);
+	}
+
+	public boolean helper101(TreeNode left, TreeNode right) {
+		if (left == null && right == null) {
+			return true;
+		}
+		if (left == null || right == null) {
 			return false;
 		}
-		if(left.val!=right.val)
-		{
+		if (left.val != right.val) {
 			return false;
 		}
-		return helper101(left.left,right.right)&&helper101(left.right,right.left);
+		return helper101(left.left, right.right) && helper101(left.right, right.left);
+	}
+
+	// #103 dfs method and bfs method bfs is written by me dfs is copied since it's
+	// easy(though dfs is smarter)
+	// # bfs
+	public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		Stack<TreeNode> pre = new Stack<TreeNode>();
+		Stack<TreeNode> curr = new Stack<TreeNode>();
+		int sequence = 0;
+		if (root == null)
+			return res;
+		pre.push(root);
+
+		while (!pre.isEmpty()) {
+			List<Integer> row = new ArrayList<Integer>();
+			while (!pre.isEmpty()) {
+				TreeNode temp = pre.pop();
+				row.add(temp.val);
+				if (sequence == 0) {
+					if (temp.left != null) {
+						curr.push(temp.left);
+					}
+					if (temp.right != null) {
+						curr.push(temp.right);
+					}
+				} else {
+					if (temp.right != null) {
+						curr.push(temp.right);
+					}
+					if (temp.left != null) {
+						curr.push(temp.left);
+					}
+				}
+			}
+			res.add(row);
+			pre = curr;
+			curr = new Stack<TreeNode>();
+			sequence = 1 - sequence;
+		}
+		return res;
+	}
+
+	// #dfs
+	public List<List<Integer>> zigzagLevelOrderdfs(TreeNode root) {
+		List<List<Integer>> sol = new ArrayList<>();
+		travel(root, sol, 0);
+		return sol;
+	}
+
+	private void travel(TreeNode curr, List<List<Integer>> sol, int level) {
+		if (curr == null)
+			return;
+
+		if (sol.size() <= level) {
+			List<Integer> newLevel = new LinkedList<>();
+			sol.add(newLevel);
+		}
+
+		List<Integer> collection = sol.get(level);
+		if (level % 2 == 0)
+			collection.add(curr.val);
+		else
+			collection.add(0, curr.val);
+
+		travel(curr.left, sol, level + 1);
+		travel(curr.right, sol, level + 1);
 	}
 
 	public static void main(String[] args) {
