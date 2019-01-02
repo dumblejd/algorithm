@@ -229,14 +229,37 @@ public class Tree {
 		travel(curr.left, sol, level + 1);
 		travel(curr.right, sol, level + 1);
 	}
-	//#104
-public int maxDepth(TreeNode root) {
-        if(root==null)
-        {
-        	return 0;
-        }
-        	return 1+Math.max(maxDepth(root.left),maxDepth(root.right));
-    }
+
+	// #104
+	public int maxDepth(TreeNode root) {
+		if (root == null) {
+			return 0;
+		}
+		return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+	}
+
+	// #105
+	public TreeNode buildTree(int[] preorder, int[] inorder) {
+		return helper105(0, 0, inorder.length - 1, preorder, inorder);
+	}
+
+	public TreeNode helper105(int preStart, int inStart, int inEnd, int[] preorder, int[] inorder) {
+		if(preStart>preorder.length-1||inStart>inEnd) //since for pre it just take one number, for in, it pick sub array(it can be at first or middle or end)
+		{
+			return null;
+		}
+		TreeNode root = new TreeNode(preorder[preStart]);//take the root one 
+		int inIndex=0;
+		for (int i = inStart; i <= inEnd; i++) {
+	        if (inorder[i] == root.val) {
+	            inIndex = i;
+	        }
+	    }
+		root.left=helper105(preStart+1, inStart, inIndex-1, preorder, inorder);
+		root.right=helper105(preStart+inIndex-inStart+1, inIndex+1,inEnd , preorder, inorder);
+		return root;
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
