@@ -238,48 +238,84 @@ public class Tree {
 		return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
 	}
 
-	// #105 Construct Binary Tree from Inorder and preorder Traversal 
+	// #105 Construct Binary Tree from Inorder and preorder Traversal
 	public TreeNode buildTree(int[] preorder, int[] inorder) {
 		return helper105(0, 0, inorder.length - 1, preorder, inorder);
 	}
 
 	public TreeNode helper105(int preStart, int inStart, int inEnd, int[] preorder, int[] inorder) {
-		if(preStart>preorder.length-1||inStart>inEnd) //since for pre it just take one number, for in, it pick sub array(it can be at first or middle or end)
+		if (preStart > preorder.length - 1 || inStart > inEnd) // since for pre it just take one number, for in, it pick
+																// sub array(it can be at first or middle or end)
 		{
 			return null;
 		}
-		TreeNode root = new TreeNode(preorder[preStart]);//take the root one 
-		int inIndex=0;
+		TreeNode root = new TreeNode(preorder[preStart]);// take the root one
+		int inIndex = 0;
 		for (int i = inStart; i <= inEnd; i++) {
-	        if (inorder[i] == root.val) {
-	            inIndex = i;
-	        }
-	    }
-		root.left=helper105(preStart+1, inStart, inIndex-1, preorder, inorder);
-		root.right=helper105(preStart+inIndex-inStart+1, inIndex+1,inEnd , preorder, inorder);
+			if (inorder[i] == root.val) {
+				inIndex = i;
+			}
+		}
+		root.left = helper105(preStart + 1, inStart, inIndex - 1, preorder, inorder);
+		root.right = helper105(preStart + inIndex - inStart + 1, inIndex + 1, inEnd, preorder, inorder);
 		return root;
-	}
-//#106. Construct Binary Tree from Inorder and Postorder Traversal 
-	public TreeNode buildTree106(int[] inorder, int[] postorder) {
-		return helper106(postorder.length-1, 0, inorder.length - 1, inorder, postorder);
 	}
 
-	public TreeNode helper106(int preStart, int inStart, int inEnd,  int[] inorder,int[] postorder) {
-		if(preStart<0||inStart>inEnd) //except note in 105, here prestart should be judged by 0 since it's get from the last one to head
+	// #106. Construct Binary Tree from Inorder and Postorder Traversal
+	public TreeNode buildTree106(int[] inorder, int[] postorder) {
+		return helper106(postorder.length - 1, 0, inorder.length - 1, inorder, postorder);
+	}
+
+	public TreeNode helper106(int preStart, int inStart, int inEnd, int[] inorder, int[] postorder) {
+		if (preStart < 0 || inStart > inEnd) // except note in 105, here prestart should be judged by 0 since it's get
+												// from the last one to head
 		{
 			return null;
 		}
-		TreeNode root = new TreeNode(postorder[preStart]);//take the root one 
-		int inIndex=0;
+		TreeNode root = new TreeNode(postorder[preStart]);// take the root one
+		int inIndex = 0;
 		for (int i = inStart; i <= inEnd; i++) {
-	        if (inorder[i] == root.val) {
-	            inIndex = i;
-	        }
-	    }
-		root.left=helper106(preStart-inEnd+inStart, inStart,inIndex-1, inorder,postorder);
-		root.right=helper106(preStart-1, inIndex+1,inEnd,inorder,postorder);
+			if (inorder[i] == root.val) {
+				inIndex = i;
+			}
+		}
+		root.left = helper106(preStart - (inEnd - inIndex) - 1, inStart, inIndex - 1, inorder, postorder);
+		root.right = helper106(preStart - 1, inIndex + 1, inEnd, inorder, postorder);
 		return root;
 	}
+
+	// #110. Balanced Binary Tree
+	// o(n2
+	public boolean isBalanced(TreeNode root) {
+
+		if (root == null) {
+			return true;
+		}
+		// isBalanced(root.left);
+		// isBalanced(root.right);
+		return isBalanced(root.left) && isBalanced(root.right)
+				&& Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1;
+	}
+
+	// o(n
+	public int dfsheight(TreeNode root) {
+		if (root == null) {
+			return 0;
+		}
+		
+		int leftheight = dfsheight(root.left);
+		if (leftheight == -1)
+			return -1;
+		
+		int rightheight = dfsheight(root.right);
+		if (rightheight == -1)
+			return -1;
+		
+		if (Math.abs(rightheight - leftheight) > 1)
+			return -1;
+		return Math.max(leftheight, rightheight) + 1;
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
