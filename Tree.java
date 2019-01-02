@@ -238,7 +238,7 @@ public class Tree {
 		return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
 	}
 
-	// #105
+	// #105 Construct Binary Tree from Inorder and preorder Traversal 
 	public TreeNode buildTree(int[] preorder, int[] inorder) {
 		return helper105(0, 0, inorder.length - 1, preorder, inorder);
 	}
@@ -259,7 +259,27 @@ public class Tree {
 		root.right=helper105(preStart+inIndex-inStart+1, inIndex+1,inEnd , preorder, inorder);
 		return root;
 	}
+//#106. Construct Binary Tree from Inorder and Postorder Traversal 
+	public TreeNode buildTree106(int[] inorder, int[] postorder) {
+		return helper106(postorder.length-1, 0, inorder.length - 1, inorder, postorder);
+	}
 
+	public TreeNode helper106(int preStart, int inStart, int inEnd,  int[] inorder,int[] postorder) {
+		if(preStart<0||inStart>inEnd) //except note in 105, here prestart should be judged by 0 since it's get from the last one to head
+		{
+			return null;
+		}
+		TreeNode root = new TreeNode(postorder[preStart]);//take the root one 
+		int inIndex=0;
+		for (int i = inStart; i <= inEnd; i++) {
+	        if (inorder[i] == root.val) {
+	            inIndex = i;
+	        }
+	    }
+		root.left=helper106(preStart-inEnd+inStart, inStart,inIndex-1, inorder,postorder);
+		root.right=helper106(preStart-1, inIndex+1,inEnd,inorder,postorder);
+		return root;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
