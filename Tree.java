@@ -378,32 +378,84 @@ public class Tree {
 }
 	//#114 Flatten Binary Tree to Linked List
 	 public void flatten(TreeNode root) {
-	       	TreeNode newRoot= new TreeNode(-1);
-	       	helper114(root,newRoot);
-	       	root=newRoot.right;
+		 pre114=new TreeNode(-1);
+		 TreeNode temp=pre114;
+	       	helper114(root);
+	       	root=temp.right;
 	       	
 	    }
-	 public TreeNode helper114(TreeNode root,TreeNode pre)
+	 // failed version it can't be done, it needs an outside variable
+//	 public TreeNode helper114(TreeNode root,TreeNode pre)
+//	 {
+//		 if(root==null)
+//		 {
+//			 return null;
+//		 }
+//		 pre.right=new TreeNode(root.val);
+//		 if(root.left!=null)
+//		 {
+//			 pre=helper114(root.left,pre.right);
+//		 }
+//		 if(root.right!=null)
+//		 {
+//			 pre=helper114(root.right,pre.right);
+//		 }
+//		 return pre;
+//	 }
+	 //this version actually work, but since it's void,so the result can't be returned(!!!change root=res is not actually changing outside object)
+//	 private TreeNode pre114=null;
+//	 public void helper114(TreeNode root)
+//	 {
+//		 if(root==null)
+//		 {
+//			 return;
+//		 }
+//		 pre114.right=new TreeNode(root.val);
+//		 pre114=pre114.right;
+//		 if(root.left!=null)
+//		 {
+//			 helper114(root.left);
+//		 }
+//		 if(root.right!=null)
+//		 {
+//			 helper114(root.right);
+//		 }
+//	 }
+	 private TreeNode pre114=null;
+	 public void helper114(TreeNode root)
 	 {
 		 if(root==null)
 		 {
-			 return pre;
+			 return;
 		 }
-		
+		 
+		 if(pre114!=null)
+		 {
+			 pre.left=null;
+			 pre.right=root;
+		 }
+		 pre114=root;
+		 TreeNode right=root.right;
+		 helper114(root.left);
+		 helper114(right);
 	 }
+	 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TreeNode a = new TreeNode(5);
-		TreeNode b = new TreeNode(10);
-
-		TreeNode c = new TreeNode(15);
-		TreeNode d = new TreeNode(8);
-		c.left = d;
-		b.left = a;
-		b.right = c;
-		Tree t = new Tree();
-		t.flatten(b);
-
+//		TreeNode a = new TreeNode(5);
+//		TreeNode b = new TreeNode(10);
+//
+//		TreeNode c = new TreeNode(15);
+//		TreeNode d = new TreeNode(8);
+//		c.left = d;
+//		b.left = a;
+//		b.right = c;
+//		Tree t = new Tree();
+//		t.flatten(b);
+		int [] a={1,2};
+		int b=3;
+		a[0]=b;
+		b=5;
 	}
 
 }
