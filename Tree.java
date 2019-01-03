@@ -327,44 +327,70 @@ public class Tree {
 
 	// #112 path sum
 	public boolean hasPathSum(TreeNode root, int sum) {
-		if(root==null)
-		{
+		if (root == null) {
 			return false;
 		}
-		if(root.left==null&&root.right==null&&root.val==sum)  //it will return true only it's a leaf and val=sum
+		if (root.left == null && root.right == null && root.val == sum) // it will return true only it's a leaf and
+																		// val=sum
 		{
 			return true;
 		}
-		return hasPathSum(root.left,sum-root.val)||hasPathSum(root.right,sum-root.val);
+		return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
 	}
-//#113 path sum 2   with path returned 
-public List<List<Integer>> pathSum(TreeNode root, int sum) {
-	if(root==null)
-	{
-		return null;
+
+	// #113 path sum 2 with path returned
+	public List<List<Integer>> pathSum(TreeNode root, int sum) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		List<Integer> temp = new ArrayList<Integer>();
+		helper113(root, sum, res, temp);
+		return res;
 	}
-	List<List<Integer>> res = new ArrayList<List<Integer>>();
-	List<Integer>temp = new ArrayList<Integer>();
-	return helper113(root,sum,res,temp);
-    }
-public List<List<Integer>> helper113(TreeNode root, int sum,List<List<Integer>> res,List<Integer>temp)
-{
-	if(root==null)
-	{
-		return null;
+//↓ too much space consume
+//	public void helper113(TreeNode root, int sum, List<List<Integer>> res, List<Integer> temp) {
+//		if (root == null) {
+//			return;
+//		}
+//		if (root.left == null && root.right == null && sum == root.val) {
+//			temp.add(root.val);
+//			res.add(new ArrayList<Integer>(temp));
+//			return;
+//		}
+//
+//		temp.add(root.val);
+//		helper113(root.left, sum - root.val, res, new ArrayList<Integer>(temp));
+//		helper113(root.right, sum - root.val, res, new ArrayList<Integer>(temp));
+//	}
+	public void helper113(TreeNode root, int sum, List<List<Integer>> res, List<Integer> temp) {
+	if (root == null) {
+		return;
 	}
-	if(root.left==null&&root.right==null&&sum==root.val)
-	{
+	if (root.left == null && root.right == null && sum == root.val) {
 		temp.add(root.val);
 		res.add(new ArrayList<Integer>(temp));
-		return null;
+		temp.remove(temp.size()-1);
+		return;
 	}
-	
+
 	temp.add(root.val);
-	helper113(root.left,sum-root.val,res,new ArrayList<Integer>(temp));
-	helper113(root.right,sum-root.val,res,new ArrayList<Integer>(temp));
-	return res;
+	helper113(root.left, sum - root.val, res, temp);
+	helper113(root.right, sum - root.val, res, temp);
+	temp.remove(temp.size()-1);
 }
+	//#114 Flatten Binary Tree to Linked List
+	 public void flatten(TreeNode root) {
+	       	TreeNode newRoot= new TreeNode(-1);
+	       	helper114(root,newRoot);
+	       	root=newRoot.right;
+	       	
+	    }
+	 public TreeNode helper114(TreeNode root,TreeNode pre)
+	 {
+		 if(root==null)
+		 {
+			 return pre;
+		 }
+		
+	 }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
@@ -375,7 +401,8 @@ public List<List<Integer>> helper113(TreeNode root, int sum,List<List<Integer>> 
 		c.left = d;
 		b.left = a;
 		b.right = c;
-		isValidBST(b);
+		Tree t = new Tree();
+		t.flatten(b);
 
 	}
 
