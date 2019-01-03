@@ -339,8 +339,32 @@ public class Tree {
 	}
 //#113 path sum 2   with path returned 
 public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        
+	if(root==null)
+	{
+		return null;
+	}
+	List<List<Integer>> res = new ArrayList<List<Integer>>();
+	List<Integer>temp = new ArrayList<Integer>();
+	return helper113(root,sum,res,temp);
     }
+public List<List<Integer>> helper113(TreeNode root, int sum,List<List<Integer>> res,List<Integer>temp)
+{
+	if(root==null)
+	{
+		return null;
+	}
+	if(root.left==null&&root.right==null&&sum==root.val)
+	{
+		temp.add(root.val);
+		res.add(new ArrayList<Integer>(temp));
+		return null;
+	}
+	
+	temp.add(root.val);
+	helper113(root.left,sum-root.val,res,new ArrayList<Integer>(temp));
+	helper113(root.right,sum-root.val,res,new ArrayList<Integer>(temp));
+	return res;
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
