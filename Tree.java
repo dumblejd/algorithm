@@ -302,20 +302,45 @@ public class Tree {
 		if (root == null) {
 			return 0;
 		}
-		
+
 		int leftheight = dfsheight(root.left);
 		if (leftheight == -1)
 			return -1;
-		
+
 		int rightheight = dfsheight(root.right);
 		if (rightheight == -1)
 			return -1;
-		
+
 		if (Math.abs(rightheight - leftheight) > 1)
 			return -1;
 		return Math.max(leftheight, rightheight) + 1;
 	}
 
+	// #111 Minimum Depth of Binary Tree
+	public int minDepth(TreeNode root) {
+		if (root == null)
+			return 0;
+		int left = minDepth(root.left);
+		int right = minDepth(root.right);
+		return (left == 0 || right == 0) ? right + left + 1 : Math.min(left, right) + 1;
+	}
+
+	// #112 path sum
+	public boolean hasPathSum(TreeNode root, int sum) {
+		if(root==null)
+		{
+			return false;
+		}
+		if(root.left==null&&root.right==null&&root.val==sum)  //it will return true only it's a leaf and val=sum
+		{
+			return true;
+		}
+		return hasPathSum(root.left,sum-root.val)||hasPathSum(root.right,sum-root.val);
+	}
+//#113 path sum 2   with path returned 
+public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
