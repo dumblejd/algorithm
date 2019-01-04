@@ -490,7 +490,29 @@ public class Tree {
 			 }
 		 }
 	 }
-
+	
+	  public class TreeLinkNode {
+	      int val;
+	      TreeLinkNode left, right, next;
+	      TreeLinkNode(int x) { val = x; }
+	  }
+	  //#116 Populating Next Right Pointers in Each Node
+	  public void connect(TreeLinkNode root) {
+	        if(root==null)
+	        {
+	        	return;
+	        }
+	        if(root.left!=null&&root.right!=null)
+	        {
+	        	root.left.next=root.right;
+	        }
+	        if(root.next!=null&&root.next.right!=null&&root.left!=null)
+	        {
+	        	root.right.next=root.next.left;
+	        }
+	        connect(root.left);
+	        connect(root.right);
+	    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
