@@ -345,130 +345,152 @@ public class Tree {
 		helper113(root, sum, res, temp);
 		return res;
 	}
-//↓ too much space consume
-//	public void helper113(TreeNode root, int sum, List<List<Integer>> res, List<Integer> temp) {
-//		if (root == null) {
-//			return;
-//		}
-//		if (root.left == null && root.right == null && sum == root.val) {
-//			temp.add(root.val);
-//			res.add(new ArrayList<Integer>(temp));
-//			return;
-//		}
-//
-//		temp.add(root.val);
-//		helper113(root.left, sum - root.val, res, new ArrayList<Integer>(temp));
-//		helper113(root.right, sum - root.val, res, new ArrayList<Integer>(temp));
-//	}
+
+	// ↓ too much space consume
+	// public void helper113(TreeNode root, int sum, List<List<Integer>> res,
+	// List<Integer> temp) {
+	// if (root == null) {
+	// return;
+	// }
+	// if (root.left == null && root.right == null && sum == root.val) {
+	// temp.add(root.val);
+	// res.add(new ArrayList<Integer>(temp));
+	// return;
+	// }
+	//
+	// temp.add(root.val);
+	// helper113(root.left, sum - root.val, res, new ArrayList<Integer>(temp));
+	// helper113(root.right, sum - root.val, res, new ArrayList<Integer>(temp));
+	// }
 	public void helper113(TreeNode root, int sum, List<List<Integer>> res, List<Integer> temp) {
-	if (root == null) {
-		return;
-	}
-	if (root.left == null && root.right == null && sum == root.val) {
+		if (root == null) {
+			return;
+		}
+		if (root.left == null && root.right == null && sum == root.val) {
+			temp.add(root.val);
+			res.add(new ArrayList<Integer>(temp));
+			temp.remove(temp.size() - 1);
+			return;
+		}
+
 		temp.add(root.val);
-		res.add(new ArrayList<Integer>(temp));
-		temp.remove(temp.size()-1);
-		return;
+		helper113(root.left, sum - root.val, res, temp);
+		helper113(root.right, sum - root.val, res, temp);
+		temp.remove(temp.size() - 1);
 	}
 
-	temp.add(root.val);
-	helper113(root.left, sum - root.val, res, temp);
-	helper113(root.right, sum - root.val, res, temp);
-	temp.remove(temp.size()-1);
-}
-	//#114 Flatten Binary Tree to Linked List
-	 public void flatten(TreeNode root) {
-		 pre114=new TreeNode(-1);
-		 TreeNode temp=pre114;
-	       	helper114(root);
-	       	root=temp.right;
-	       	
-	    }
-	 // failed version it can't be done, it needs an outside variable
-//	 public TreeNode helper114(TreeNode root,TreeNode pre)
-//	 {
-//		 if(root==null)
-//		 {
-//			 return null;
-//		 }
-//		 pre.right=new TreeNode(root.val);
-//		 if(root.left!=null)
-//		 {
-//			 pre=helper114(root.left,pre.right);
-//		 }
-//		 if(root.right!=null)
-//		 {
-//			 pre=helper114(root.right,pre.right);
-//		 }
-//		 return pre;
-//	 }
-	 //this version actually work, but since it's void,so the result can't be returned(!!!change root=res is not actually changing outside object)
-//	 private TreeNode pre114=null;
-//	 public void helper114(TreeNode root)
-//	 {
-//		 if(root==null)
-//		 {
-//			 return;
-//		 }
-//		 pre114.right=new TreeNode(root.val);
-//		 pre114=pre114.right;
-//		 if(root.left!=null)
-//		 {
-//			 helper114(root.left);
-//		 }
-//		 if(root.right!=null)
-//		 {
-//			 helper114(root.right);
-//		 }
-//	 }
-	 private TreeNode pre114=null;
-	 public void helper114(TreeNode root)
-	 {
-		 if(root==null)
-		 {
-			 return;
-		 }
-		 
-		 if(pre114!=null)
-		 {
-			 pre.left=null;
-			 pre.right=root;
-		 }
-		 pre114=root;
-		 TreeNode right=root.right;
-		 helper114(root.left);
-		 helper114(right);
-	 }
-	 // post order iterator without recursion
-	 public void travers_post(TreeNode root)
-	 {
+	// #114 Flatten Binary Tree to Linked List
+	public void flatten(TreeNode root) {
+		pre114 = new TreeNode(-1);
+		TreeNode temp = pre114;
+		helper114(root);
+		root = temp.right;
+
+	}
+
+	// failed version it can't be done, it needs an outside variable
+	// public TreeNode helper114(TreeNode root,TreeNode pre)
+	// {
+	// if(root==null)
+	// {
+	// return null;
+	// }
+	// pre.right=new TreeNode(root.val);
+	// if(root.left!=null)
+	// {
+	// pre=helper114(root.left,pre.right);
+	// }
+	// if(root.right!=null)
+	// {
+	// pre=helper114(root.right,pre.right);
+	// }
+	// return pre;
+	// }
+	// this version actually work, but since it's void,so the result can't be
+	// returned(!!!change root=res is not actually changing outside object)
+	// private TreeNode pre114=null;
+	// public void helper114(TreeNode root)
+	// {
+	// if(root==null)
+	// {
+	// return;
+	// }
+	// pre114.right=new TreeNode(root.val);
+	// pre114=pre114.right;
+	// if(root.left!=null)
+	// {
+	// helper114(root.left);
+	// }
+	// if(root.right!=null)
+	// {
+	// helper114(root.right);
+	// }
+	// }
+	private TreeNode pre114 = null;
+
+	public void helper114(TreeNode root) {
+		if (root == null) {
+			return;
+		}
+
+		if (pre114 != null) {
+			pre.left = null;
+			pre.right = root;
+		}
+		pre114 = root;
+		TreeNode right = root.right;
+		helper114(root.left);
+		helper114(right);
+	}
+
+	// post order iterator without recursion
+	public void traverse_post(TreeNode root) {
+		Stack<TreeNode> s = new Stack<TreeNode>();
+		TreeNode current = root;
+		TreeNode lastoutput = null;
+		while (current != null || !s.isEmpty()) {
+			while (current != null) {
+				s.push(current);
+				current = current.left;
+			}
+			current = s.pop(); // it should use pop otherwise current would be null caused by upper while
+			while (current.right == null || current.right == lastoutput)// it has right or it's right has been ouput
+			// here is while not if otherwise it will repeat add some point
+			{
+				System.out.println(current.val); // output
+				if (s.isEmpty()) {
+					return;
+				}
+				lastoutput = current;
+				current = s.pop(); // re get a new node to continue
+			}
+			// current nodes from here has right node that hasn't been output. so re put
+			// them into the stack since it's a post order
+			s.push(current); // push again the current since it has right node to push and process
+			current = current.right; // process right node
+		}
+	}
+
+	// inorder traver
+	public void traverse_in(TreeNode root)
+	 { 
 		 Stack <TreeNode>s = new Stack<TreeNode>();
 		 TreeNode current=root;
-		 TreeNode lastoutput=null; 
 		 while(current!=null||!s.isEmpty())
 		 {
-			 while(current!=null)
+			 while (current != null) {
+					s.push(current);
+					current = current.left;
+				}
+			 if(!s.isEmpty())
 			 {
-				 s.push(current);
-				 current=current.left;
+				 current=s.pop();
+				 s.push(current.right);
+				 current=s.pop();
 			 }
-			 current=s.pop(); //it should use pop otherwise current would be null caused by upper while
-			 while(current.right==null||current.right==lastoutput)//it has right or it's right has been ouput  
-				//here is while not if  otherwise it will repeat add some point
-			 {
-				 System.out.println(current.val);   //output
-				 if(s.isEmpty())
-				 {
-					 return;
-				 }
-				 lastoutput=current;
-				 current=s.pop();  //re get a new node to continue   
-			 }
-			 //current nodes from here has right node. so re put them into the stack since it's a post order 
-			s.push(current); //push again the current since it has right node to push and process
-			current=current.right; //process right node
 		 }
 	 }
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
@@ -481,7 +503,7 @@ public class Tree {
 		b.right = c;
 		Tree t = new Tree();
 		t.flatten(b);
-		
+
 	}
 
 }
