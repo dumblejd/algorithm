@@ -439,23 +439,49 @@ public class Tree {
 		 helper114(root.left);
 		 helper114(right);
 	 }
-	 
+	 // post order iterator without recursion
+	 public void travers_post(TreeNode root)
+	 {
+		 Stack <TreeNode>s = new Stack<TreeNode>();
+		 TreeNode current=root;
+		 TreeNode lastoutput=null; 
+		 while(current!=null||!s.isEmpty())
+		 {
+			 while(current!=null)
+			 {
+				 s.push(current);
+				 current=current.left;
+			 }
+			 current=s.pop(); //it should use pop otherwise current would be null caused by upper while
+			 while(current.right==null||current.right==lastoutput)//it has right or it's right has been ouput  
+				//here is while not if  otherwise it will repeat add some point
+			 {
+				 System.out.println(current.val);   //output
+				 if(s.isEmpty())
+				 {
+					 return;
+				 }
+				 lastoutput=current;
+				 current=s.pop();  //re get a new node to continue   
+			 }
+			 //current nodes from here has right node. so re put them into the stack since it's a post order 
+			s.push(current); //push again the current since it has right node to push and process
+			current=current.right; //process right node
+		 }
+	 }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		TreeNode a = new TreeNode(5);
-//		TreeNode b = new TreeNode(10);
-//
-//		TreeNode c = new TreeNode(15);
-//		TreeNode d = new TreeNode(8);
-//		c.left = d;
-//		b.left = a;
-//		b.right = c;
-//		Tree t = new Tree();
-//		t.flatten(b);
-		int [] a={1,2};
-		int b=3;
-		a[0]=b;
-		b=5;
+		TreeNode a = new TreeNode(5);
+		TreeNode b = new TreeNode(10);
+
+		TreeNode c = new TreeNode(15);
+		TreeNode d = new TreeNode(8);
+		c.left = d;
+		b.left = a;
+		b.right = c;
+		Tree t = new Tree();
+		t.flatten(b);
+		
 	}
 
 }
