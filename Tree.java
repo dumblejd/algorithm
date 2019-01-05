@@ -513,72 +513,91 @@ public class Tree {
 	}
 
 	// hard #124 Binary Tree Maximum Path Sum
-	
-	
-	//failed version. if this question is to find a way (leaf to leaf,any node to leaf) this will work
-//public int maxPathSum(TreeNode root) {
-//	max124=root.val;
-//	helper124(root);
-//	return max124;
-//    }
-//	private int max124=0;
-//	public int helper124(TreeNode root) {
-//		if(root==null)
-//		{
-//			return 0;
-//		}
-//		int left=root.val+helper124(root.left);
-//		int right=root.val+helper124(root.right);
-//		int decide=Math.max(left, right);
-//		int temp=Math.max(decide, left+right-root.val);//left or right or connect left and right is biggest
-//		//left+right-root.val:because it added one more root value;
-//		max124=Math.max(temp, max124);
-//		return decide;
-//	}
-	//#124 hard   second try : success
+
+	// failed version. if this question is to find a way (leaf to leaf,any node to
+	// leaf) this will work
+	// public int maxPathSum(TreeNode root) {
+	// max124=root.val;
+	// helper124(root);
+	// return max124;
+	// }
+	// private int max124=0;
+	// public int helper124(TreeNode root) {
+	// if(root==null)
+	// {
+	// return 0;
+	// }
+	// int left=root.val+helper124(root.left);
+	// int right=root.val+helper124(root.right);
+	// int decide=Math.max(left, right);
+	// int temp=Math.max(decide, left+right-root.val);//left or right or connect
+	// left and right is biggest
+	// //left+right-root.val:because it added one more root value;
+	// max124=Math.max(temp, max124);
+	// return decide;
+	// }
+	// #124 hard second try : success
 	public int maxPathSum(TreeNode root) {
-		max124=root.val;
+		max124 = root.val;
 		helper124(root);
 		return max124;
-	    }
-		private int max124=0;
-		public int helper124(TreeNode root) {
-			if(root==null)
-			{
-				return 0;
-			}
-			int left=root.val+helper124(root.left);
-			int right=root.val+helper124(root.right);
-			int decide=Math.max(left, right);
-			int temp = Math.max(decide, left+right-root.val);
-			max124=Math.max(max124, temp);
-			
-			if(left<0)
-			{
-				left=0;
-			}
-			if(right<0)
-			{
-				right=0;
-			}
-			//left or right = 0 means path in left or right will not be choosed
-			return Math.max(left, right);
+	}
+
+	private int max124 = 0;
+
+	public int helper124(TreeNode root) {
+		if (root == null) {
+			return 0;
 		}
+		int left = root.val + helper124(root.left);
+		int right = root.val + helper124(root.right);
+		int decide = Math.max(left, right);
+		int temp = Math.max(decide, left + right - root.val);
+		max124 = Math.max(max124, temp);
+
+		if (left < 0) {
+			left = 0;
+		}
+		if (right < 0) {
+			right = 0;
+		}
+		// left or right = 0 means path in left or right will not be choosed
+		return Math.max(left, right);
+	}
+
+	// #156.Binary Tree Upside Down
+	public void helper156(TreeNode root,TreeNode pre) {
+		if(root==null)
+		{
+			return;
+		}
+		if(root.left!=null)
+		{
+			helper156(root.left,root);
+		}
+		root.right=pre;
+		if(pre!=null)
+		{
+		root.left=pre.right;
+		pre.left=null;
+		pre.right=null;
+		}
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TreeNode a = new TreeNode(-10);
-		TreeNode b = new TreeNode(9);
+		TreeNode a = new TreeNode(2);
+		TreeNode b = new TreeNode(4);
 
-		TreeNode c = new TreeNode(20);
-		TreeNode d = new TreeNode(15);
-		TreeNode e = new TreeNode(7);
-		a.left=b;
-		a.right=c;
-		c.left=d;
-		c.right=e;
+		TreeNode c = new TreeNode(8);
+		TreeNode d = new TreeNode(6);
+		TreeNode e = new TreeNode(10);
+		a.left = b;
+		a.right = c;
+		b.left = d;
+		b.right = e;
 		Tree t = new Tree();
-		t.maxPathSum(a);
+		t.helper156(a,null);
 
 	}
 
