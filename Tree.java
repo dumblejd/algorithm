@@ -566,38 +566,65 @@ public class Tree {
 	}
 
 	// #156.Binary Tree Upside Down
-	public void helper156(TreeNode root,TreeNode pre) {
-		if(root==null)
-		{
+	public void helper156(TreeNode root, TreeNode pre) {
+		if (root == null) {
 			return;
 		}
-		if(root.left!=null)
-		{
-			helper156(root.left,root);
+		if (root.left != null) {
+			helper156(root.left, root);
 		}
-		root.right=pre;
-		if(pre!=null)
-		{
-		root.left=pre.right;
-		pre.left=null;
-		pre.right=null;
+		root.right = pre;
+		if (pre != null) {
+			root.left = pre.right;
+			pre.left = null;
+			pre.right = null;
 		}
 	}
 
+	// # 230. Kth Smallest Element in a BST //this is basic version
+	// consider the sequence of number in BST, the next bigger number is in
+	// (root.right's leftest node) if root has right,
+	// or it will be the upper node
+	public int kthSmallest(TreeNode root, int k) {
+		Stack<TreeNode> s = new Stack<>();
+		while (root != null) {
+			s.push(root);
+			root = root.left;
+		}
+		TreeNode current = null;
+		while (k > 0) {
+			current = s.pop();
+			k--;
+
+			if (current.right != null) {
+				s.push(current.right);
+				TreeNode temp = s.peek().left;
+				while (temp != null) {
+					s.push(temp);
+					temp = temp.left;
+				}
+			}
+		}
+		return current.val;
+	}
+	// #230
+//	Follow up:What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently?
+//	How would you optimize the kthSmallest routine?
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TreeNode a = new TreeNode(2);
-		TreeNode b = new TreeNode(4);
+		TreeNode a = new TreeNode(3);
+		TreeNode b = new TreeNode(1);
 
-		TreeNode c = new TreeNode(8);
-		TreeNode d = new TreeNode(6);
+		TreeNode c = new TreeNode(4);
+		TreeNode d = new TreeNode(2);
 		TreeNode e = new TreeNode(10);
 		a.left = b;
 		a.right = c;
-		b.left = d;
-		b.right = e;
+		b.right = d;
+		// b.right = e;
 		Tree t = new Tree();
-		t.helper156(a,null);
+		t.kthSmallest(a, 1);
 
 	}
 
