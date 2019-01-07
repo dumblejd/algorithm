@@ -610,7 +610,8 @@ public class Tree {
 	// #230
 //	Follow up:What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently?
 //	How would you optimize the kthSmallest routine?
-
+// 我没实现follow up 主要思想是  记录本node 下有多少个节点，也就是在检测 root.left 下有多少个结点  就知道 有比root小的数有多少了个，再分类讨论
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(3);
