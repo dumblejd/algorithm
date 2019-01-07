@@ -612,20 +612,109 @@ public class Tree {
 //	How would you optimize the kthSmallest routine?
 // 我没实现follow up 主要思想是  记录本node 下有多少个节点，也就是在检测 root.left 下有多少个结点  就知道 有比root小的数有多少了个，再分类讨论
 	
+	//#235
+public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        helper235(root,p.val,q.val);
+        return res235;
+    }
+TreeNode res235;
+public int helper235(TreeNode root,int p,int q)
+{
+	if(root==null)
+	{
+		return 0;
+	}
+	int left=helper235(root.left,p,q);
+	int right=helper235(root.right,p,q);
+	int self=0;
+	if(root.val==p||root.val==q)
+	{
+		self=1;
+	}
+	if(left+right+self>=2)
+	{
+		res235=res235==null?root:res235;//if it's null set the res
+	}
+	return left+right+self;
+}
+//easier method for 235  since two can be on each side,all left,all right
+//public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+//    if(root.val > p.val && root.val > q.val){
+//        return lowestCommonAncestor(root.left, p, q);
+//    }else if(root.val < p.val && root.val < q.val){
+//        return lowestCommonAncestor(root.right, p, q);
+//    }else{
+//        return root;
+//    }
+//}
+
+//#236  Lowest Common Ancestor of a Binary Tree
+//My method for 235 will work too
+//#250 Count Univalue Subtrees
+int count250=0;
+public boolean helper250(TreeNode root,int rootval)
+{
+	if(root==null)
+	{
+		return true;
+	}
+	boolean left=helper250(root.left,root.val);
+	boolean right=helper250(root.right,root.val);
+	if(root.left==null&&root.right==null)
+	{
+		count250++;
+		return true;
+	}
+	if(left&&right)
+	{
+		count250++;
+		if(root.val==rootval)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+//#257 Binary Tree Paths   it's an easy problem but my soultion is far more complicated
+public List<String> binaryTreePaths(TreeNode root) {
+    helper257(root,new StringBuffer());
+    return res257;
+}
+List<String> res257=new ArrayList<String>();
+public void helper257(TreeNode root,StringBuffer sb)
+{
+	if(root==null)
+	{
+		return;
+	}
+	String val=Integer.toString(root.val);
+	sb.append(val+"->");
+	if(root.left==null&&root.right==null)
+	{
+		sb.delete(sb.length()-2,sb.length());
+		String temp=new String(sb);
+		res257.add(temp);
+		return;
+	}
+	helper257(root.left,new StringBuffer(sb));
+	helper257(root.right,new StringBuffer(sb));
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TreeNode a = new TreeNode(3);
+		TreeNode a = new TreeNode(5);
 		TreeNode b = new TreeNode(1);
 
-		TreeNode c = new TreeNode(4);
-		TreeNode d = new TreeNode(2);
-		TreeNode e = new TreeNode(10);
+		TreeNode c = new TreeNode(5);
+		TreeNode d = new TreeNode(5);
+		TreeNode e = new TreeNode(5);
+		TreeNode f=new TreeNode(5);
 		a.left = b;
 		a.right = c;
 		b.right = d;
+		b.left=f;
 		// b.right = e;
 		Tree t = new Tree();
-		t.kthSmallest(a, 1);
+		t.helper250(a,a.val );
 
 	}
 
