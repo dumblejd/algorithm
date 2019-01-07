@@ -699,6 +699,41 @@ public void helper257(TreeNode root,StringBuffer sb)
 	helper257(root.left,new StringBuffer(sb));
 	helper257(root.right,new StringBuffer(sb));
 }
+//# 270: Closest Binary Search Tree Value
+//Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.
+//
+//Note:
+//
+//Given target value is a floating point.
+//You are guaranteed to have only one unique value in the BST that is closest to the target.
+int res=Integer.MAX_VALUE;
+public void helper270(TreeNode root,double target)
+{
+	if(root==null)
+	{
+		return;
+	}
+	if(root.val>target)
+	{
+		res=Math.abs(res-target)>(root.val-target)?root.val:res;
+		helper270(root.left,target);
+	}
+	if(root.val<target)
+	{
+		res=Math.abs(res-target)>(target-root.val)?root.val:res;
+		helper270(root.left,target);
+	}
+}
+//#297  hard Serialize and Deserialize Binary Tree
+//Encodes a tree to a single string.
+public String serialize(TreeNode root) {
+    
+}
+
+// Decodes your encoded data to tree.
+public TreeNode deserialize(String data) {
+    
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
