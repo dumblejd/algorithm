@@ -778,43 +778,69 @@ public class Tree {
 		}
 		return root;
 	}
-//#298 	Binary Tree Longest Consecutive Sequence  
-	int res298=1;
-	public void helper298(TreeNode root,TreeNode pre,int biggest)
-	{
+
+	// #298 Binary Tree Longest Consecutive Sequence
+	int res298 = 1;
+
+	public void helper298(TreeNode root, TreeNode pre, int biggest) {
+		if (root == null) {
+			return;
+		}
+		if (root.val + 1 == pre.val) {
+			biggest++;
+			res298 = Math.max(res298, biggest);
+		} else {
+			res298 = Math.max(res298, biggest);
+			biggest = 1;
+		}
+		helper298(root.left, root, biggest);
+		helper298(root.right, root, biggest);
+	}
+
+	// 404. Sum of Left Leaves
+	int res404 = 0;
+
+	public int sumOfLeftLeaves(TreeNode root) {
+		helper404(root, root);
+		return res404;
+	}
+
+	public void helper404(TreeNode root, TreeNode pre) {
+		if (root == null)
+			return;
+		if (root.left == null && root.right == null && pre.left == root) {
+			res404 += root.val;
+		}
+		helper404(root.left, root);
+		helper404(root.right, root);
+	}
+
+	// #437. Path Sum III
+	//use two recursion methods
+	public int pathSum437(TreeNode root, int sum) {
 		if(root==null)
 		{
-			return; 
+			return 0;
 		}
-		if(root.val+1==pre.val)
-		{
-			biggest++;
-			res298=Math.max(res298,biggest);
-		}
-		else
-		{
-			res298=Math.max(res298,biggest);
-			biggest=1;
-		}
-		helper298(root.left,root,biggest);
-		helper298(root.right,root,biggest);
+		int res=0;
+		res+=pathSum437(root.left,sum);
+		res+=pathSum437(root.right,sum);
+		res+=helper437(root,sum);
+		return res;
 	}
-	//404. Sum of Left Leaves
-	int res404=0;
-public int sumOfLeftLeaves(TreeNode root) {
-	helper404(root,root);
-	return res404;
-    }
-public void helper404(TreeNode root,TreeNode pre)
+public int helper437(TreeNode root,int sum)
 {
+	
 	if(root==null)
-		return;
-	if(root.left==null&&root.right==null&&pre.left==root)
+		return 0;
+	int res=0;
+	if(sum==root.val)
 	{
-		res404+=root.val;
+		res++;
 	}
-	helper404(root.left,root);
-	helper404(root.right,root);
+	res+=helper437(root.left,sum-root.val);
+	res+=helper437(root.right,sum-root.val);
+	return res;
 }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
