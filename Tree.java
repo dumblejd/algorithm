@@ -779,9 +779,25 @@ public class Tree {
 		return root;
 	}
 //#298 	Binary Tree Longest Consecutive Sequence  
-	public void helper298()
+	int res298=1;
+	public void helper298(TreeNode root,TreeNode pre,int biggest)
 	{
-		
+		if(root==null)
+		{
+			return; 
+		}
+		if(root.val+1==pre.val)
+		{
+			biggest++;
+			res298=Math.max(res298,biggest);
+		}
+		else
+		{
+			res298=Math.max(res298,biggest);
+			biggest=1;
+		}
+		helper298(root.left,root,biggest);
+		helper298(root.right,root,biggest);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
