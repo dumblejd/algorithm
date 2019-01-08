@@ -800,9 +800,22 @@ public class Tree {
 		helper298(root.right,root,biggest);
 	}
 	//404. Sum of Left Leaves
+	int res404=0;
 public int sumOfLeftLeaves(TreeNode root) {
-        
+	helper404(root,root);
+	return res404;
     }
+public void helper404(TreeNode root,TreeNode pre)
+{
+	if(root==null)
+		return;
+	if(root.left==null&&root.right==null&&pre.left==root)
+	{
+		res404+=root.val;
+	}
+	helper404(root.left,root);
+	helper404(root.right,root);
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
