@@ -3,6 +3,7 @@ package algorithmtest;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 public class Tree {
@@ -608,132 +609,176 @@ public class Tree {
 		return current.val;
 	}
 	// #230
-//	Follow up:What if the BST is modified (insert/delete operations) often and you need to find the kth smallest frequently?
-//	How would you optimize the kthSmallest routine?
-// 我没实现follow up 主要思想是  记录本node 下有多少个节点，也就是在检测 root.left 下有多少个结点  就知道 有比root小的数有多少了个，再分类讨论
-	
-	//#235
-public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        helper235(root,p.val,q.val);
-        return res235;
-    }
-TreeNode res235;
-public int helper235(TreeNode root,int p,int q)
-{
-	if(root==null)
-	{
-		return 0;
-	}
-	int left=helper235(root.left,p,q);
-	int right=helper235(root.right,p,q);
-	int self=0;
-	if(root.val==p||root.val==q)
-	{
-		self=1;
-	}
-	if(left+right+self>=2)
-	{
-		res235=res235==null?root:res235;//if it's null set the res
-	}
-	return left+right+self;
-}
-//easier method for 235  since two can be on each side,all left,all right
-//public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-//    if(root.val > p.val && root.val > q.val){
-//        return lowestCommonAncestor(root.left, p, q);
-//    }else if(root.val < p.val && root.val < q.val){
-//        return lowestCommonAncestor(root.right, p, q);
-//    }else{
-//        return root;
-//    }
-//}
+	// Follow up:What if the BST is modified (insert/delete operations) often and
+	// you need to find the kth smallest frequently?
+	// How would you optimize the kthSmallest routine?
+	// 我没实现follow up 主要思想是 记录本node 下有多少个节点，也就是在检测 root.left 下有多少个结点 就知道
+	// 有比root小的数有多少了个，再分类讨论
 
-//#236  Lowest Common Ancestor of a Binary Tree
-//My method for 235 will work too
-//#250 Count Univalue Subtrees
-int count250=0;
-public boolean helper250(TreeNode root,int rootval)
-{
-	if(root==null)
-	{
-		return true;
+	// #235
+	public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+		helper235(root, p.val, q.val);
+		return res235;
 	}
-	boolean left=helper250(root.left,root.val);
-	boolean right=helper250(root.right,root.val);
-	if(root.left==null&&root.right==null)
-	{
-		count250++;
-		return true;
+
+	TreeNode res235;
+
+	public int helper235(TreeNode root, int p, int q) {
+		if (root == null) {
+			return 0;
+		}
+		int left = helper235(root.left, p, q);
+		int right = helper235(root.right, p, q);
+		int self = 0;
+		if (root.val == p || root.val == q) {
+			self = 1;
+		}
+		if (left + right + self >= 2) {
+			res235 = res235 == null ? root : res235;// if it's null set the res
+		}
+		return left + right + self;
 	}
-	if(left&&right)
-	{
-		count250++;
-		if(root.val==rootval)
-		{
+	// easier method for 235 since two can be on each side,all left,all right
+	// public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+	// if(root.val > p.val && root.val > q.val){
+	// return lowestCommonAncestor(root.left, p, q);
+	// }else if(root.val < p.val && root.val < q.val){
+	// return lowestCommonAncestor(root.right, p, q);
+	// }else{
+	// return root;
+	// }
+	// }
+
+	// #236 Lowest Common Ancestor of a Binary Tree
+	// My method for 235 will work too
+	// #250 Count Univalue Subtrees
+	int count250 = 0;
+
+	public boolean helper250(TreeNode root, int rootval) {
+		if (root == null) {
 			return true;
 		}
+		boolean left = helper250(root.left, root.val);
+		boolean right = helper250(root.right, root.val);
+		if (root.left == null && root.right == null) {
+			count250++;
+			return true;
+		}
+		if (left && right) {
+			count250++;
+			if (root.val == rootval) {
+				return true;
+			}
+		}
+		return false;
 	}
-	return false;
-}
-//#257 Binary Tree Paths   it's an easy problem but my soultion is far more complicated
-public List<String> binaryTreePaths(TreeNode root) {
-    helper257(root,new StringBuffer());
-    return res257;
-}
-List<String> res257=new ArrayList<String>();
-public void helper257(TreeNode root,StringBuffer sb)
-{
-	if(root==null)
-	{
-		return;
-	}
-	String val=Integer.toString(root.val);
-	sb.append(val+"->");
-	if(root.left==null&&root.right==null)
-	{
-		sb.delete(sb.length()-2,sb.length());
-		String temp=new String(sb);
-		res257.add(temp);
-		return;
-	}
-	helper257(root.left,new StringBuffer(sb));
-	helper257(root.right,new StringBuffer(sb));
-}
-//# 270: Closest Binary Search Tree Value
-//Given a non-empty binary search tree and a target value, find the value in the BST that is closest to the target.
-//
-//Note:
-//
-//Given target value is a floating point.
-//You are guaranteed to have only one unique value in the BST that is closest to the target.
-int res=Integer.MAX_VALUE;
-public void helper270(TreeNode root,double target)
-{
-	if(root==null)
-	{
-		return;
-	}
-	if(root.val>target)
-	{
-		res=Math.abs(res-target)>(root.val-target)?root.val:res;
-		helper270(root.left,target);
-	}
-	if(root.val<target)
-	{
-		res=Math.abs(res-target)>(target-root.val)?root.val:res;
-		helper270(root.left,target);
-	}
-}
-//#297  hard Serialize and Deserialize Binary Tree
-//Encodes a tree to a single string.
-public String serialize(TreeNode root) {
-    
-}
 
-// Decodes your encoded data to tree.
-public TreeNode deserialize(String data) {
-    
-}
+	// #257 Binary Tree Paths it's an easy problem but my soultion is far more
+	// complicated
+	public List<String> binaryTreePaths(TreeNode root) {
+		helper257(root, new StringBuffer());
+		return res257;
+	}
+
+	List<String> res257 = new ArrayList<String>();
+
+	public void helper257(TreeNode root, StringBuffer sb) {
+		if (root == null) {
+			return;
+		}
+		String val = Integer.toString(root.val);
+		sb.append(val + "->");
+		if (root.left == null && root.right == null) {
+			sb.delete(sb.length() - 2, sb.length());
+			String temp = new String(sb);
+			res257.add(temp);
+			return;
+		}
+		helper257(root.left, new StringBuffer(sb));
+		helper257(root.right, new StringBuffer(sb));
+	}
+
+	// # 270: Closest Binary Search Tree Value
+	// Given a non-empty binary search tree and a target value, find the value in
+	// the BST that is closest to the target.
+	//
+	// Note:
+	//
+	// Given target value is a floating point.
+	// You are guaranteed to have only one unique value in the BST that is closest
+	// to the target.
+	int res = Integer.MAX_VALUE;
+
+	public void helper270(TreeNode root, double target) {
+		if (root == null) {
+			return;
+		}
+		if (root.val > target) {
+			res = Math.abs(res - target) > (root.val - target) ? root.val : res;
+			helper270(root.left, target);
+		}
+		if (root.val < target) {
+			res = Math.abs(res - target) > (target - root.val) ? root.val : res;
+			helper270(root.left, target);
+		}
+	}
+
+	// #297 hard Serialize and Deserialize Binary Tree
+	// Encodes a tree to a single string.
+	// this version is transform tree to string like leetcode
+	public String serialize(TreeNode root) {
+		Queue<TreeNode> q = new LinkedList<TreeNode>();
+		LinkedList res = new LinkedList<String>();
+
+		q.add(root);
+		while (!q.isEmpty()) {
+			root = q.poll();
+			if (root == null) {
+				res.add("x");
+				continue;
+
+			}
+			res.add(root.val);
+			q.add(root.left);
+			q.add(root.right);
+		}
+		String s = "";
+		while (res.getLast().equals("x")) {
+			res.removeLast();
+		}
+		for (int i = 0; i < res.size() - 1; i++) {
+			s += res.get(i) + ",";
+		}
+		s += res.getLast();
+		return s;
+	}
+
+	// Decodes your encoded data to tree.
+	public TreeNode deserialize(String data) {
+		if (data.equals(""))
+			return null;
+		String[] c = data.split(",");
+		Queue<TreeNode> q = new LinkedList<TreeNode>();
+		TreeNode root = new TreeNode(Integer.valueOf(c[0]));
+		q.add(root);
+		for (int i = 1; i < c.length; i++) {
+			TreeNode parent = q.poll();
+			if (!c[i].equals("x")) {
+				TreeNode temp = new TreeNode(Integer.valueOf(c[i]));
+				parent.left = temp;
+				q.add(temp);
+			}
+			if (i + 1 < c.length) {
+				if (!c[++i].equals("x")) {
+					TreeNode temp = new TreeNode(Integer.valueOf(c[i]));
+					parent.right = temp;
+					q.add(temp);
+				}
+			}
+		}
+		return root;
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
@@ -742,14 +787,14 @@ public TreeNode deserialize(String data) {
 		TreeNode c = new TreeNode(5);
 		TreeNode d = new TreeNode(5);
 		TreeNode e = new TreeNode(5);
-		TreeNode f=new TreeNode(5);
+		TreeNode f = new TreeNode(5);
 		a.left = b;
 		a.right = c;
 		b.right = d;
-		b.left=f;
+		b.left = f;
 		// b.right = e;
 		Tree t = new Tree();
-		t.helper250(a,a.val );
+		t.helper250(a, a.val);
 
 	}
 
