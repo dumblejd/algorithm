@@ -778,7 +778,11 @@ public class Tree {
 		}
 		return root;
 	}
-
+//#298 	Binary Tree Longest Consecutive Sequence  
+	public void helper298()
+	{
+		
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
