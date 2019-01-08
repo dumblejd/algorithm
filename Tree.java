@@ -799,6 +799,10 @@ public class Tree {
 		helper298(root.left,root,biggest);
 		helper298(root.right,root,biggest);
 	}
+	//404. Sum of Left Leaves
+public int sumOfLeftLeaves(TreeNode root) {
+        
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
