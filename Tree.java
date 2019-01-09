@@ -934,24 +934,43 @@ public class Tree {
 		}
 		return root;
 	}	
-
+//543. Diameter of Binary Tree //#437  similar
+public int diameterOfBinaryTree(TreeNode root) {
+        if(root==null)
+        {
+        	return 0;
+        }
+        int max=helper543(root.left)+helper543(root.right);//no need to -2  cause here return max//different from sum question in #437
+        int left=diameterOfBinaryTree(root.left);
+        int right=diameterOfBinaryTree(root.right);
+        max=Math.max(max,Math.max(left, right));
+        return max;
+    }
+public int helper543(TreeNode root)
+{
+	if(root==null)
+    	return 0;
+    int left=helper543(root.left)+1;
+    int right=helper543(root.right)+1;
+    return Math.max(left,right);
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TreeNode a = new TreeNode(5);
-		TreeNode b = new TreeNode(1);
+		TreeNode a = new TreeNode(1);
+		TreeNode b = new TreeNode(2);
 
-		TreeNode c = new TreeNode(5);
-		TreeNode d = new TreeNode(5);
+		TreeNode c = new TreeNode(3);
+		TreeNode d = new TreeNode(4);
 		TreeNode e = new TreeNode(5);
 		TreeNode f = new TreeNode(5);
 		TreeNode g = new TreeNode(1);
 		a.left = b;
 		a.right = c;
-		b.right = d;
-		b.left = f;
+		b.right = e;
+		b.left = d;
 		// b.right = e;
 		Tree t = new Tree();
-		t.deleteNode(g, 0);
+		t.diameterOfBinaryTree(a);
 
 	}
 
