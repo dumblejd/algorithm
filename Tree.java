@@ -816,32 +816,125 @@ public class Tree {
 	}
 
 	// #437. Path Sum III
-	//use two recursion methods
+	// use two recursion methods
 	public int pathSum437(TreeNode root, int sum) {
-		if(root==null)
-		{
+		if (root == null) {
 			return 0;
 		}
-		int res=0;
-		res+=pathSum437(root.left,sum);
-		res+=pathSum437(root.right,sum);
-		res+=helper437(root,sum);
+		int res = 0;
+		res += pathSum437(root.left, sum);
+		res += pathSum437(root.right, sum);
+		res += helper437(root, sum);
 		return res;
 	}
-public int helper437(TreeNode root,int sum)
-{
-	
-	if(root==null)
-		return 0;
-	int res=0;
-	if(sum==root.val)
-	{
-		res++;
+
+	public int helper437(TreeNode root, int sum) {
+
+		if (root == null)
+			return 0;
+		int res = 0;
+		if (sum == root.val) {
+			res++;
+		}
+		res += helper437(root.left, sum - root.val);
+		res += helper437(root.right, sum - root.val);
+		return res;
 	}
-	res+=helper437(root.left,sum-root.val);
-	res+=helper437(root.right,sum-root.val);
-	return res;
-}
+
+	// #450. Delete Node in a BST
+	public void deleteNode(TreeNode root, TreeNode pre) {
+		if (root.left == null && root.right == null) {
+			if (pre.val > root.val) {
+				pre.left = null;
+			} else {
+				pre.right = null;
+			}
+		} else if (root.right == null) {
+			if (pre.val > root.val) {
+				pre.left = root.left;
+			} else {
+				pre.right = root.left;
+			}
+		} else if (root.left == null) {
+
+			if (pre.val > root.val) {
+				pre.left = root.right;
+			} else {
+				pre.right = root.right;
+			}
+		} else // root have both child
+		{
+			TreeNode temp = root.right; // it should turn right first
+			TreeNode father = root;
+			while (temp.left != null)// get the smallest one
+			{
+				father = temp;
+				temp = temp.left;
+			}
+			root.val = temp.val;
+			deleteNode(temp, father);
+		}
+	}
+
+	public TreeNode deleteNode(TreeNode root, int key) {
+		if (root == null) {
+			return null;
+		}
+		TreeNode myHead = new TreeNode(Integer.MAX_VALUE);
+		myHead.left = root;
+		TreeNode p = root;
+		TreeNode father = myHead;
+		while (p != null) {
+			if (p.val > key) {
+				father = p;
+				p = p.left;
+			} else if (p.val < key) {
+				father = p;
+				p = p.right;
+			} else {
+				break;
+			}
+		}
+		if (p != null) {
+			deleteNode(p, father);
+		}
+		return myHead.left;
+	}
+
+	// #450 easier version of the same concept(from leetcode)
+	public TreeNode deleteNode_easy(TreeNode root, int key) {
+		if(root==null)
+			return null;
+		if(key<root.val)
+		{
+			root.left=deleteNode_easy(root.left,key);
+		}
+		else if(key>root.val) {
+			root.right=deleteNode_easy(root.right,key);
+		}
+		else
+		{
+			if(root.left==null)//one side child
+			{
+				return root.right;
+			}
+			else if(root.right==null)//one side child
+			{
+				return root.left;
+			}
+			else //both side child
+			{
+				TreeNode node=root.right;
+				while(node.left != null){   //find min in  right
+			        node = node.left;
+			    }
+				root.val=node.val;
+				root.right=deleteNode_easy(root.right,root.val); //don't forget root.rigth=
+			}
+		}
+		return root;
+	}	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(5);
@@ -851,13 +944,14 @@ public int helper437(TreeNode root,int sum)
 		TreeNode d = new TreeNode(5);
 		TreeNode e = new TreeNode(5);
 		TreeNode f = new TreeNode(5);
+		TreeNode g = new TreeNode(1);
 		a.left = b;
 		a.right = c;
 		b.right = d;
 		b.left = f;
 		// b.right = e;
 		Tree t = new Tree();
-		t.helper250(a, a.val);
+		t.deleteNode(g, 0);
 
 	}
 
