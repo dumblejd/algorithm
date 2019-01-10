@@ -903,57 +903,54 @@ public class Tree {
 
 	// #450 easier version of the same concept(from leetcode)
 	public TreeNode deleteNode_easy(TreeNode root, int key) {
-		if(root==null)
+		if (root == null)
 			return null;
-		if(key<root.val)
-		{
-			root.left=deleteNode_easy(root.left,key);
-		}
-		else if(key>root.val) {
-			root.right=deleteNode_easy(root.right,key);
-		}
-		else
-		{
-			if(root.left==null)//one side child
+		if (key < root.val) {
+			root.left = deleteNode_easy(root.left, key);
+		} else if (key > root.val) {
+			root.right = deleteNode_easy(root.right, key);
+		} else {
+			if (root.left == null)// one side child
 			{
 				return root.right;
-			}
-			else if(root.right==null)//one side child
+			} else if (root.right == null)// one side child
 			{
 				return root.left;
-			}
-			else //both side child
+			} else // both side child
 			{
-				TreeNode node=root.right;
-				while(node.left != null){   //find min in  right
-			        node = node.left;
-			    }
-				root.val=node.val;
-				root.right=deleteNode_easy(root.right,root.val); //don't forget root.rigth=
+				TreeNode node = root.right;
+				while (node.left != null) { // find min in right
+					node = node.left;
+				}
+				root.val = node.val;
+				root.right = deleteNode_easy(root.right, root.val); // don't forget root.rigth=
 			}
 		}
 		return root;
-	}	
-//543. Diameter of Binary Tree //#437  similar
-public int diameterOfBinaryTree(TreeNode root) {
-        if(root==null)
-        {
-        	return 0;
-        }
-        int max=helper543(root.left)+helper543(root.right);//no need to -2  cause here return max//different from sum question in #437
-        int left=diameterOfBinaryTree(root.left);
-        int right=diameterOfBinaryTree(root.right);
-        max=Math.max(max,Math.max(left, right));
-        return max;
-    }
-public int helper543(TreeNode root)
-{
-	if(root==null)
-    	return 0;
-    int left=helper543(root.left)+1;
-    int right=helper543(root.right)+1;
-    return Math.max(left,right);
-}
+	}
+
+	// 543. Diameter of Binary Tree //#437 similar
+	public int diameterOfBinaryTree(TreeNode root) {
+		if (root == null) {
+			return 0;
+		}
+		int max = helper543(root.left) + helper543(root.right);// no need to -2 cause here return max//different from
+																// sum question in #437
+		int left = diameterOfBinaryTree(root.left);
+		int right = diameterOfBinaryTree(root.right);
+		max = Math.max(max, Math.max(left, right));
+		return max;
+	}
+
+	public int helper543(TreeNode root) {
+		if (root == null) {
+			return 0;
+		}
+		int left = helper543(root.left) + 1;
+		int right = helper543(root.right) + 1;
+		return Math.max(left, right);
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(1);
