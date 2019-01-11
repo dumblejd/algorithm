@@ -953,6 +953,7 @@ public class Tree {
 	}
 
 	//#549 Binary Tree Longest Consecutive Sequence II
+	int res549=1;
 	public int[] helper549(TreeNode root,TreeNode pre)
 	{
 		if(root==null)
@@ -961,43 +962,19 @@ public class Tree {
 		}
 		int []left=helper549(root.left,root);// 0 is ins  1 is des
 		int []right=helper549(root.right,root);
-		if(root.left!=null)
+		res549=Math.max(res549, left[0]+right[1]+1);//connect left and right
+		res549=Math.max(res549, left[1]+right[0]+1);
+		int inc=0;
+		int dec=0;
+		if(root.val-1==pre.val)
 		{
-			if(root.val+1==root.left.val)
-			{
-				left[0]=left[0]+1;
-				left[1]=1;
-			}
-			if(root.val-1==root.left.val)
-			{
-				left[0]=1;
-				left[1]=left[1]+1;
-			}
-			else
-			{
-				left[0]=1;
-				left[1]=1;
-			}
+			inc=Math.max(left[0], right[0])+1;
 		}
-		if(root.right!=null)
+		else if(root.val+1==pre.val)
 		{
-			if(root.val+1==root.right.val)
-			{
-				left[0]=left[0]+1;
-				left[1]=1;
-			}
-			if(root.val-1==root.right.val)
-			{
-				left[0]=1;
-				left[1]=left[1]+1;
-			}
-			else
-			{
-				left[0]=1;
-				left[1]=1;
-			}
+			dec=Math.max(left[1], right[1])+1;
 		}
-		return new int[]{Math.max(left[0], right[0]),Math.max(right[1], right[1])};
+		return new int[]{inc,dec};
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
