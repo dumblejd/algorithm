@@ -949,8 +949,56 @@ public class Tree {
 		int left = helper543(root.left) + 1;
 		int right = helper543(root.right) + 1;
 		return Math.max(left, right);
+		
 	}
 
+	//#549 Binary Tree Longest Consecutive Sequence II
+	public int[] helper549(TreeNode root,TreeNode pre)
+	{
+		if(root==null)
+		{
+			return new int[]{0,0};
+		}
+		int []left=helper549(root.left,root);// 0 is ins  1 is des
+		int []right=helper549(root.right,root);
+		if(root.left!=null)
+		{
+			if(root.val+1==root.left.val)
+			{
+				left[0]=left[0]+1;
+				left[1]=1;
+			}
+			if(root.val-1==root.left.val)
+			{
+				left[0]=1;
+				left[1]=left[1]+1;
+			}
+			else
+			{
+				left[0]=1;
+				left[1]=1;
+			}
+		}
+		if(root.right!=null)
+		{
+			if(root.val+1==root.right.val)
+			{
+				left[0]=left[0]+1;
+				left[1]=1;
+			}
+			if(root.val-1==root.right.val)
+			{
+				left[0]=1;
+				left[1]=left[1]+1;
+			}
+			else
+			{
+				left[0]=1;
+				left[1]=1;
+			}
+		}
+		return new int[]{Math.max(left[0], right[0]),Math.max(right[1], right[1])};
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(1);

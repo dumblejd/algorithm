@@ -392,7 +392,7 @@ public class Array {
 				if(j==pattern.length()&&text.charAt(i)==pattern.charAt(j))
 				{
 					same++;
-					j=next[j];
+					j=next[j];//set it to find the next
 				}
 		}
 	}
