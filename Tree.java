@@ -1,8 +1,10 @@
 package algorithmtest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -976,6 +978,21 @@ public class Tree {
 		}
 		return new int[]{inc,dec};
 	}
+	//#652. Find Duplicate Subtrees
+	Map paths=new HashMap<String>();
+public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        paths
+    }
+public String helper652(TreeNode root)
+{
+	if(root==null)
+	{
+		return "#";
+	}
+	//pre order
+	String path=root.val+","+helper652(root.left)+","+helper652(root.right);
+	
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(1);
