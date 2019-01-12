@@ -951,48 +951,137 @@ public class Tree {
 		int left = helper543(root.left) + 1;
 		int right = helper543(root.right) + 1;
 		return Math.max(left, right);
-		
+
 	}
 
-	//#549 Binary Tree Longest Consecutive Sequence II
-	int res549=1;
-	public int[] helper549(TreeNode root,TreeNode pre)
-	{
-		if(root==null)
-		{
-			return new int[]{0,0};
+	// #549 Binary Tree Longest Consecutive Sequence II
+	int res549 = 1;
+
+	public int[] helper549(TreeNode root, TreeNode pre) {
+		if (root == null) {
+			return new int[] { 0, 0 };
 		}
-		int []left=helper549(root.left,root);// 0 is ins  1 is des
-		int []right=helper549(root.right,root);
-		res549=Math.max(res549, left[0]+right[1]+1);//connect left and right
-		res549=Math.max(res549, left[1]+right[0]+1);
-		int inc=0;
-		int dec=0;
-		if(root.val-1==pre.val)
-		{
-			inc=Math.max(left[0], right[0])+1;
+		int[] left = helper549(root.left, root);// 0 is ins 1 is des
+		int[] right = helper549(root.right, root);
+		res549 = Math.max(res549, left[0] + right[1] + 1);// connect left and right
+		res549 = Math.max(res549, left[1] + right[0] + 1);
+		int inc = 0;
+		int dec = 0;
+		if (root.val - 1 == pre.val) {
+			inc = Math.max(left[0], right[0]) + 1;
+		} else if (root.val + 1 == pre.val) {
+			dec = Math.max(left[1], right[1]) + 1;
 		}
-		else if(root.val+1==pre.val)
-		{
-			dec=Math.max(left[1], right[1])+1;
-		}
-		return new int[]{inc,dec};
+		return new int[] { inc, dec };
 	}
-	//#652. Find Duplicate Subtrees
-	Map paths=new HashMap<String>();
-public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
-        paths
-    }
-public String helper652(TreeNode root)
+
+	// #652. Find Duplicate Subtrees
+	Map<String, Integer> paths;
+	List<TreeNode> res652;
+
+	public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+		if (root == null) {
+			return null;
+		}
+		paths = new HashMap<String, Integer>();
+		res652 = new ArrayList<TreeNode>();
+		helper652(root);
+		return res652;
+	}
+
+	public String helper652(TreeNode root) {
+		if (root == null) {
+			return "#";
+		}
+		// pre order
+		String path = root.val + "," + helper652(root.left) + "," + helper652(root.right);
+		paths.put(path, paths.getOrDefault(path, 0) + 1);
+		if (paths.get(path) == 2) {
+			res652.add(root);
+		}
+		return path;
+	}
+
+	// #684. Redundant Connection
+	public int[] findRedundantConnection(int[][] edges) {
+			unionFind uf=new unionFind(2000);   //edges.length will be too small beacuse there will be two node in one array
+			for(int i=0;i<edges.length;i++)
+			{
+				if(uf.find(edges[i][0])==uf.find(edges[i][1]))
+				{
+					return edges[i];
+				}
+				uf.union(edges[i][0], edges[i][1]);
+			}
+			return new int[] {};
+	}
+
+class unionFind{
+int []parent;
+int []size;
+
+public unionFind(int n)
 {
-	if(root==null)
+	parent=new int[n];
+	size=new int[n];
+	for(int i=0;i<n;i++)
 	{
-		return "#";
+		parent[i]=i;
+		size[i]=1;
 	}
-	//pre order
-	String path=root.val+","+helper652(root.left)+","+helper652(root.right);
-	
 }
+	public int find(int x) {
+		while (parent[x] != x) {
+			parent[x] = parent[parent[x]];
+			x = parent[x];
+		}
+		return x;
+	}
+
+	public void union(int x, int y) {
+		int rootx = find(x);
+		int rooty = find(y);
+		if (rootx == rooty) {
+			return;
+		} else {
+			if (size[x] > size[y]) {
+				parent[rooty]=rootx;
+				size[x]+=size[y];
+			} else {
+				parent[rootx]=rooty;
+				size[y]+=size[x];
+			}
+		}
+	}
+
+}
+
+	//// check if there is a loop //total wrong
+	// public boolean helper684(int [][]edges)
+	// {
+	// Map<int[],Integer>m = new HashMap<int[],Integer>();
+	// for(int i=0;i<edges.length;i++)
+	// {
+	// int []go=new int[] {edges[i][0],edges[i][1]};
+	// int []back=new int[] {edges[i][1],edges[i][0]};
+	// int judge1=-1;
+	// if(m.containsKey(go))
+	// {
+	// judge1=m.get(go);
+	// }
+	// else
+	// {
+	// m.put(go, go[0]);
+	// }
+	// int judge2=-1;
+	// if(judge1==2&&judge2==2)
+	// {
+	//
+	// }
+	// }
+	//
+	// return false;
+	// }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(1);
