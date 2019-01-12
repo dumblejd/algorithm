@@ -1056,7 +1056,7 @@ public unionFind(int n)
 
 }
 
-	//// check if there is a loop //total wrong
+	//// check if there is a loop //totally wrong
 	// public boolean helper684(int [][]edges)
 	// {
 	// Map<int[],Integer>m = new HashMap<int[],Integer>();
@@ -1082,6 +1082,39 @@ public unionFind(int n)
 	//
 	// return false;
 	// }
+//#687. Longest Univalue Path
+//#687. Longest Univalue Path
+public int longestUnivaluePath(TreeNode root) {
+  if(root==null)
+  {
+  	return 0;
+  }
+  TreeNode top=new TreeNode(Integer.MAX_VALUE);
+  top.left=root;
+  int res=helper687(root,root);
+  return res687;
+}
+int res687=0;
+public int helper687(TreeNode root,TreeNode pre)
+{
+	if (root==null)
+	{
+		return 0;
+	}
+	int left=helper687(root.left,root);
+	int right=helper687(root.right,root);
+	int res=Math.max(left,right);
+	res687=Math.max(res687, left+right);
+	if(root.val==pre.val)
+	{
+		res++;
+	}
+	else
+	{
+		res=0;
+	}
+	return res;
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		TreeNode a = new TreeNode(1);
