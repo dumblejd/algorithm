@@ -2,6 +2,7 @@ package algorithmtest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -444,7 +445,74 @@ public class dfs {
             temp.remove(temp.size()-1);
         }
     }
-	
+	// 131. Palindrome Partitioning
+		public List<List<String>> partition(String s) {
+			List<List<String>> res = new ArrayList<List<String>>();
+			helper131(s, res, new LinkedList<String>());
+			return res;
+		}
+
+		public void helper131(String s, List<List<String>> res, LinkedList<String> temp) {
+			if (s.equals("")) {
+				res.add(new LinkedList<String>(temp));
+				return;
+			}
+			for (int i = 1; i < s.length() + 1; i++) {
+				String cut = s.substring(0, i);
+				if (isPalindrome(cut, 0, cut.length() - 1)) {
+					temp.add(cut);
+					helper131(s.substring(i, s.length()), res, temp);
+					temp.removeLast();
+				}
+			}
+		}
+
+		public boolean isPalindrome(String str, int l, int r) {
+			if (l == r) {
+				return true;
+			}
+			while (l < r) {
+				if (str.charAt(l) != str.charAt(r))
+					return false;
+				l++;
+				r--;
+			}
+			return true;
+		}
+
+		// #200. Number of Islands  still doesn't pass a big case 
+		//41 / 47 test cases passed.
+//		public int numIslands(char[][] grid) {
+//			Map<String, Integer> m = new HashMap<String, Integer>();
+//			int res = 0;
+//			for (int y = 0; y < grid.length; y++) {
+//				for (int x = 0; x < grid[y].length; x++) {
+//					if (grid[y][x]=='1'&&!m.containsKey(x + "" + y)) {
+//						helper200(grid, x, y, m);
+//						res++ ;
+//					}
+//				}
+//			}
+//			return res;
+//		}
+	//
+//		public void helper200(char[][] grid, int x, int y, Map<String, Integer> m) {
+//			if (x < 0 || x > grid[y].length - 1 || y < 0 || y > grid.length - 1 || grid[y][x] == '0'||m.containsKey(x+""+y)) // means it's a zero
+//																										// or edge
+//			{
+//				return;
+//			}
+//			if (grid[y][x] == '1') {
+//				m.put(x + "" + y, 1);
+//				helper200(grid, x, y - 1, m);
+//				helper200(grid, x, y + 1, m);
+//				helper200(grid, x - 1, y, m);
+//				helper200(grid, x + 1, y, m);
+//			}
+//		}
+	//#200 back track version   not found
+		
+		//#261
 	public static void main(String[] args) { 
 		// TODO Auto-generated method stub
 		dfs a = new dfs();

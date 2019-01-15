@@ -1156,6 +1156,20 @@ int root(int[] parent, int i) {
     }   
     return i;
 }
+//#261 graph vaild tree   copy from others
+//bool validTree(int n, vector<pair<int, int>>& edges) {
+//    if(n != edges.size()+1) return false;
+//    vector<int> par(n);
+//    for(int i = 0; i < n; i++) par[i] = i;
+//    for(auto val: edges)
+//    {
+//        int par1 = val.first, par2 = val.second;
+//        while(par[par1] != par1) par1 = par[par1];
+//        while(par[par2] != par2) par2 = par[par2];
+//        if(par1 != par2) par[par2] = par1, n--;
+//    }
+//    return n==1;
+
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
