@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 public class dfs {
 
@@ -462,14 +463,142 @@ public class dfs {
 	// };
 	// #301. Remove Invalid Parentheses
 
-	// #20 Valid Parentheses
-	public boolean isValid(String s) {
-
+	// #20 Valid Parentheses //stupid method and WRONG WRONGWRONGWRONGWRONGWRONG
+	// public boolean isValid(String s) {
+	// Map<Character,Integer> m = new HashMap<Character,Integer>();
+	// int i=0;
+	// while(i<s.length())
+	// {
+	// if(s.charAt(i)==')')
+	// {
+	// if(m.getOrDefault('(', 0)<=0)
+	// {
+	// return false;
+	// }
+	// m.put('(', m.get('(')-1);
+	// }
+	// else if(s.charAt(i)==']')
+	// {
+	// if(m.getOrDefault('[', 0)<=0)
+	// {
+	// return false;
+	// }
+	// m.put('[', m.get('[')-1);
+	// }
+	// else if(s.charAt(i)=='}')
+	// {
+	// if(m.getOrDefault('{', 0)<=0)
+	// {
+	// return false;
+	// }
+	// m.put('{', m.get('{')-1);
+	// }
+	// else
+	// {
+	// m.put(s.charAt(i), m.getOrDefault(s.charAt(i), 0)+1);
+	// }
+	// i++;
+	// }
+	// if(m.getOrDefault('(', 0)>0||m.getOrDefault('[', 0)>0||m.getOrDefault('{',
+	// 0)>0)
+	// {
+	// return false;
+	// }
+	// return true;
+	// }
+	public static boolean isValid(String s) {
+		if (s == null||s.equals("")) {
+			return true;
+		}
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '(') {
+				if (i + 1 < s.length()) {
+					if (s.charAt(i + 1) == ')') {
+						return isValid(s.substring(0, i) + s.substring(i + 2));
+					}
+				}
+			}
+			else if (s.charAt(i) == '[') {
+				if (i + 1 < s.length()) {
+					if (s.charAt(i + 1) == ']') {
+						return isValid(s.substring(0, i) + s.substring(i + 2));
+					}
+				}
+			}
+			else if (s.charAt(i) == '{') {
+				if (i + 1 < s.length()) {
+					if (s.charAt(i + 1) == '}') {
+						return isValid(s.substring(0, i) + s.substring(i + 2));
+					}
+				}
+			}
+		}
+		return false;
 	}
-
+	public static boolean isValid_3(String s) {
+		HashMap<Character, Character> mappings= new HashMap<Character, Character>();
+		mappings.put(')', '(');
+		mappings.put(']', '[');
+		mappings.put('}', '{');
+		Stack<Character> st = new Stack<Character>();
+		for(int i=0;i<s.length();i++)
+		{
+			char now=s.charAt(i);
+			char compare=mappings.getOrDefault(now, '*');
+			if(!st.empty()&&compare==st.peek())
+			{
+				st.pop();
+			}
+			else
+			{
+				st.push(s.charAt(i));
+			}
+		}
+		return st.empty();
+	}
+	//22. Generate Parentheses  i think it's dfs
+public static List<String> generateParenthesis(int n) {
+        List<String> res= new ArrayList<String>();
+        helper22(new char[2*n],0,res);
+        return res;
+    }
+public static void helper22(char[] temp,int index, List<String> res)
+{
+	if(index==temp.length)
+	{
+		if(valid_22(temp.toString()))
+		{
+			res.add(temp.toString());
+		}
+		return;
+	}
+	temp[index]='(';
+	helper22(temp,index+1,res);
+	temp[index]=')';
+	helper22(temp,index+1,res);
+}
+public static boolean valid_22(String s)
+{
+	int count=0;
+	for(int i=0;i<s.length();i++)
+	{
+		if(s.charAt(i)=='(')
+		{
+			count++;
+		}
+		else
+		{
+			count--;
+		}
+		if(count<0)
+		{
+			return false;
+		}
+	}
+	return count==0;
+}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		dfs a = new dfs();
+		// TODO Auto-generated method stubs
 		Map m = new HashMap<Integer, Integer>();
 		List<List<Integer>> result = new ArrayList<List<Integer>>();
 		List<List<String>> results = new ArrayList<List<String>>();
@@ -486,7 +615,7 @@ public class dfs {
 				{ '.', '9', '8', '.', '.', '.', '3', '.', '.' }, { '.', '.', '.', '8', '.', '3', '.', '2', '.' },
 				{ '.', '.', '.', '.', '.', '.', '.', '.', '6' }, { '.', '.', '.', '2', '7', '5', '9', '.', '.' } };
 		String[] ss = { "ABCE", "SFCS", "ADEE", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
-		String sss = "aab";
+		String sss = "()";
 		int count = 0;
 		// a.dfs_Permutation(s,m,result,temp);
 		// a.dfs_ip(sss, string_result,"");
@@ -497,6 +626,7 @@ public class dfs {
 		// System.out.println(a.run_wordsearch(ss, "ABCB"));
 		int[] rooms = { 1, 1, 2, 2, 2, 1 };
 		selectroom(result, rooms, 5, temp, 0);
+		generateParenthesis(3);
 		// printcharlist(char_result);
 		// use_crackpassword(3, 2);
 	}
