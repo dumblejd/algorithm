@@ -566,9 +566,9 @@ public static void helper22(char[] temp,int index, List<String> res)
 {
 	if(index==temp.length)
 	{
-		if(valid_22(temp.toString()))
+		if(valid_22(new String(temp)))
 		{
-			res.add(temp.toString());
+			res.add(new String(temp));
 		}
 		return;
 	}
