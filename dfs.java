@@ -507,7 +507,7 @@ public class dfs {
 	// return true;
 	// }
 	public static boolean isValid(String s) {
-		if (s == null||s.equals("")) {
+		if (s == null || s.equals("")) {
 			return true;
 		}
 		for (int i = 0; i < s.length(); i++) {
@@ -517,15 +517,13 @@ public class dfs {
 						return isValid(s.substring(0, i) + s.substring(i + 2));
 					}
 				}
-			}
-			else if (s.charAt(i) == '[') {
+			} else if (s.charAt(i) == '[') {
 				if (i + 1 < s.length()) {
 					if (s.charAt(i + 1) == ']') {
 						return isValid(s.substring(0, i) + s.substring(i + 2));
 					}
 				}
-			}
-			else if (s.charAt(i) == '{') {
+			} else if (s.charAt(i) == '{') {
 				if (i + 1 < s.length()) {
 					if (s.charAt(i + 1) == '}') {
 						return isValid(s.substring(0, i) + s.substring(i + 2));
@@ -535,71 +533,112 @@ public class dfs {
 		}
 		return false;
 	}
+
 	public static boolean isValid_3(String s) {
-		HashMap<Character, Character> mappings= new HashMap<Character, Character>();
+		HashMap<Character, Character> mappings = new HashMap<Character, Character>();
 		mappings.put(')', '(');
 		mappings.put(']', '[');
 		mappings.put('}', '{');
 		Stack<Character> st = new Stack<Character>();
-		for(int i=0;i<s.length();i++)
-		{
-			char now=s.charAt(i);
-			char compare=mappings.getOrDefault(now, '*');
-			if(!st.empty()&&compare==st.peek())
-			{
+		for (int i = 0; i < s.length(); i++) {
+			char now = s.charAt(i);
+			char compare = mappings.getOrDefault(now, '*');
+			if (!st.empty() && compare == st.peek()) {
 				st.pop();
-			}
-			else
-			{
+			} else {
 				st.push(s.charAt(i));
 			}
 		}
 		return st.empty();
 	}
-	//22. Generate Parentheses  i think it's dfs
-public static List<String> generateParenthesis(int n) {
-        List<String> res= new ArrayList<String>();
-        helper22(new char[2*n],0,res);
-        return res;
-    }
-public static void helper22(char[] temp,int index, List<String> res)
-{
-	if(index==temp.length)
-	{
-		if(valid_22(new String(temp)))
-		{
-			res.add(new String(temp));
-		}
-		return;
+
+	// 22. Generate Parentheses i think it's dfs, for easier solution read google
+	// note
+	public static List<String> generateParenthesis(int n) {
+		List<String> res = new ArrayList<String>();
+		helper22(new char[2 * n], 0, res);
+		return res;
 	}
-	temp[index]='(';
-	helper22(temp,index+1,res);
-	temp[index]=')';
-	helper22(temp,index+1,res);
-}
-public static boolean valid_22(String s)
-{
-	int count=0;
-	for(int i=0;i<s.length();i++)
-	{
-		if(s.charAt(i)=='(')
-		{
-			count++;
+
+	public static void helper22(char[] temp, int index, List<String> res) {
+		if (index == temp.length) {
+			if (valid_22(new String(temp))) {
+				res.add(new String(temp));
+			}
+			return;
 		}
-		else
-		{
-			count--;
-		}
-		if(count<0)
-		{
-			return false;
-		}
+		temp[index] = '(';
+		helper22(temp, index + 1, res);
+		temp[index] = ')';
+		helper22(temp, index + 1, res);
 	}
-	return count==0;
-}
+
+	public static boolean valid_22(String s) {
+		int count = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '(') {
+				count++;
+			} else {
+				count--;
+			}
+			if (count < 0) {
+				return false;
+			}
+		}
+		return count == 0;
+	}
+
+	// 32 Longest Valid Parentheses
+	//// wrong version
+	// public int longestValidParentheses(String s) {
+	// Stack <Character> st = new Stack<Character>();
+	// int count=0;
+	// int res=0;
+	// for(int i=0;i<s.length();i++)
+	// {
+	// if(s.charAt(i)=='(')
+	// {
+	// st.push(')');
+	// }
+	// else if(!st.isEmpty()&&st.peek()==s.charAt(i))
+	// {
+	// st.pop();
+	// count+=2;
+	// }
+	// else
+	// {
+	// res=Math.max(count, res);
+	// count=0;
+	// st.push('*');
+	// }
+	// }
+	// return res;
+	// }
+	// 32 Longest Valid Parentheses correct version learned from leetcode
+	public int longestValidParentheses(String s) {
+		Stack<Integer> st = new Stack<Integer>();
+		st.push(-1);
+		int max=0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '(') {
+				st.push(i);
+			} else {
+				int pre=st.pop();
+				if (!st.isEmpty()&&s.charAt(pre) == '(') {
+					max=Math.max(max,i-st.peek());
+				}
+				else {
+					st.push(i);
+				}
+			}
+		}
+		return max;
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubs
 		Map m = new HashMap<Integer, Integer>();
+		dfs a = new dfs();
 		List<List<Integer>> result = new ArrayList<List<Integer>>();
 		List<List<String>> results = new ArrayList<List<String>>();
 		List<String> string_result = new ArrayList<String>();
@@ -626,7 +665,8 @@ public static boolean valid_22(String s)
 		// System.out.println(a.run_wordsearch(ss, "ABCB"));
 		int[] rooms = { 1, 1, 2, 2, 2, 1 };
 		selectroom(result, rooms, 5, temp, 0);
-		generateParenthesis(3);
+		a.longestValidParentheses("()(()");
+//		System.out.println("123".charAt(-1));
 		// printcharlist(char_result);
 		// use_crackpassword(3, 2);
 	}
