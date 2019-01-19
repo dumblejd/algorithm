@@ -702,7 +702,7 @@ public class dfs {
 		for (int i = 0; i < s.length(); i++) {
 			if (s.charAt(i) == '(') {
 				pleft++;
-			} else if(s.charAt(i) == ')') {
+			} else if (s.charAt(i) == ')') {
 				if (pleft > 0) {
 					pleft--;
 				} else {
@@ -715,153 +715,153 @@ public class dfs {
 		List<String> res = new ArrayList<String>();
 		Set<String> set = new HashSet<String>();
 		helper301(s, pleft, pright, 0, 0, "", set);
-		res=new ArrayList<String>(set);
+		res = new ArrayList<String>(set);
 		return res;
 	}
 
-	public void helper301(String s,int pleft,int pright,int index,int open,String temp,Set<String> set)
-	{
-		if(pleft<0||pright<0||open<0)
-		{
-			return;   
-			//means if there is a soultion it will not be the 'minimum delete' beacuse we count the redundant number already
-			//also it may will be illegal
+	public void helper301(String s, int pleft, int pright, int index, int open, String temp, Set<String> set) {
+		if (pleft < 0 || pright < 0 || open < 0) {
+			return;
+			// means if there is a soultion it will not be the 'minimum delete' beacuse we
+			// count the redundant number already
+			// also it may will be illegal
 		}
-		if(index==s.length())
-		{
-			if(pleft==0&&pright==0&&open==0)
-			{
-			set.add(temp);
+		if (index == s.length()) {
+			if (pleft == 0 && pright == 0 && open == 0) {
+				set.add(temp);
 			}
 			return;
 		}
-		if(s.charAt(index)=='(')
+		if (s.charAt(index) == '(') {
+			helper301(s, pleft, pright, index + 1, open + 1, temp + "(", set);// use
+			helper301(s, pleft - 1, pright, index + 1, open, temp, set);// not
+		} else if (s.charAt(index) == ')') {
+			helper301(s, pleft, pright, index + 1, open - 1, temp + ")", set);// use
+			helper301(s, pleft, pright - 1, index + 1, open, temp, set);// not
+		} else {
+			helper301(s, pleft, pright, index + 1, open, temp + String.valueOf(s.charAt(index)), set); // just add
+		}
+	}
+
+	// 329. Longest Increasing Path in a Matrix //it go through 134/137 //cache
+	// added to pass
+	public int longestIncreasingPath(int[][] matrix) {
+		if (matrix.length == 0) {
+			return 0;
+		}
+		int[][] cache = new int[matrix.length][matrix[0].length];
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				int cur = matrix[i][j];
+				helper329(matrix, cache, i, j, cur, true);
+			}
+		}
+		return res329;
+	}
+
+	int res329 = 1;
+
+	public int helper329(int[][] matrix, int[][] cache, int i, int j, int pre, boolean first) {
+		if (i < 0 || j < 0 || i >= matrix.length || j >= matrix[i].length || (!first && pre <= matrix[i][j]))// find who
+																												// pre
+																												// is
+		// bigger than me so
+		// my value is
+		// cache[pre]+1
 		{
-		 helper301(s, pleft, pright, index+1,open+1, temp+"(", set);//use
-		 helper301(s, pleft-1, pright, index+1,open,  temp,set);//not
+			return 0;
 		}
-		else if(s.charAt(index)==')')
-		{
-			 helper301(s, pleft, pright, index+1,open-1,  temp+")",  set);//use 
-			 helper301(s, pleft, pright-1, index+1,open,  temp,  set);//not
-		}
-		else {
-			 helper301(s, pleft, pright, index+1,open,  temp+String.valueOf(s.charAt(index)), set); //just add
-		}
-	}
-//329. Longest Increasing Path in a Matrix   //it go through 134/137   //cache added to pass
-public int longestIncreasingPath(int[][] matrix) {
-	if(matrix.length==0)
-	{
-		return 0;
-	}
-	int[][] cache=new int[matrix.length][matrix[0].length];
-	for(int i=0;i<matrix.length;i++)
-	{
-		for (int j = 0; j < matrix[i].length; j++) {
-			int cur=matrix[i][j];
-			helper329(matrix,cache, i, j,cur);
+
+		if (cache[i][j] > 0) {
+			return cache[i][j];
+		} else {
+			int tempMax = 0;
+			int cur = matrix[i][j];
+			tempMax = Math.max(tempMax, helper329(matrix, cache, i + 1, j, cur, false));
+			tempMax = Math.max(tempMax, helper329(matrix, cache, i - 1, j, cur, false));
+			tempMax = Math.max(tempMax, helper329(matrix, cache, i, j + 1, cur, false));
+			tempMax = Math.max(tempMax, helper329(matrix, cache, i, j - 1, cur, false));
+			cache[i][j] = ++tempMax;
+			res329 = Math.max(tempMax, res329);
+			return tempMax;
 		}
 	}
-	return res329;
-    }
-int res329=1;
-public int helper329(int[][] matrix,int[][] cache, int i,int j,int pre)
-{
-	 if(i<0||j<0||i>=matrix.length||j>=matrix[i].length||pre<=matrix[i][j])//find who pre is bigger than me so my value is cache[pre]+1
-	{
-		return 0;
-	}
-	 
-	 if(cache[i][j]>0)
-	 {
-		 return cache[i][j];
-	 }
-	else{
-		int tempMax=0;
-		int cur=matrix[i][j];
-		tempMax=Math.max(tempMax, helper329(matrix, cache, i+1, j, cur));
-		tempMax=Math.max(tempMax, helper329(matrix, cache, i-1, j, cur));
-		tempMax=Math.max(tempMax, helper329(matrix, cache, i, j+1, cur));
-		tempMax=Math.max(tempMax, helper329(matrix, cache, i, j-1, cur));
-		cache[i][j]=++tempMax;
-		res329=Math.max(tempMax, res329);
-		return tempMax;
-	}
-	
-}
-	//329. Longest Increasing Path in a Matrix second second second second second second second second try
-	//out of memory    don't know why  since  list won't have this problem.
-//	public int longestIncreasingPath(int[][] matrix) {
-//		
-//		if(matrix.length==0)
-//		{
-//			return 0;
-//		}
-//		for(int i=0;i<matrix.length;i++)
-//		{
-//			for (int j = 0; j < matrix[i].length; j++) {
-//				String temp=""+matrix[i][j];
-//				helper329(matrix, i, j+1, temp);
-//				helper329(matrix, i, j-1, temp);
-//				helper329(matrix, i+1, j, temp);
-//				helper329(matrix, i-1, j, temp);
-//			}
-//		}
-//		return res329;
-//	    }
-//	int res329=1;
-//	public void helper329(int[][] matrix, int i,int j,String temp)
-//	{
-//		 if(i<0||j<0||i>=matrix.length||j>=matrix[i].length||Character.getNumericValue(temp.charAt(temp.length()-1))>=matrix[i][j])
-//		{
-//			return;
-//		}
-//		else if(Character.getNumericValue(temp.charAt(temp.length()-1))<matrix[i][j]){
-//			temp+=matrix[i][j];
-//			res329=Math.max(res329, temp.length());
-//			helper329(matrix, i, j+1, temp);
-//			helper329(matrix, i, j-1, temp);
-//			helper329(matrix, i+1, j, temp);
-//			helper329(matrix, i-1, j, temp);
-//			//temp.removeLast();
-//		}
-//	}
-	 //329. Longest Increasing Path in a Matrix   third third third third third try  //see first try has been modified
-// this is a nice version only dfs, but still not pass the time limit
-//public int longestIncreasingPath(int[][] matrix) {
-//	if(matrix.length==0)
-//	{
-//		return 0;
-//	}
-//	for(int i=0;i<matrix.length;i++)
-//	{
-//		for (int j = 0; j < matrix[i].length; j++) {
-//			LinkedList<Integer>temp=new LinkedList<Integer>();
-//			helper329(matrix, i, j, temp,true);
-//		}
-//	}
-//	return res329;
-//    }
-//int res329=1;
-//public void helper329(int[][] matrix, int i,int j,LinkedList<Integer>temp,boolean first)
-//{
-//	 if(i<0||j<0||i>=matrix.length||j>=matrix[i].length||(!first&&temp.getLast()>=matrix[i][j]))
-//	{
-//		return;
-//	}
-//	if(first||temp.getLast()<matrix[i][j]){
-//		temp.add(matrix[i][j]);
-//		res329=Math.max(res329, temp.size());
-//		helper329(matrix, i, j+1,temp,false);
-//		helper329(matrix, i, j-1, temp,false);
-//		helper329(matrix, i+1, j,temp,false);
-//		helper329(matrix, i-1, j, temp,false);
-//		temp.removeLast();
-//	}
-//	
-//}
-	
+	// 329. Longest Increasing Path in a Matrix second second second second second
+	// second second second try
+	// out of memory don't know why since list won't have this problem.
+	// public int longestIncreasingPath(int[][] matrix) {
+	//
+	// if(matrix.length==0)
+	// {
+	// return 0;
+	// }
+	// for(int i=0;i<matrix.length;i++)
+	// {
+	// for (int j = 0; j < matrix[i].length; j++) {
+	// String temp=""+matrix[i][j];
+	// helper329(matrix, i, j+1, temp);
+	// helper329(matrix, i, j-1, temp);
+	// helper329(matrix, i+1, j, temp);
+	// helper329(matrix, i-1, j, temp);
+	// }
+	// }
+	// return res329;
+	// }
+	// int res329=1;
+	// public void helper329(int[][] matrix, int i,int j,String temp)
+	// {
+	// if(i<0||j<0||i>=matrix.length||j>=matrix[i].length||Character.getNumericValue(temp.charAt(temp.length()-1))>=matrix[i][j])
+	// {
+	// return;
+	// }
+	// else
+	// if(Character.getNumericValue(temp.charAt(temp.length()-1))<matrix[i][j]){
+	// temp+=matrix[i][j];
+	// res329=Math.max(res329, temp.length());
+	// helper329(matrix, i, j+1, temp);
+	// helper329(matrix, i, j-1, temp);
+	// helper329(matrix, i+1, j, temp);
+	// helper329(matrix, i-1, j, temp);
+	// //temp.removeLast();
+	// }
+	// }
+	// 329. Longest Increasing Path in a Matrix third third third third third try
+	// //see first try has been modified
+	// this is a nice version only dfs, but still not pass the time limit
+	// public int longestIncreasingPath(int[][] matrix) {
+	// if(matrix.length==0)
+	// {
+	// return 0;
+	// }
+	// for(int i=0;i<matrix.length;i++)
+	// {
+	// for (int j = 0; j < matrix[i].length; j++) {
+	// LinkedList<Integer>temp=new LinkedList<Integer>();
+	// helper329(matrix, i, j, temp,true);
+	// }
+	// }
+	// return res329;
+	// }
+	// int res329=1;
+	// public void helper329(int[][] matrix, int i,int
+	// j,LinkedList<Integer>temp,boolean first)
+	// {
+	// if(i<0||j<0||i>=matrix.length||j>=matrix[i].length||(!first&&temp.getLast()>=matrix[i][j]))
+	// {
+	// return;
+	// }
+	// if(first||temp.getLast()<matrix[i][j]){
+	// temp.add(matrix[i][j]);
+	// res329=Math.max(res329, temp.size());
+	// helper329(matrix, i, j+1,temp,false);
+	// helper329(matrix, i, j-1, temp,false);
+	// helper329(matrix, i+1, j,temp,false);
+	// helper329(matrix, i-1, j, temp,false);
+	// temp.removeLast();
+	// }
+	//
+	// }
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubs
 		Map m = new HashMap<Integer, Integer>();
@@ -891,8 +891,8 @@ public int helper329(int[][] matrix,int[][] cache, int i,int j,int pre)
 		// System.out.println(char_result.size());
 		// System.out.println(a.run_wordsearch(ss, "ABCB"));
 		int[] rooms = { 1, 1, 2, 2, 2, 1 };
-		int [][]data={{6,8},{7,2}};
-		
+		int[][] data = { { 6, 8 }, { 7, 2 } };
+
 		selectroom(result, rooms, 5, temp, 0);
 		a.longestIncreasingPath(data);
 		System.out.println("123".substring(3));
