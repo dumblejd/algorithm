@@ -749,7 +749,119 @@ public class dfs {
 			 helper301(s, pleft, pright, index+1,open,  temp+String.valueOf(s.charAt(index)), set); //just add
 		}
 	}
-
+//329. Longest Increasing Path in a Matrix   //it go through 134/137   //cache added to pass
+public int longestIncreasingPath(int[][] matrix) {
+	if(matrix.length==0)
+	{
+		return 0;
+	}
+	int[][] cache=new int[matrix.length][matrix[0].length];
+	for(int i=0;i<matrix.length;i++)
+	{
+		for (int j = 0; j < matrix[i].length; j++) {
+			int cur=matrix[i][j];
+			helper329(matrix,cache, i, j,cur);
+		}
+	}
+	return res329;
+    }
+int res329=1;
+public int helper329(int[][] matrix,int[][] cache, int i,int j,int pre)
+{
+	 if(i<0||j<0||i>=matrix.length||j>=matrix[i].length||pre<=matrix[i][j])//find who pre is bigger than me so my value is cache[pre]+1
+	{
+		return 0;
+	}
+	 
+	 if(cache[i][j]>0)
+	 {
+		 return cache[i][j];
+	 }
+	else{
+		int tempMax=0;
+		int cur=matrix[i][j];
+		tempMax=Math.max(tempMax, helper329(matrix, cache, i+1, j, cur));
+		tempMax=Math.max(tempMax, helper329(matrix, cache, i-1, j, cur));
+		tempMax=Math.max(tempMax, helper329(matrix, cache, i, j+1, cur));
+		tempMax=Math.max(tempMax, helper329(matrix, cache, i, j-1, cur));
+		cache[i][j]=++tempMax;
+		res329=Math.max(tempMax, res329);
+		return tempMax;
+	}
+	
+}
+	//329. Longest Increasing Path in a Matrix second second second second second second second second try
+	//out of memory    don't know why  since  list won't have this problem.
+//	public int longestIncreasingPath(int[][] matrix) {
+//		
+//		if(matrix.length==0)
+//		{
+//			return 0;
+//		}
+//		for(int i=0;i<matrix.length;i++)
+//		{
+//			for (int j = 0; j < matrix[i].length; j++) {
+//				String temp=""+matrix[i][j];
+//				helper329(matrix, i, j+1, temp);
+//				helper329(matrix, i, j-1, temp);
+//				helper329(matrix, i+1, j, temp);
+//				helper329(matrix, i-1, j, temp);
+//			}
+//		}
+//		return res329;
+//	    }
+//	int res329=1;
+//	public void helper329(int[][] matrix, int i,int j,String temp)
+//	{
+//		 if(i<0||j<0||i>=matrix.length||j>=matrix[i].length||Character.getNumericValue(temp.charAt(temp.length()-1))>=matrix[i][j])
+//		{
+//			return;
+//		}
+//		else if(Character.getNumericValue(temp.charAt(temp.length()-1))<matrix[i][j]){
+//			temp+=matrix[i][j];
+//			res329=Math.max(res329, temp.length());
+//			helper329(matrix, i, j+1, temp);
+//			helper329(matrix, i, j-1, temp);
+//			helper329(matrix, i+1, j, temp);
+//			helper329(matrix, i-1, j, temp);
+//			//temp.removeLast();
+//		}
+//	}
+	 //329. Longest Increasing Path in a Matrix   third third third third third try  //see first try has been modified
+// this is a nice version only dfs, but still not pass the time limit
+//public int longestIncreasingPath(int[][] matrix) {
+//	if(matrix.length==0)
+//	{
+//		return 0;
+//	}
+//	for(int i=0;i<matrix.length;i++)
+//	{
+//		for (int j = 0; j < matrix[i].length; j++) {
+//			LinkedList<Integer>temp=new LinkedList<Integer>();
+//			helper329(matrix, i, j, temp,true);
+//		}
+//	}
+//	return res329;
+//    }
+//int res329=1;
+//public void helper329(int[][] matrix, int i,int j,LinkedList<Integer>temp,boolean first)
+//{
+//	 if(i<0||j<0||i>=matrix.length||j>=matrix[i].length||(!first&&temp.getLast()>=matrix[i][j]))
+//	{
+//		return;
+//	}
+//	if(first||temp.getLast()<matrix[i][j]){
+//		temp.add(matrix[i][j]);
+//		res329=Math.max(res329, temp.size());
+//		helper329(matrix, i, j+1,temp,false);
+//		helper329(matrix, i, j-1, temp,false);
+//		helper329(matrix, i+1, j,temp,false);
+//		helper329(matrix, i-1, j, temp,false);
+//		temp.removeLast();
+//	}
+//	
+//}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubs
 		Map m = new HashMap<Integer, Integer>();
@@ -779,8 +891,10 @@ public class dfs {
 		// System.out.println(char_result.size());
 		// System.out.println(a.run_wordsearch(ss, "ABCB"));
 		int[] rooms = { 1, 1, 2, 2, 2, 1 };
+		int [][]data={{6,8},{7,2}};
+		
 		selectroom(result, rooms, 5, temp, 0);
-		a.removeInvalidParentheses("(a)())()");
+		a.longestIncreasingPath(data);
 		System.out.println("123".substring(3));
 		// printcharlist(char_result);
 		// use_crackpassword(3, 2);
