@@ -2,9 +2,12 @@ package algorithmtest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 public class dfs {
@@ -618,21 +621,133 @@ public class dfs {
 	public int longestValidParentheses(String s) {
 		Stack<Integer> st = new Stack<Integer>();
 		st.push(-1);
-		int max=0;
+		int max = 0;
 		for (int i = 0; i < s.length(); i++) {
 			if (s.charAt(i) == '(') {
 				st.push(i);
 			} else {
-				int pre=st.pop();
-				if (!st.isEmpty()&&s.charAt(pre) == '(') {
-					max=Math.max(max,i-st.peek());
-				}
-				else {
+				int pre = st.pop();
+				if (!st.isEmpty() && s.charAt(pre) == '(') {
+					max = Math.max(max, i - st.peek());
+				} else {
 					st.push(i);
 				}
 			}
 		}
 		return max;
+	}
+
+	// // 301. Remove Invalid Parentheses time limited
+	// public List<String> removeInvalidParentheses(String s) {
+	// List<String> res = new ArrayList<String>();
+	// Map<String, Integer> m = new HashMap<String, Integer>();
+	// if (s.length() == 0||helper301(s)) {
+	// res.add(s);
+	// return res;
+	// }
+	// bfs301(s, res, m);
+	// if(res.size()==0)
+	// {
+	// res.add("");
+	// return res;
+	// }
+	// List<String> trueres = new ArrayList<String>();
+	// for(int i=0;i<res.size();i++)
+	// {
+	// if(res.get(i).length()==max301)
+	// {
+	// trueres.add(res.get(i));
+	// }
+	// }
+	// return trueres;
+	// }
+	// int max301=0;
+	// public void bfs301(String temp, List<String> res, Map<String, Integer> m) {
+	// if(temp.equals(""))
+	// {
+	// return;
+	// }
+	// for (int i = 0; i < temp.length(); i++) {
+	// String cut = temp.substring(0, i) + temp.substring(i + 1);
+	// if (helper301(cut) && !m.containsKey(cut)&&!cut.equals("")) {
+	// m.put(cut, 1);
+	// res.add(cut);
+	// max301=Math.max(max301, cut.length());
+	// }
+	// // dfs301(temp.substring(0, i)+temp.substring(i+1),res,deleted+1);
+	// }
+	// for (int i = 0; i < temp.length(); i++) {
+	// bfs301(temp.substring(0, i) + temp.substring(i + 1), res, m);
+	// }
+	// }
+	//
+	// public boolean helper301(String s) {
+	// int count = 0;
+	// for (int i = 0; i < s.length(); i++) {
+	// if (s.charAt(i) == '(') {
+	// count++;
+	// } else if (s.charAt(i) == ')') {
+	// count--;
+	// }
+	// if (count < 0) {
+	// return false;
+	// }
+	// }
+	// return count == 0;
+	// }
+	// 301. Remove Invalid Parentheses
+	public List<String> removeInvalidParentheses(String s) {
+		int pleft = 0;
+		int pright = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '(') {
+				pleft++;
+			} else if(s.charAt(i) == ')') {
+				if (pleft > 0) {
+					pleft--;
+				} else {
+					pright++;
+				}
+			}
+		}
+		// pleft or right means how many parentheses are redundant to be legal. And if
+		// ")" appear before any singel "(" it's redundant for sure
+		List<String> res = new ArrayList<String>();
+		Set<String> set = new HashSet<String>();
+		helper301(s, pleft, pright, 0, 0, "", set);
+		res=new ArrayList<String>(set);
+		return res;
+	}
+
+	public void helper301(String s,int pleft,int pright,int index,int open,String temp,Set<String> set)
+	{
+		if(pleft<0||pright<0||open<0)
+		{
+			return;   
+			//means if there is a soultion it will not be the 'minimum delete' beacuse we count the redundant number already
+			//also it may will be illegal
+		}
+		if(index==s.length())
+		{
+			if(pleft==0&&pright==0&&open==0)
+			{
+			set.add(temp);
+			}
+			return;
+		}
+		if(s.charAt(index)=='(')
+		{
+		 helper301(s, pleft, pright, index+1,open+1, temp+"(", set);//use
+		 helper301(s, pleft-1, pright, index+1,open,  temp,set);//not
+		}
+		else if(s.charAt(index)==')')
+		{
+			 helper301(s, pleft, pright, index+1,open-1,  temp+")",  set);//use 
+			 helper301(s, pleft, pright-1, index+1,open,  temp,  set);//not
+		}
+		else {
+			 helper301(s, pleft, pright, index+1,open,  temp+String.valueOf(s.charAt(index)), set); //just add
+		}
 	}
 
 	public static void main(String[] args) {
@@ -665,8 +780,8 @@ public class dfs {
 		// System.out.println(a.run_wordsearch(ss, "ABCB"));
 		int[] rooms = { 1, 1, 2, 2, 2, 1 };
 		selectroom(result, rooms, 5, temp, 0);
-		a.longestValidParentheses("()(()");
-//		System.out.println("123".charAt(-1));
+		a.removeInvalidParentheses("(a)())()");
+		System.out.println("123".substring(3));
 		// printcharlist(char_result);
 		// use_crackpassword(3, 2);
 	}
