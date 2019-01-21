@@ -862,6 +862,101 @@ public class dfs {
 	//
 	// }
 
+	// This is the interface that allows for creating nested lists.
+	// You should not implement it, or speculate about its implementatio
+	public interface NestedInteger {
+
+		// @return true if this NestedInteger holds a single integer, rather than a
+		// nested list.
+		public boolean isInteger();
+
+		// @return the single integer that this NestedInteger holds, if it holds a
+		// single integer
+		// Return null if this NestedInteger holds a nested list
+		public Integer getInteger();
+
+		// @return the nested list that this NestedInteger holds, if it holds a nested
+		// list
+		// Return null if this NestedInteger holds a single integer
+		public List<NestedInteger> getList();
+	}
+
+	// #339 Nested List Weight Sum
+	public int depthSum(List<NestedInteger> nestedList) {
+		int res = helper339(nestedList, 1);
+		return res;
+	}
+
+	public int helper339(List<NestedInteger> nl, int level) {
+		int res = 0;
+		for (int i = 0; i < nl.size(); i++) {
+			NestedInteger curr = nl.get(i);
+			if (curr.isInteger()) {
+				res += level * curr.getInteger();
+			} else {
+				res += helper339(curr.getList(), level + 1);
+			}
+		}
+		return res;
+	}
+
+	// # 364 Nested List Weight Sum 2
+	public void helper369(List<NestedInteger> nl, int level, int[] note) {
+		for (int i = 0; i < nl.size(); i++) {
+			NestedInteger curr = nl.get(i);
+			if (curr.isInteger()) {
+				note[level] += curr.getInteger();
+			} else {
+				note[level + 1] += helper339(curr.getList(), level + 1);
+			}
+		}
+		return;
+	}
+
+	// #490 MAZE   //brute force
+	public boolean hasPath(int[][] maze, int[] start, int[] destination) {
+		helper490(maze, start, new int[] {0, 0},destination);
+		return flag490;
+	}
+ boolean flag490=false;
+ int[] left=new int[] {0,-1};
+ int[] right=new int[] {0,1};
+ int[] up=new int[] {-1,0};
+ int[] down=new int[] {1,0};
+	public void helper490(int[][] maze, int[] start,int direction[],int []visted, int[] destination) {
+		int row=start[1];
+		int col=start[0];
+		int drow=destination[1];
+		int dcol=destination[0];
+		if(row<0||col<0||col>=maze.length||row>=maze[col].length||visted[col][row]==1)
+		{
+			return;
+		}
+		if(start[0]==destination[0]&&destination[1]==start[1])
+		{
+			flag490=true;
+			return;
+		}
+		while(direction[0]!=0&&direction[1]!=0)
+		{
+			if(row+direction[1]<0||col+direction[0]<0||col+direction[0]>=maze.length||row+direction[1]>=maze[col].length||maze[col+direction[0]][row+direction[1]]==1)
+			{
+				break;
+			}
+			else
+			{
+				row+=direction[1];
+				col+=direction[0];
+			}
+		}
+		int []temp=new int[] {col,row};
+		visted[col][row]=1;
+		helper490(maze,temp,left, destination);
+		helper490(maze,temp,right, destination);
+		helper490(maze,temp,up, destination);
+		helper490(maze,temp,down, destination);
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubs
 		Map m = new HashMap<Integer, Integer>();

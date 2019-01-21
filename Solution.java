@@ -35,13 +35,18 @@ public class Solution {
 			}
 			
 		}
-
+		public void test(int []a)
+		{
+			a[0]=1;
+		}
 		
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Solution s =new Solution();
 		int [][]data={{6,8},{7,2}};
-		s.longestIncreasingPath(data);
+		int [] a = new int[] {3};
+		//s.test(a);
+		System.out.println(a[0]);
 	}
 
 }
