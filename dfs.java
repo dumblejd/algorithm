@@ -915,7 +915,10 @@ public class dfs {
 
 	// #490 MAZE   //brute force
 	public boolean hasPath(int[][] maze, int[] start, int[] destination) {
-		helper490(maze, start, new int[] {0, 0},destination);
+		helper490(maze, start, left,new int [maze.length][maze[0].length],destination);
+		helper490(maze, start, right,new int [maze.length][maze[0].length],destination);
+		helper490(maze, start, up,new int [maze.length][maze[0].length],destination);
+		helper490(maze, start, down,new int [maze.length][maze[0].length],destination);
 		return flag490;
 	}
  boolean flag490=false;
@@ -923,12 +926,12 @@ public class dfs {
  int[] right=new int[] {0,1};
  int[] up=new int[] {-1,0};
  int[] down=new int[] {1,0};
-	public void helper490(int[][] maze, int[] start,int direction[],int []visted, int[] destination) {
+	public void helper490(int[][] maze, int[] start,int []direction,int [][]visited, int[] destination) {
 		int row=start[1];
 		int col=start[0];
 		int drow=destination[1];
 		int dcol=destination[0];
-		if(row<0||col<0||col>=maze.length||row>=maze[col].length||visted[col][row]==1)
+		if((row<0||col<0||col>=maze.length||row>=maze[col].length||flag490==true||maze[col][row]==1))
 		{
 			return;
 		}
@@ -937,7 +940,8 @@ public class dfs {
 			flag490=true;
 			return;
 		}
-		while(direction[0]!=0&&direction[1]!=0)
+		visited[col][row]=1;
+		while(!(direction[0]==0&&direction[1]==0))
 		{
 			if(row+direction[1]<0||col+direction[0]<0||col+direction[0]>=maze.length||row+direction[1]>=maze[col].length||maze[col+direction[0]][row+direction[1]]==1)
 			{
@@ -950,11 +954,14 @@ public class dfs {
 			}
 		}
 		int []temp=new int[] {col,row};
-		visted[col][row]=1;
-		helper490(maze,temp,left, destination);
-		helper490(maze,temp,right, destination);
-		helper490(maze,temp,up, destination);
-		helper490(maze,temp,down, destination);
+		if(visited[col][row]==1)
+		{
+			return;
+		}
+		helper490(maze,temp,left,visited, destination);
+		helper490(maze,temp,right, visited,destination);
+		helper490(maze,temp,up,visited, destination);
+		helper490(maze,temp,down,visited, destination);
 	}
 
 	public static void main(String[] args) {
@@ -987,9 +994,9 @@ public class dfs {
 		// System.out.println(a.run_wordsearch(ss, "ABCB"));
 		int[] rooms = { 1, 1, 2, 2, 2, 1 };
 		int[][] data = { { 6, 8 }, { 7, 2 } };
-
+		int [][]maze= {{0,0,1,0,0},{0,0,0,0,0},{0,0,0,1,0},{1,1,0,1,1},{0,0,0,0,0}};
 		selectroom(result, rooms, 5, temp, 0);
-		a.longestIncreasingPath(data);
+		a.hasPath(maze, new int[]{0,4}, new int[]{4,4});
 		System.out.println("123".substring(3));
 		// printcharlist(char_result);
 		// use_crackpassword(3, 2);
