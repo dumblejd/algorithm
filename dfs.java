@@ -913,94 +913,116 @@ public class dfs {
 		return;
 	}
 
-	// #490 MAZE   //brute force
+	// #490 MAZE //brute force
 	public boolean hasPath(int[][] maze, int[] start, int[] destination) {
-		helper490(maze, start, left,new int [maze.length][maze[0].length],destination);
-		helper490(maze, start, right,new int [maze.length][maze[0].length],destination);
-		helper490(maze, start, up,new int [maze.length][maze[0].length],destination);
-		helper490(maze, start, down,new int [maze.length][maze[0].length],destination);
+		helper490(maze, start, left, new int[maze.length][maze[0].length], destination);
+		helper490(maze, start, right, new int[maze.length][maze[0].length], destination);
+		helper490(maze, start, up, new int[maze.length][maze[0].length], destination);
+		helper490(maze, start, down, new int[maze.length][maze[0].length], destination);
 		return flag490;
 	}
- boolean flag490=false;
- int[] left=new int[] {0,-1};
- int[] right=new int[] {0,1};
- int[] up=new int[] {-1,0};
- int[] down=new int[] {1,0};
-	public void helper490(int[][] maze, int[] start,int []direction,int [][]visited, int[] destination) {
-		int row=start[1];
-		int col=start[0];
-		int drow=destination[1];
-		int dcol=destination[0];
-		if((row<0||col<0||col>=maze.length||row>=maze[col].length||flag490==true||maze[col][row]==1))
-		{
+
+	boolean flag490 = false;
+	int[] left = new int[] { 0, -1 };
+	int[] right = new int[] { 0, 1 };
+	int[] up = new int[] { -1, 0 };
+	int[] down = new int[] { 1, 0 };
+
+	public void helper490(int[][] maze, int[] start, int[] direction, int[][] visited, int[] destination) {
+		int row = start[1];
+		int col = start[0];
+		int drow = destination[1];
+		int dcol = destination[0];
+		if ((row < 0 || col < 0 || col >= maze.length || row >= maze[col].length || flag490 == true
+				|| maze[col][row] == 1)) {
 			return;
 		}
-		if(start[0]==destination[0]&&destination[1]==start[1])
-		{
-			flag490=true;
+		if (start[0] == destination[0] && destination[1] == start[1]) {
+			flag490 = true;
 			return;
 		}
-		visited[col][row]=1;
-		while(!(direction[0]==0&&direction[1]==0))
-		{
-			if(row+direction[1]<0||col+direction[0]<0||col+direction[0]>=maze.length||row+direction[1]>=maze[col].length||maze[col+direction[0]][row+direction[1]]==1)
-			{
+		visited[col][row] = 1;
+		while (!(direction[0] == 0 && direction[1] == 0)) {
+			if (row + direction[1] < 0 || col + direction[0] < 0 || col + direction[0] >= maze.length
+					|| row + direction[1] >= maze[col].length || maze[col + direction[0]][row + direction[1]] == 1) {
 				break;
-			}
-			else
-			{
-				row+=direction[1];
-				col+=direction[0];
+			} else {
+				row += direction[1];
+				col += direction[0];
 			}
 		}
-		int []temp=new int[] {col,row};
-		if(visited[col][row]==1)
-		{
+		int[] temp = new int[] { col, row };
+		if (visited[col][row] == 1) {
 			return;
 		}
-		helper490(maze,temp,left,visited, destination);
-		helper490(maze,temp,right, visited,destination);
-		helper490(maze,temp,up,visited, destination);
-		helper490(maze,temp,down,visited, destination);
+		helper490(maze, temp, left, visited, destination);
+		helper490(maze, temp, right, visited, destination);
+		helper490(maze, temp, up, visited, destination);
+		helper490(maze, temp, down, visited, destination);
 	}
-//#695 Max Area of Island
-public int maxAreaOfIsland(int[][] grid) {
-	boolean [][]visited=new boolean[grid.length][grid[0].length];
-        for (int i = 0; i < grid.length; i++) {
+
+	// #695 Max Area of Island
+	public int maxAreaOfIsland(int[][] grid) {
+		boolean[][] visited = new boolean[grid.length][grid[0].length];
+		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[i].length; j++) {
 				helper695(grid, j, i, visited);
 			}
 		}
-        return max695;
-    }
-int max695=0;
-public int helper695(int[][] grid,int x,int y,boolean [][]visited)
-{
-	if(x<0||y<0||y>=grid.length||x>=grid[y].length||grid[y][x]==0||visited[y][x])
-	{
-		return 0;
+		return max695;
 	}
-	int temp=1;
-	visited[y][x]=true;
-	temp+=helper695(grid, x+1, y, visited);
-	temp+=helper695(grid, x-1, y, visited);
-	temp+=helper695(grid, x, y+1, visited);
-	temp+=helper695(grid, x, y-1, visited);
-	max695=Math.max(temp,max695);
-	return temp;
-	
-}
-//#737 Sentence Similarity II   transitable similar word
-public boolean areSentencesSimilarTwo(String[] words1, String[] words2, String[][] pairs) {
-}
-//method 1:union find 
-public void helper737(String[] words1, String[] words2, String[][] pairs)
-{
-	int []parent=new int [pairs.length];
-	for (int i = 0; i < pairs.length; i++) {
-		
+
+	int max695 = 0;
+
+	public int helper695(int[][] grid, int x, int y, boolean[][] visited) {
+		if (x < 0 || y < 0 || y >= grid.length || x >= grid[y].length || grid[y][x] == 0 || visited[y][x]) {
+			return 0;
+		}
+		int temp = 1;
+		visited[y][x] = true;
+		temp += helper695(grid, x + 1, y, visited);
+		temp += helper695(grid, x - 1, y, visited);
+		temp += helper695(grid, x, y + 1, visited);
+		temp += helper695(grid, x, y - 1, visited);
+		max695 = Math.max(temp, max695);
+		return temp;
+
 	}
-}
+
+	// #737 Sentence Similarity II transitable similar word
+	public boolean areSentencesSimilarTwo(String[] words1, String[] words2, String[][] pairs) {
+		return helper737(words1, words2, pairs);
+	}
+
+	// method 1:union find
+	public boolean helper737(String[] words1, String[] words2, String[][] pairs) {
+		if (words1.length != words2.length) {
+			return false;
+		}
+		Map<String, String> m = new HashMap<String, String>();
+
+		for (int i = 0; i < pairs.length; i++) {
+			String first = find737(pairs[i][0], m);
+			String second = find737(pairs[i][1], m);
+			if (!first.equals(second)) {
+				m.put(first, second);
+			}
+		}
+		for (int i = 0; i < words1.length; i++) {
+			if (!find737(words1[i], m).equals(find737(words2[i], m))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public String find737(String t, Map<String, String> m) {
+		while (m.containsKey(t)) {
+			t = m.get(t);
+		}
+		return t;
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubs
 		Map m = new HashMap<Integer, Integer>();
@@ -1031,9 +1053,10 @@ public void helper737(String[] words1, String[] words2, String[][] pairs)
 		// System.out.println(a.run_wordsearch(ss, "ABCB"));
 		int[] rooms = { 1, 1, 2, 2, 2, 1 };
 		int[][] data = { { 6, 8 }, { 7, 2 } };
-		int [][]maze= {{0,0,1,0,0},{0,0,0,0,0},{0,0,0,1,0},{1,1,0,1,1},{0,0,0,0,0}};
+		int[][] maze = { { 0, 0, 1, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 1, 0 }, { 1, 1, 0, 1, 1 },
+				{ 0, 0, 0, 0, 0 } };
 		selectroom(result, rooms, 5, temp, 0);
-		a.hasPath(maze, new int[]{0,4}, new int[]{4,4});
+		a.hasPath(maze, new int[] { 0, 4 }, new int[] { 4, 4 });
 		System.out.println("123".substring(3));
 		// printcharlist(char_result);
 		// use_crackpassword(3, 2);
