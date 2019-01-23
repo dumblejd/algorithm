@@ -963,7 +963,44 @@ public class dfs {
 		helper490(maze,temp,up,visited, destination);
 		helper490(maze,temp,down,visited, destination);
 	}
-
+//#695 Max Area of Island
+public int maxAreaOfIsland(int[][] grid) {
+	boolean [][]visited=new boolean[grid.length][grid[0].length];
+        for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				helper695(grid, j, i, visited);
+			}
+		}
+        return max695;
+    }
+int max695=0;
+public int helper695(int[][] grid,int x,int y,boolean [][]visited)
+{
+	if(x<0||y<0||y>=grid.length||x>=grid[y].length||grid[y][x]==0||visited[y][x])
+	{
+		return 0;
+	}
+	int temp=1;
+	visited[y][x]=true;
+	temp+=helper695(grid, x+1, y, visited);
+	temp+=helper695(grid, x-1, y, visited);
+	temp+=helper695(grid, x, y+1, visited);
+	temp+=helper695(grid, x, y-1, visited);
+	max695=Math.max(temp,max695);
+	return temp;
+	
+}
+//#737 Sentence Similarity II   transitable similar word
+public boolean areSentencesSimilarTwo(String[] words1, String[] words2, String[][] pairs) {
+}
+//method 1:union find 
+public void helper737(String[] words1, String[] words2, String[][] pairs)
+{
+	int []parent=new int [pairs.length];
+	for (int i = 0; i < pairs.length; i++) {
+		
+	}
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubs
 		Map m = new HashMap<Integer, Integer>();
