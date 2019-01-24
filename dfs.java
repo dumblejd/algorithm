@@ -1015,14 +1015,34 @@ public class dfs {
 		}
 		return true;
 	}
-
 	public String find737(String t, Map<String, String> m) {
 		while (m.containsKey(t)) {
 			t = m.get(t);
 		}
 		return t;
 	}
-
+//#841. Keys and Rooms
+public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+	boolean []visited=new boolean[rooms.size()];
+	boolean flag=true;
+	helper841(rooms, visited, 0);
+	for(int i=0;i<visited.length;i++)
+	{
+		flag=flag&&visited[i];
+	}
+	return flag;
+    }
+public void helper841(List<List<Integer>> rooms,boolean []visited,int now)
+{
+	if(visited[now])
+	{
+		return;
+	}
+	visited[now]=true;
+	for (int i = 0; i < rooms.get(now).size(); i++) {
+		helper841(rooms, visited, rooms.get(now).get(i));
+    }
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubs
 		Map m = new HashMap<Integer, Integer>();
