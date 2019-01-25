@@ -11,12 +11,25 @@ public class BackTrack {
 public boolean isMatch(String s, String p) {
         return helper10(s, p);
     }
-	public boolean helper10(String s, String p)
+
+	public boolean helper10(String s, String p)   //failed version
 	{
 		boolean flag=false;
 		if(s.length()==0&&p.length()==0)
 		{
 			return true;
+		}
+		if(s.length()==0)
+		{
+			if(p.length()>=2&&p.charAt(1)=='*')
+			{
+				return helper10( s,p.substring(2));
+			}
+			return false;
+		}
+		if(p.length()==0)
+		{
+			return false;
 		}
 		if(2<=p.length()&&p.charAt(1)=='*')
 		{
