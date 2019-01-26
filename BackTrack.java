@@ -61,7 +61,31 @@ public class BackTrack {
 //			}
 //		}
 //	}
-
+//#17. Letter Combinations of a Phone Number
+public List<String> letterCombinations(String digits) {
+        String []code=new String[]{"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        List<String> res= new ArrayList<String>();
+        helper17(digits, 0, code, res, new StringBuilder());
+        return res;
+    }
+public void helper17(String digits,int index,String []code,List<String> res,StringBuilder temp)
+{
+	if(temp.length()==digits.length()&&digits.length()>0)
+	{
+		res.add(new String(temp));
+		return;
+	}
+	if(index>=digits.length())
+	{
+		return;
+	}
+	int now = Character.getNumericValue(digits.charAt(index));
+	for (int i = 0; i < code[now].length(); i++) {
+		temp.append(code[now].charAt(i));
+		helper17(digits, index+1, code, res, temp);
+		temp.deleteCharAt(temp.length()-1);
+	}
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
