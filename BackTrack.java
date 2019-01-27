@@ -1,10 +1,13 @@
 package algorithmtest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class BackTrack {
 	// #10. Regular Expression Matching
@@ -86,12 +89,91 @@ public void helper17(String digits,int index,String []code,List<String> res,Stri
 		temp.deleteCharAt(temp.length()-1);
 	}
 }
+//#22  Generate Parentheses
+public List<String> generateParenthesis(int n) {
+	
+    List<String> res= new ArrayList<String>();
+    if(n<=0)
+    {
+    	return res;
+    }
+    helper22(n, n, new StringBuilder(), res);
+    return res;
+}
+public void helper22(int left,int right,StringBuilder temp,List<String> res)
+{
+	if(left==0&&right==0) {
+		res.add(new String(temp));
+	}
+    if(left>0)
+    {
+    	temp.append("(");
+    	helper22(left-1, right, temp, res);
+    	temp.deleteCharAt(temp.length()-1);
+    }
+    if(right>left)
+    {
+    	temp.append(")");
+    	helper22(left, right-1, temp, res);
+    	temp.deleteCharAt(temp.length()-1);
+    }
+}
+//#39. Combination Sum
+public List<List<Integer>> combinationSum(int[] candidates, int target) {
+	List<List<Integer>> res = new ArrayList<List<Integer>>();
+    helper39(candidates, target, res, new ArrayList<Integer>(),0);
+    return res;
+}
+public void helper39(int[] c, int target,List<List<Integer>> res,ArrayList<Integer> temp,int index){
+	if(target==0)
+	{	
+		res.add(new ArrayList<Integer>(temp));
+	}
+	for(int i=index;i<c.length;i++)
+	{
+		if(c[i]<=target)
+		{
+			temp.add(c[i]);
+			helper39(c, target-c[i], res, temp, i);
+			temp.remove(temp.size()-1);
+		}
+	}
+}
+//#40. Combination Sum 2
+public List<List<Integer>> combinationSum2(int[] candidates, int target) {  //different from 39
+	List<List<Integer>> res = new ArrayList<List<Integer>>();
+	Arrays.sort(candidates);
+    helper40(candidates, target, res, new ArrayList<Integer>(),0);
+    return res;
+}
+public void helper40(int[] c, int target,List<List<Integer>> res,ArrayList<Integer> temp,int index){
+	if(target==0)
+	{	
+		res.add(new ArrayList<Integer>(temp));
+	}
+	for(int i=index;i<c.length;i++)
+	{
+		if(i>index&&c[i]==c[i-1])//it's sorted so c[i-1]=c[i] means it has been added  like 1 1 2 5 6
+		{
+			continue;
+		}
+		if(c[i]<=target)
+		{
+			temp.add(c[i]);
+			helper40(c, target-c[i], res, temp, i+1);
+			
+			temp.remove(temp.size()-1);
+		}
+	}
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
 		char[][] a = new char[][] { { '1', '1', '1', '1', '0' }, { '1', '1', '0', '1', '0' },
 				{ '1', '1', '0', '0', '0' } };
+		int []c=new int[] {2,3,6,7};
 		bt.helper10("mississippi", "mis*is*p*.");
+		
 		System.out.println();
 	}
 
