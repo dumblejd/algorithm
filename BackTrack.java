@@ -15,7 +15,8 @@ public class BackTrack {
 		return helper10(s, p);
 	}
 
-	public boolean helper10(String s, String p) // complicated version //actually it's same logic with leetcode,but his version is more integrated
+	public boolean helper10(String s, String p) // complicated version //actually it's same logic with leetcode,but his
+												// version is more integrated
 	{
 		boolean flag = false;
 		if (s.length() == 0 && p.length() == 0) {
@@ -31,7 +32,7 @@ public class BackTrack {
 			return false;
 		}
 		if (2 <= p.length() && p.charAt(1) == '*') {
-			if (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.') { //it matter, i thought it doesn't
+			if (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.') { // it matter, i thought it doesn't
 				flag = flag || helper10(s, p.substring(2, p.length()));
 				flag = flag || helper10(s.substring(1), p);
 			} else {
@@ -50,130 +51,145 @@ public class BackTrack {
 		return flag;
 	}
 
-//	class Solution {    //leetcode version  //more integrated, but same logic 
-//		public boolean isMatch(String text, String pattern) {
-//			if (pattern.isEmpty())
-//				return text.isEmpty();
-//			boolean first_match = (!text.isEmpty()
-//					&& (pattern.charAt(0) == text.charAt(0) || pattern.charAt(0) == '.'));
-//
-//			if (pattern.length() >= 2 && pattern.charAt(1) == '*') {
-//				return (isMatch(text, pattern.substring(2)) || (first_match && isMatch(text.substring(1), pattern)));
-//			} else {
-//				return first_match && isMatch(text.substring(1), pattern.substring(1));
-//			}
-//		}
-//	}
-//#17. Letter Combinations of a Phone Number
-public List<String> letterCombinations(String digits) {
-        String []code=new String[]{"","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
-        List<String> res= new ArrayList<String>();
-        helper17(digits, 0, code, res, new StringBuilder());
-        return res;
-    }
-public void helper17(String digits,int index,String []code,List<String> res,StringBuilder temp)
-{
-	if(temp.length()==digits.length()&&digits.length()>0)
-	{
-		res.add(new String(temp));
-		return;
+	// class Solution { //leetcode version //more integrated, but same logic
+	// public boolean isMatch(String text, String pattern) {
+	// if (pattern.isEmpty())
+	// return text.isEmpty();
+	// boolean first_match = (!text.isEmpty()
+	// && (pattern.charAt(0) == text.charAt(0) || pattern.charAt(0) == '.'));
+	//
+	// if (pattern.length() >= 2 && pattern.charAt(1) == '*') {
+	// return (isMatch(text, pattern.substring(2)) || (first_match &&
+	// isMatch(text.substring(1), pattern)));
+	// } else {
+	// return first_match && isMatch(text.substring(1), pattern.substring(1));
+	// }
+	// }
+	// }
+	// #17. Letter Combinations of a Phone Number
+	public List<String> letterCombinations(String digits) {
+		String[] code = new String[] { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+		List<String> res = new ArrayList<String>();
+		helper17(digits, 0, code, res, new StringBuilder());
+		return res;
 	}
-	if(index>=digits.length())
-	{
-		return;
+
+	public void helper17(String digits, int index, String[] code, List<String> res, StringBuilder temp) {
+		if (temp.length() == digits.length() && digits.length() > 0) {
+			res.add(new String(temp));
+			return;
+		}
+		if (index >= digits.length()) {
+			return;
+		}
+		int now = Character.getNumericValue(digits.charAt(index));
+		for (int i = 0; i < code[now].length(); i++) {
+			temp.append(code[now].charAt(i));
+			helper17(digits, index + 1, code, res, temp);
+			temp.deleteCharAt(temp.length() - 1);
+		}
 	}
-	int now = Character.getNumericValue(digits.charAt(index));
-	for (int i = 0; i < code[now].length(); i++) {
-		temp.append(code[now].charAt(i));
-		helper17(digits, index+1, code, res, temp);
-		temp.deleteCharAt(temp.length()-1);
+
+	// #22 Generate Parentheses
+	public List<String> generateParenthesis(int n) {
+
+		List<String> res = new ArrayList<String>();
+		if (n <= 0) {
+			return res;
+		}
+		helper22(n, n, new StringBuilder(), res);
+		return res;
 	}
-}
-//#22  Generate Parentheses
-public List<String> generateParenthesis(int n) {
-	
-    List<String> res= new ArrayList<String>();
-    if(n<=0)
-    {
-    	return res;
-    }
-    helper22(n, n, new StringBuilder(), res);
-    return res;
-}
-public void helper22(int left,int right,StringBuilder temp,List<String> res)
-{
-	if(left==0&&right==0) {
-		res.add(new String(temp));
+
+	public void helper22(int left, int right, StringBuilder temp, List<String> res) {
+		if (left == 0 && right == 0) {
+			res.add(new String(temp));
+		}
+		if (left > 0) {
+			temp.append("(");
+			helper22(left - 1, right, temp, res);
+			temp.deleteCharAt(temp.length() - 1);
+		}
+		if (right > left) {
+			temp.append(")");
+			helper22(left, right - 1, temp, res);
+			temp.deleteCharAt(temp.length() - 1);
+		}
 	}
-    if(left>0)
-    {
-    	temp.append("(");
-    	helper22(left-1, right, temp, res);
-    	temp.deleteCharAt(temp.length()-1);
-    }
-    if(right>left)
-    {
-    	temp.append(")");
-    	helper22(left, right-1, temp, res);
-    	temp.deleteCharAt(temp.length()-1);
-    }
-}
-//#39. Combination Sum
-public List<List<Integer>> combinationSum(int[] candidates, int target) {
-	List<List<Integer>> res = new ArrayList<List<Integer>>();
-    helper39(candidates, target, res, new ArrayList<Integer>(),0);
-    return res;
-}
-public void helper39(int[] c, int target,List<List<Integer>> res,ArrayList<Integer> temp,int index){
-	if(target==0)
-	{	
-		res.add(new ArrayList<Integer>(temp));
+
+	// #39. Combination Sum
+	public List<List<Integer>> combinationSum(int[] candidates, int target) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		helper39(candidates, target, res, new ArrayList<Integer>(), 0);
+		return res;
 	}
-	for(int i=index;i<c.length;i++)
-	{
-		if(c[i]<=target)
+
+	public void helper39(int[] c, int target, List<List<Integer>> res, ArrayList<Integer> temp, int index) {
+		if (target == 0) {
+			res.add(new ArrayList<Integer>(temp));
+		}
+		for (int i = index; i < c.length; i++) {
+			if (c[i] <= target) {
+				temp.add(c[i]);
+				helper39(c, target - c[i], res, temp, i);
+				temp.remove(temp.size() - 1);
+			}
+		}
+	}
+
+	// #40. Combination Sum 2
+	public List<List<Integer>> combinationSum2(int[] candidates, int target) { // different from 39
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		Arrays.sort(candidates);
+		helper40(candidates, target, res, new ArrayList<Integer>(), 0);
+		return res;
+	}
+
+	public void helper40(int[] c, int target, List<List<Integer>> res, ArrayList<Integer> temp, int index) {
+		if (target == 0) {
+			res.add(new ArrayList<Integer>(temp));
+		}
+		for (int i = index; i < c.length; i++) {
+			if (i > index && c[i] == c[i - 1])// it's sorted so c[i-1]=c[i] means it has been added like 1 1 2 5 6
+			{
+				continue;
+			}
+			if (c[i] <= target) {
+				temp.add(c[i]);
+				helper40(c, target - c[i], res, temp, i + 1);
+
+				temp.remove(temp.size() - 1);
+			}
+		}
+	}
+
+	// #77 combination
+	public List<List<Integer>> combine(int n, int k) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		helper77(n, k, res, new ArrayList<Integer>(), 0);
+		return res;
+	}
+	public void helper77(int n, int k, List<List<Integer>> res, ArrayList<Integer> temp,int index) {
+		if(temp.size()==k)
 		{
-			temp.add(c[i]);
-			helper39(c, target-c[i], res, temp, i);
+			res.add(new ArrayList<Integer>(temp));
+			return;
+		}
+		for(int i=index;i<n;i++)
+		{
+			temp.add(i);
+			helper77(n, k, res, temp, i+1);
 			temp.remove(temp.size()-1);
 		}
 	}
-}
-//#40. Combination Sum 2
-public List<List<Integer>> combinationSum2(int[] candidates, int target) {  //different from 39
-	List<List<Integer>> res = new ArrayList<List<Integer>>();
-	Arrays.sort(candidates);
-    helper40(candidates, target, res, new ArrayList<Integer>(),0);
-    return res;
-}
-public void helper40(int[] c, int target,List<List<Integer>> res,ArrayList<Integer> temp,int index){
-	if(target==0)
-	{	
-		res.add(new ArrayList<Integer>(temp));
-	}
-	for(int i=index;i<c.length;i++)
-	{
-		if(i>index&&c[i]==c[i-1])//it's sorted so c[i-1]=c[i] means it has been added  like 1 1 2 5 6
-		{
-			continue;
-		}
-		if(c[i]<=target)
-		{
-			temp.add(c[i]);
-			helper40(c, target-c[i], res, temp, i+1);
-			
-			temp.remove(temp.size()-1);
-		}
-	}
-}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
 		char[][] a = new char[][] { { '1', '1', '1', '1', '0' }, { '1', '1', '0', '1', '0' },
 				{ '1', '1', '0', '0', '0' } };
-		int []c=new int[] {2,3,6,7};
+		int[] c = new int[] { 2, 3, 6, 7 };
 		bt.helper10("mississippi", "mis*is*p*.");
-		
+
 		System.out.println();
 	}
 
