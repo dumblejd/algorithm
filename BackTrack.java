@@ -182,6 +182,49 @@ public class BackTrack {
 			temp.remove(temp.size()-1);
 		}
 	}
+	//216. Combination Sum III
+public List<List<Integer>> combinationSum3(int k, int n) {
+	List<List<Integer>> res = new ArrayList<List<Integer>>();
+	helper216(n, k, res, new ArrayList<Integer>(), 1);
+	return res;
+    }
+public void helper216(int n, int k, List<List<Integer>> res, ArrayList<Integer> temp,int index) {
+	if(temp.size()>k)
+	{
+		return;
+	}
+	if(n==0&&temp.size()==k)
+	{
+		res.add(new ArrayList<Integer>(temp));
+	}
+	for(int i=index;i<=9;i++)
+	{
+		if(i<=n)
+		{
+		temp.add(i);
+		helper216(n-i, k, res, temp, i+1);
+		temp.remove(temp.size()-1);
+		}
+	}
+}
+//#377. Combination Sum IV   dp
+public int combinationSum4(int[] nums, int target) {
+    Arrays.sort(nums);
+    int []comb=new int[target+1];
+    comb[0]=1;
+    for(int i=0;i<=target;i++)
+    {
+    	for (int j = 0; j < nums.length; j++) {
+    		if(nums[j]>i)
+    		{
+			break;
+    		}
+    		comb[i]+=comb[i-nums[j]];
+		}
+    }
+    return comb[target];
+}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
