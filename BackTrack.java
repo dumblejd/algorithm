@@ -224,7 +224,29 @@ public int combinationSum4(int[] nums, int target) {
     }
     return comb[target];
 }
-
+//46. Permutations
+public List<List<Integer>> permute(int[] nums) {
+	List<List<Integer>> res = new ArrayList<List<Integer>>();
+	helper46(nums, new boolean[nums.length],res, new ArrayList<Integer>());
+	return res;
+}
+public void helper46(int []nums,boolean []visited, List<List<Integer>> res, ArrayList<Integer> temp) {
+	if(temp.size()==nums.length)
+	{
+		res.add(new ArrayList<Integer>(temp));
+	}
+	for(int i=0;i<nums.length;i++)
+	{
+		if(!visited[i])
+		{
+			visited[i]=true;
+			temp.add(nums[i]);
+			helper46(nums, visited, res, temp);
+			temp.remove(temp.size()-1);
+			visited[i]=false;
+		}
+	}
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
