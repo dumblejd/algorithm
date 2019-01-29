@@ -169,113 +169,134 @@ public class BackTrack {
 		helper77(n, k, res, new ArrayList<Integer>(), 0);
 		return res;
 	}
-	public void helper77(int n, int k, List<List<Integer>> res, ArrayList<Integer> temp,int index) {
-		if(temp.size()==k)
-		{
+
+	public void helper77(int n, int k, List<List<Integer>> res, ArrayList<Integer> temp, int index) {
+		if (temp.size() == k) {
 			res.add(new ArrayList<Integer>(temp));
 			return;
 		}
-		for(int i=index;i<n;i++)
-		{
+		for (int i = index; i < n; i++) {
 			temp.add(i);
-			helper77(n, k, res, temp, i+1);
-			temp.remove(temp.size()-1);
+			helper77(n, k, res, temp, i + 1);
+			temp.remove(temp.size() - 1);
 		}
 	}
-	//216. Combination Sum III
-public List<List<Integer>> combinationSum3(int k, int n) {
-	List<List<Integer>> res = new ArrayList<List<Integer>>();
-	helper216(n, k, res, new ArrayList<Integer>(), 1);
-	return res;
-    }
-public void helper216(int n, int k, List<List<Integer>> res, ArrayList<Integer> temp,int index) {
-	if(temp.size()>k)
-	{
-		return;
+
+	// 216. Combination Sum III
+	public List<List<Integer>> combinationSum3(int k, int n) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		helper216(n, k, res, new ArrayList<Integer>(), 1);
+		return res;
 	}
-	if(n==0&&temp.size()==k)
-	{
-		res.add(new ArrayList<Integer>(temp));
-	}
-	for(int i=index;i<=9;i++)
-	{
-		if(i<=n)
-		{
-		temp.add(i);
-		helper216(n-i, k, res, temp, i+1);
-		temp.remove(temp.size()-1);
+
+	public void helper216(int n, int k, List<List<Integer>> res, ArrayList<Integer> temp, int index) {
+		if (temp.size() > k) {
+			return;
+		}
+		if (n == 0 && temp.size() == k) {
+			res.add(new ArrayList<Integer>(temp));
+		}
+		for (int i = index; i <= 9; i++) {
+			if (i <= n) {
+				temp.add(i);
+				helper216(n - i, k, res, temp, i + 1);
+				temp.remove(temp.size() - 1);
+			}
 		}
 	}
-}
-//#377. Combination Sum IV   dp
-public int combinationSum4(int[] nums, int target) {
-    Arrays.sort(nums);
-    int []comb=new int[target+1];
-    comb[0]=1;
-    for(int i=0;i<=target;i++)
-    {
-    	for (int j = 0; j < nums.length; j++) {
-    		if(nums[j]>i)
-    		{
-			break;
-    		}
-    		comb[i]+=comb[i-nums[j]];
+
+	// #377. Combination Sum IV dp
+	public int combinationSum4(int[] nums, int target) {
+		Arrays.sort(nums);
+		int[] comb = new int[target + 1];
+		comb[0] = 1;
+		for (int i = 0; i <= target; i++) {
+			for (int j = 0; j < nums.length; j++) {
+				if (nums[j] > i) {
+					break;
+				}
+				comb[i] += comb[i - nums[j]];
+			}
 		}
-    }
-    return comb[target];
-}
-//46. Permutations
-public List<List<Integer>> permute(int[] nums) {
-	List<List<Integer>> res = new ArrayList<List<Integer>>();
-	helper46(nums, new boolean[nums.length],res, new ArrayList<Integer>());
-	return res;
-}
-public void helper46(int []nums,boolean []visited, List<List<Integer>> res, ArrayList<Integer> temp) {
-	if(temp.size()==nums.length)
-	{
-		res.add(new ArrayList<Integer>(temp));
+		return comb[target];
 	}
-	for(int i=0;i<nums.length;i++)
-	{
-		if(!visited[i])
-		{
-			visited[i]=true;
+
+	// 46. Permutations
+	public List<List<Integer>> permute(int[] nums) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		helper46(nums, new boolean[nums.length], res, new ArrayList<Integer>());
+		return res;
+	}
+
+	public void helper46(int[] nums, boolean[] visited, List<List<Integer>> res, ArrayList<Integer> temp) {
+		if (temp.size() == nums.length) {
+			res.add(new ArrayList<Integer>(temp));
+		}
+		for (int i = 0; i < nums.length; i++) {
+			if (!visited[i]) {
+				visited[i] = true;
+				temp.add(nums[i]);
+				helper46(nums, visited, res, temp);
+				temp.remove(temp.size() - 1);
+				visited[i] = false;
+			}
+		}
+	}
+
+	// 47. Permutations 2
+	public List<List<Integer>> permuteUnique(int[] nums) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		Arrays.sort(nums);
+		helper47(nums, new boolean[nums.length], res, new ArrayList<Integer>());
+		return res;
+	}
+
+	public void helper47(int[] nums, boolean[] visited, List<List<Integer>> res, ArrayList<Integer> temp) {
+		if (temp.size() == nums.length) {
+			res.add(new ArrayList<Integer>(temp));
+		}
+		for (int i = 0; i < nums.length; i++) {
+			if (visited[i]) {
+				continue;
+			}
+			if (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]) // be careful of the last judgement
+			{
+				continue;
+			}
 			temp.add(nums[i]);
-			helper46(nums, visited, res, temp);
-			temp.remove(temp.size()-1);
-			visited[i]=false;
+			visited[i] = true;
+			helper47(nums, visited, res, temp);
+			temp.remove(temp.size() - 1);
+			visited[i] = false;
 		}
 	}
-}
-//47. Permutations 2
-public List<List<Integer>> permuteUnique(int[] nums) {
-	List<List<Integer>> res = new ArrayList<List<Integer>>();
-	Arrays.sort(nums);
-	helper47(nums,new boolean[nums.length],res, new ArrayList<Integer>());
-	return res;
-}
-public void helper47(int []nums,boolean[]visited, List<List<Integer>> res, ArrayList<Integer> temp) {
-	if(temp.size()==nums.length)
-	{
-		res.add(new ArrayList<Integer>(temp));
+
+	// 78 subset
+	public List<List<Integer>> subsets(int[] nums) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		List<Integer> temp=new ArrayList<Integer>();
+		helper78(nums, 1, 0, res, temp);
+		res.add( new ArrayList<Integer>());
+		return res;
 	}
-	for(int i=0;i<nums.length;i++)
-	{
-		if(visited[i])
-		{
-			continue;
+
+	public void helper78(int[] nums, int n, int index, List<List<Integer>> res, List<Integer> temp) {
+		if (temp.size() == n) {
+			res.add(new ArrayList<Integer>(temp));
 		}
-		if(i>0&&nums[i]==nums[i-1]&&!visited[i-1]) //be careful of the last judgement
-		{
-			continue;
+		for (int j = n; j <= nums.length; j++) {
+			for (int i = index; i < nums.length; i++) {
+				if(i>index&&nums[i]==nums[i-1])
+				{
+					continue;
+				}
+				temp.add(nums[i]);
+				helper78(nums, n, index + 1, res, temp);
+				temp.remove(temp.size() - 1);
+			}
 		}
-			temp.add(nums[i]);
-			visited[i]=true;
-			helper47(nums,visited, res, temp);
-			temp.remove(temp.size()-1);
-			visited[i]=false;
 	}
-}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -283,7 +304,7 @@ public void helper47(int []nums,boolean[]visited, List<List<Integer>> res, Array
 				{ '1', '1', '0', '0', '0' } };
 		int[] c = new int[] { 2, 3, 6, 7 };
 		bt.helper10("mississippi", "mis*is*p*.");
-		int []nums=new int[] {1,1,2};
+		int[] nums = new int[] { 1, 1, 2 };
 		bt.permuteUnique(nums);
 		System.out.println();
 	}
