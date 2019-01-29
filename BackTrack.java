@@ -247,6 +247,35 @@ public void helper46(int []nums,boolean []visited, List<List<Integer>> res, Arra
 		}
 	}
 }
+//47. Permutations 2
+public List<List<Integer>> permuteUnique(int[] nums) {
+	List<List<Integer>> res = new ArrayList<List<Integer>>();
+	Arrays.sort(nums);
+	helper47(nums,new boolean[nums.length],res, new ArrayList<Integer>());
+	return res;
+}
+public void helper47(int []nums,boolean[]visited, List<List<Integer>> res, ArrayList<Integer> temp) {
+	if(temp.size()==nums.length)
+	{
+		res.add(new ArrayList<Integer>(temp));
+	}
+	for(int i=0;i<nums.length;i++)
+	{
+		if(visited[i])
+		{
+			continue;
+		}
+		if(i>0&&nums[i]==nums[i-1]&&!visited[i-1]) //be careful of the last judgement
+		{
+			continue;
+		}
+			temp.add(nums[i]);
+			visited[i]=true;
+			helper47(nums,visited, res, temp);
+			temp.remove(temp.size()-1);
+			visited[i]=false;
+	}
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -254,7 +283,8 @@ public void helper46(int []nums,boolean []visited, List<List<Integer>> res, Arra
 				{ '1', '1', '0', '0', '0' } };
 		int[] c = new int[] { 2, 3, 6, 7 };
 		bt.helper10("mississippi", "mis*is*p*.");
-
+		int []nums=new int[] {1,1,2};
+		bt.permuteUnique(nums);
 		System.out.println();
 	}
 
