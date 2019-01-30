@@ -274,27 +274,60 @@ public class BackTrack {
 	// 78 subset
 	public List<List<Integer>> subsets(int[] nums) {
 		List<List<Integer>> res = new ArrayList<List<Integer>>();
-		List<Integer> temp=new ArrayList<Integer>();
+		List<Integer> temp = new ArrayList<Integer>();
 		helper78(nums, 1, 0, res, temp);
-		res.add( new ArrayList<Integer>());
+		res.add(new ArrayList<Integer>());
 		return res;
 	}
 
 	public void helper78(int[] nums, int n, int index, List<List<Integer>> res, List<Integer> temp) {
-		if (temp.size() == n) {
+		if (n == nums.length + 2) {
+			return;
+		}
+		if (!temp.isEmpty() && temp.size() == n - 1) {
 			res.add(new ArrayList<Integer>(temp));
 		}
-		for (int j = n; j <= nums.length; j++) {
-			for (int i = index; i < nums.length; i++) {
-				if(i>index&&nums[i]==nums[i-1])
-				{
-					continue;
-				}
-				temp.add(nums[i]);
-				helper78(nums, n, index + 1, res, temp);
-				temp.remove(temp.size() - 1);
+		for (int i = index; i < nums.length; i++) {
+			if (i > index && nums[i] == nums[i - 1]) // already concern the duplicate condition
+			{
+				continue;
+			}
+			temp.add(nums[i]);
+			helper78(nums, n + 1, i + 1, res, temp);
+			temp.remove(temp.size() - 1);
+		}
+	}
+
+	// 79. Word Search
+	public boolean exist(char[][] board, String word) {
+		boolean flag = false;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				flag =flag|| helper79(board,new boolean[board.length][board[0].length], new StringBuilder(word), i, j);
+			}
+			if (flag == true) {
+				return true;
 			}
 		}
+		return false;
+	}
+
+	public boolean helper79(char[][] board,boolean [][]visited, StringBuilder word, int x, int y) {
+		boolean flag = false;
+		if (word.length() == 0) {
+			return true;
+		}
+		if (x<0||y<0||x>=board.length||y>=board[x].length||board[x][y] != word.charAt(0)||visited[x][y]) {
+			return false;
+		}
+		word.deleteCharAt(0);
+		visited[x][y]=true;
+		flag =flag|| helper79(board,visited, word, x + 1, y)||helper79(board,visited, word, x - 1, y)
+	||  helper79(board,visited, word, x, y + 1)
+	||  helper79(board,visited, word, x, y - 1);
+		visited[x][y]=false;
+		word.insert(0, board[x][y]);
+		return flag;
 	}
 
 	public static void main(String[] args) {
