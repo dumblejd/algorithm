@@ -288,8 +288,9 @@ public class BackTrack {
 			res.add(new ArrayList<Integer>(temp));
 		}
 		for (int i = index; i < nums.length; i++) {
-			if (i > index && nums[i] == nums[i - 1]) 
-				// already concern the duplicate condition //it will work on dupicated  with Arrays.sort uesed outside
+			if (i > index && nums[i] == nums[i - 1])
+			// already concern the duplicate condition //it will work on dupicated with
+			// Arrays.sort uesed outside
 			{
 				continue;
 			}
@@ -304,7 +305,8 @@ public class BackTrack {
 		boolean flag = false;
 		for (int i = 0; i < board.length; i++) {
 			for (int j = 0; j < board[i].length; j++) {
-				flag =flag|| helper79(board,new boolean[board.length][board[0].length], new StringBuilder(word), i, j);
+				flag = flag
+						|| helper79(board, new boolean[board.length][board[0].length], new StringBuilder(word), i, j);
 			}
 			if (flag == true) {
 				return true;
@@ -313,25 +315,108 @@ public class BackTrack {
 		return false;
 	}
 
-	public boolean helper79(char[][] board,boolean [][]visited, StringBuilder word, int x, int y) {
+	public boolean helper79(char[][] board, boolean[][] visited, StringBuilder word, int x, int y) {
 		boolean flag = false;
 		if (word.length() == 0) {
 			return true;
 		}
-		if (x<0||y<0||x>=board.length||y>=board[x].length||board[x][y] != word.charAt(0)||visited[x][y]) {
+		if (x < 0 || y < 0 || x >= board.length || y >= board[x].length || board[x][y] != word.charAt(0)
+				|| visited[x][y]) {
 			return false;
 		}
 		word.deleteCharAt(0);
-		visited[x][y]=true;
-		flag =flag|| helper79(board,visited, word, x + 1, y)||helper79(board,visited, word, x - 1, y)
-	||  helper79(board,visited, word, x, y + 1)
-	||  helper79(board,visited, word, x, y - 1);
-		visited[x][y]=false;
+		visited[x][y] = true;
+		flag = flag || helper79(board, visited, word, x + 1, y) || helper79(board, visited, word, x - 1, y)
+				|| helper79(board, visited, word, x, y + 1) || helper79(board, visited, word, x, y - 1);
+		visited[x][y] = false;
 		word.insert(0, board[x][y]);
 		return flag;
 	}
-//90 subset 2   with duplicate
-	  //just add a sort on subset 1 I wrote
+
+	// 90 subset 2 with duplicate
+	// just add a sort on subset 1 I wrote
+	public List<List<Integer>> subsetsWithDup(int[] nums) {
+		List<List<Integer>> res = new ArrayList<List<Integer>>();
+		List<Integer> temp = new ArrayList<Integer>();
+		Arrays.sort(nums);
+		helper90(nums, 0, res, temp);
+		res.add(new ArrayList<Integer>());
+		return res;
+	}
+
+	public void helper90(int[] nums, int index, List<List<Integer>> res, List<Integer> temp) {
+		if (index == nums.length) {
+			return;
+		}
+		if (!temp.isEmpty()) {
+			res.add(new ArrayList<Integer>(temp));
+		}
+		for (int i = index; i < nums.length; i++) {
+			if (i > index && nums[i] == nums[i - 1])
+			// already concern the duplicate condition //it will work on dupicated with
+			// Arrays.sort uesed outside
+			{
+				continue;
+			}
+			temp.add(nums[i]);
+			helper90(nums, i + 1, res, temp);
+			temp.remove(temp.size() - 1);
+		}
+	}
+
+//	// 126. Word Ladder II //time limit
+//	public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+//		List<List<String>> res = new ArrayList<List<String>>();
+//		List<String> temp = new ArrayList<String>();
+//		Map<Integer, List<List<String>>> m = new HashMap<Integer, List<List<String>>>();
+//		Set set = new HashSet<String>();
+//		set.add(beginWord);
+//		temp.add(beginWord);
+//		helper126(beginWord, endWord, wordList, temp, m, set);
+//		if (smallest == Integer.MAX_VALUE) {
+//			return res;
+//		}
+//
+//		return m.get(smallest);
+//	}
+//
+//	int smallest = Integer.MAX_VALUE;
+//
+//	public void helper126(String beginWord, String endWord, List<String> wl, List<String> temp,
+//			Map<Integer, List<List<String>>> m, Set<String> set) {
+//		if (temp.size() == wl.size() + 1) {
+//			return;
+//		}
+//		if (temp.get(temp.size() - 1).equals(endWord)) {
+//			int size = temp.size();
+//			if (!m.containsKey(size)) {
+//				m.put(size, new ArrayList<List<String>>());
+//			}
+//			m.get(size).add(new ArrayList<String>(temp));
+//			smallest = Math.min(smallest, size);
+//			return;
+//		}
+//		for (int i = 0; i < wl.size(); i++) {
+//			if (diff126(temp.get(temp.size() - 1), wl.get(i)) == 1 && !set.contains(wl.get(i))) {
+//				temp.add(wl.get(i));
+//				set.add(wl.get(i));
+//				helper126(beginWord, endWord, wl, temp, m, set);
+//				set.remove(wl.get(i));
+//				temp.remove(temp.size() - 1);
+//			}
+//		}
+//	}
+//
+//	public int diff126(String a, String b) {
+//		int res = 0;
+//		for (int i = 0; i < a.length(); i++) {
+//			if (a.charAt(i) != b.charAt(i)) {
+//				res++;
+//			}
+//		}
+//		return res;
+//	}
+//	// 126. Word Ladder II
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -339,6 +424,12 @@ public class BackTrack {
 				{ '1', '1', '0', '0', '0' } };
 		int[] c = new int[] { 2, 3, 6, 7 };
 		bt.helper10("mississippi", "mis*is*p*.");
+		String[] ss = { "hot", "dog", "dot" };
+		List<String> wordList = new ArrayList<String>();
+		for (int i = 0; i < ss.length; i++) {
+			wordList.add(ss[i]);
+		}
+		bt.findLadders("hot", "dog", wordList);
 		int[] nums = new int[] { 1, 1, 2 };
 		bt.permuteUnique(nums);
 		System.out.println();
