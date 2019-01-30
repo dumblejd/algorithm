@@ -288,7 +288,8 @@ public class BackTrack {
 			res.add(new ArrayList<Integer>(temp));
 		}
 		for (int i = index; i < nums.length; i++) {
-			if (i > index && nums[i] == nums[i - 1]) // already concern the duplicate condition
+			if (i > index && nums[i] == nums[i - 1]) 
+				// already concern the duplicate condition //it will work on dupicated  with Arrays.sort uesed outside
 			{
 				continue;
 			}
@@ -329,7 +330,8 @@ public class BackTrack {
 		word.insert(0, board[x][y]);
 		return flag;
 	}
-
+//90 subset 2   with duplicate
+	  //just add a sort on subset 1 I wrote
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
