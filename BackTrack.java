@@ -364,59 +364,89 @@ public class BackTrack {
 		}
 	}
 
-//	// 126. Word Ladder II //time limit
-//	public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
-//		List<List<String>> res = new ArrayList<List<String>>();
-//		List<String> temp = new ArrayList<String>();
-//		Map<Integer, List<List<String>>> m = new HashMap<Integer, List<List<String>>>();
-//		Set set = new HashSet<String>();
-//		set.add(beginWord);
-//		temp.add(beginWord);
-//		helper126(beginWord, endWord, wordList, temp, m, set);
-//		if (smallest == Integer.MAX_VALUE) {
-//			return res;
-//		}
-//
-//		return m.get(smallest);
-//	}
-//
-//	int smallest = Integer.MAX_VALUE;
-//
-//	public void helper126(String beginWord, String endWord, List<String> wl, List<String> temp,
-//			Map<Integer, List<List<String>>> m, Set<String> set) {
-//		if (temp.size() == wl.size() + 1) {
-//			return;
-//		}
-//		if (temp.get(temp.size() - 1).equals(endWord)) {
-//			int size = temp.size();
-//			if (!m.containsKey(size)) {
-//				m.put(size, new ArrayList<List<String>>());
-//			}
-//			m.get(size).add(new ArrayList<String>(temp));
-//			smallest = Math.min(smallest, size);
-//			return;
-//		}
-//		for (int i = 0; i < wl.size(); i++) {
-//			if (diff126(temp.get(temp.size() - 1), wl.get(i)) == 1 && !set.contains(wl.get(i))) {
-//				temp.add(wl.get(i));
-//				set.add(wl.get(i));
-//				helper126(beginWord, endWord, wl, temp, m, set);
-//				set.remove(wl.get(i));
-//				temp.remove(temp.size() - 1);
-//			}
-//		}
-//	}
-//
-//	public int diff126(String a, String b) {
-//		int res = 0;
-//		for (int i = 0; i < a.length(); i++) {
-//			if (a.charAt(i) != b.charAt(i)) {
-//				res++;
-//			}
-//		}
-//		return res;
-//	}
-//	// 126. Word Ladder II
+	// 126. Word Ladder II //out time limit
+	public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+		List<List<String>> res = new ArrayList<List<String>>();
+		List<String> temp = new ArrayList<String>();
+		Map<Integer, List<List<String>>> m = new HashMap<Integer, List<List<String>>>();
+		Set set = new HashSet<String>();
+		set.add(beginWord);
+		temp.add(beginWord);
+		helper126(beginWord, endWord, wordList, temp, m, set);
+		if (smallest == Integer.MAX_VALUE) {
+			return res;
+		}
+
+		return m.get(smallest);
+	}
+
+	int smallest = Integer.MAX_VALUE;
+
+	public void helper126(String beginWord, String endWord, List<String> wl, List<String> temp,
+			Map<Integer, List<List<String>>> m, Set<String> set) {
+		if (temp.size() == wl.size() + 1) {
+			return;
+		}
+		if (temp.get(temp.size() - 1).equals(endWord)) {
+			int size = temp.size();
+			if (!m.containsKey(size)) {
+				m.put(size, new ArrayList<List<String>>());
+			}
+			m.get(size).add(new ArrayList<String>(temp));
+			smallest = Math.min(smallest, size);
+			return;
+		}
+		for (int i = 0; i < wl.size(); i++) {
+			if (diff126(temp.get(temp.size() - 1), wl.get(i)) == 1 && !set.contains(wl.get(i))) {
+				temp.add(wl.get(i));
+				set.add(wl.get(i));
+				helper126(beginWord, endWord, wl, temp, m, set);
+				set.remove(wl.get(i));
+				temp.remove(temp.size() - 1);
+			}
+		}
+	}
+
+	public int diff126(String a, String b) {
+		int res = 0;
+		for (int i = 0; i < a.length(); i++) {
+			if (a.charAt(i) != b.charAt(i)) {
+				res++;
+			}
+		}
+		return res;
+	}
+//140 Word Break II  //out of time
+public List<String> wordBreak(String s, List<String> wordDict) {
+	Set set = new HashSet<String>();
+        for (int i = 0; i < wordDict.size(); i++) {
+			set.add(wordDict.get(i));
+		}
+		List<String> res = new ArrayList<String>();
+		helper140(set, 0, 1, res, new StringBuilder(s));
+		return res;
+    }
+
+public void helper140(Set<String> dict,int start,int end, List<String> res, StringBuilder temp)
+{
+	if(end>temp.length())
+	{
+		return;
+	}
+	String now=temp.substring(start, end);
+	
+	if(dict.contains(now))
+	{
+		if(end==temp.length())
+		{
+			res.add(new String(temp));
+		}
+		temp.insert(end, " ");
+		helper140( dict, end+1, end+2, res, temp);
+		temp.deleteCharAt(end);
+	}
+	helper140(dict, start, end+1, res, temp);
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -424,12 +454,12 @@ public class BackTrack {
 				{ '1', '1', '0', '0', '0' } };
 		int[] c = new int[] { 2, 3, 6, 7 };
 		bt.helper10("mississippi", "mis*is*p*.");
-		String[] ss = { "hot", "dog", "dot" };
+		String[] ss = {"cat","cats","and","sand","dog"};
 		List<String> wordList = new ArrayList<String>();
 		for (int i = 0; i < ss.length; i++) {
 			wordList.add(ss[i]);
 		}
-		bt.findLadders("hot", "dog", wordList);
+		bt.wordBreak("catsanddog", wordList);
 		int[] nums = new int[] { 1, 1, 2 };
 		bt.permuteUnique(nums);
 		System.out.println();
