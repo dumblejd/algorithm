@@ -449,7 +449,7 @@ public void helper140(Set<String> dict,int start,int end, List<String> res, Stri
 }
 //copy from others, look google note
 public List<String> wordBreak_140_2(String s, List<String> wordDict) {
-    return DFS(s, wordDict, new HashMap<String, LinkedList<String>>());
+    return DFS_140(s, wordDict, new HashMap<String, LinkedList<String>>());
 }    
 //DFS function returns an array including all substrings derived from s.
 	List<String> DFS_140(String s, List<String> wordDict, HashMap<String, LinkedList<String>>map) {
@@ -463,7 +463,7 @@ public List<String> wordBreak_140_2(String s, List<String> wordDict) {
 	    }               
 	    for (String word : wordDict) {
 	        if (s.startsWith(word)) {
-	            List<String>sublist = DFS(s.substring(word.length()), wordDict, map);
+	            List<String>sublist = DFS_140(s.substring(word.length()), wordDict, map);
 	            for (String sub : sublist) 
 	                res.add(word + (sub.isEmpty() ? "" : " ") + sub);               
 	        }

@@ -34,7 +34,7 @@ public class test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		test t= new test();
-			String[] ss = {"boy","sand","boys","sands","san","dog","an"};
+			String[] ss = {"boy","sand","boys","sands","san","dog","an","and"};
 			List<String> wordList = new ArrayList<String>();
 			for (int i = 0; i < ss.length; i++) {
 				wordList.add(ss[i]);
