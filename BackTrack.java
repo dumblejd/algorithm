@@ -475,19 +475,21 @@ public List<String> wordBreak_140_2(String s, List<String> wordDict) {
 	//reverse a stack
 	public void helper_use(Stack<Integer> st)
 	{
-		for(int i=0;i<st.size();i++)
+		st.push(0);
+		for(int i=0;i<st.size()-1;i++)
 		{
-			helper_reverse(st,0);
+			helper_reverse(st,0,i);
 		}
+		st.pop();
 	}
 	int bottom;
-	public void helper_reverse(Stack<Integer> st,int index)
+	public void helper_reverse(Stack<Integer> st,int index,int times)
 	{
 		if(st.size()>1)
 		{
 			int temp=st.pop();
-			helper_reverse(st,index+1);
-			if(index==0)
+			helper_reverse(st,index+1,times);
+			if(index==times)
 			{
 				st.push(bottom);
 			}
