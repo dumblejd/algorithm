@@ -502,6 +502,30 @@ public List<String> wordBreak_140_2(String s, List<String> wordDict) {
 		}
 		
 	}
+	public void reverseStack(Stack<Integer> st){  
+		if (st.size() == 1)
+		{
+			return ;
+		}
+	 
+		int tmp = st.peek();
+		st.pop();
+	 
+		reverseStack(st);
+		addToBottom(st, tmp);
+    }  
+    public void addToBottom(Stack<Integer> st,Integer data){  
+    	if (st.size() == 0)
+    	{
+    		st.push(data);
+    		return;
+    	}
+     
+    	int tmp = st.peek();
+    	st.pop();
+    	addToBottom(st, data);
+    	st.push(tmp);
+    }  
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -523,7 +547,7 @@ public List<String> wordBreak_140_2(String s, List<String> wordDict) {
 		st.push(4);
 		st.push(5);
 		st.push(6);
-		bt.helper_use(st);
+		bt.reverseStack(st);
 		bt.permuteUnique(nums);
 		System.out.println();
 	}
