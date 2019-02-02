@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class BackTrack {
 	// #10. Regular Expression Matching
@@ -471,6 +472,34 @@ public List<String> wordBreak_140_2(String s, List<String> wordDict) {
 	    map.put(s, res);
 	    return res;
 	}
+	//reverse a stack
+	public void helper_use(Stack<Integer> st)
+	{
+		for(int i=0;i<st.size();i++)
+		{
+			helper_reverse(st,0);
+		}
+	}
+	int bottom;
+	public void helper_reverse(Stack<Integer> st,int index)
+	{
+		if(st.size()>1)
+		{
+			int temp=st.pop();
+			helper_reverse(st,index+1);
+			if(index==0)
+			{
+				st.push(bottom);
+			}
+			st.push(temp);
+		}
+		else if(st.size()==1)
+		{
+			bottom=st.pop();
+			return;
+		}
+		
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -485,6 +514,14 @@ public List<String> wordBreak_140_2(String s, List<String> wordDict) {
 		}
 		bt.wordBreak("catsanddog", wordList);
 		int[] nums = new int[] { 1, 1, 2 };
+		Stack<Integer> st=new Stack<Integer>();
+		st.push(1);
+		st.push(2);
+		st.push(3);
+		st.push(4);
+		st.push(5);
+		st.push(6);
+		bt.helper_use(st);
 		bt.permuteUnique(nums);
 		System.out.println();
 	}
