@@ -417,115 +417,204 @@ public class BackTrack {
 		}
 		return res;
 	}
-//140 Word Break II  //out of time
-public List<String> wordBreak(String s, List<String> wordDict) {
-	Set set = new HashSet<String>();
-        for (int i = 0; i < wordDict.size(); i++) {
+
+	// 140 Word Break II //out of time
+	public List<String> wordBreak(String s, List<String> wordDict) {
+		Set set = new HashSet<String>();
+		for (int i = 0; i < wordDict.size(); i++) {
 			set.add(wordDict.get(i));
 		}
 		List<String> res = new ArrayList<String>();
 		helper140(set, 0, 1, res, new StringBuilder(s));
 		return res;
-    }
+	}
 
-public void helper140(Set<String> dict,int start,int end, List<String> res, StringBuilder temp)
-{
-	if(end>temp.length())
-	{
-		return;
-	}
-	String now=temp.substring(start, end);
-	
-	if(dict.contains(now))
-	{
-		if(end==temp.length())
-		{
-			res.add(new String(temp));
+	public void helper140(Set<String> dict, int start, int end, List<String> res, StringBuilder temp) {
+		if (end > temp.length()) {
+			return;
 		}
-		temp.insert(end, " ");
-		helper140( dict, end+1, end+2, res, temp);
-		temp.deleteCharAt(end);
+		String now = temp.substring(start, end);
+
+		if (dict.contains(now)) {
+			if (end == temp.length()) {
+				res.add(new String(temp));
+			}
+			temp.insert(end, " ");
+			helper140(dict, end + 1, end + 2, res, temp);
+			temp.deleteCharAt(end);
+		}
+		helper140(dict, start, end + 1, res, temp);
 	}
-	helper140(dict, start, end+1, res, temp);
-}
-//copy from others, look google note
-public List<String> wordBreak_140_2(String s, List<String> wordDict) {
-    return DFS_140(s, wordDict, new HashMap<String, LinkedList<String>>());
-}    
-//DFS function returns an array including all substrings derived from s.
-	List<String> DFS_140(String s, List<String> wordDict, HashMap<String, LinkedList<String>>map) {
-	    if (map.containsKey(s)) 
-	        return map.get(s);
-	        
-	    LinkedList<String>res = new LinkedList<String>();     
-	    if (s.length() == 0) {
-	        res.add("");
-	        return res;
-	    }               
-	    for (String word : wordDict) {
-	        if (s.startsWith(word)) {
-	            List<String>sublist = DFS_140(s.substring(word.length()), wordDict, map);
-	            for (String sub : sublist) 
-	                res.add(word + (sub.isEmpty() ? "" : " ") + sub);               
-	        }
-	    }       
-	    map.put(s, res);
-	    return res;
+
+	// copy from others, look google note
+	public List<String> wordBreak_140_2(String s, List<String> wordDict) {
+		return DFS_140(s, wordDict, new HashMap<String, LinkedList<String>>());
 	}
-	//reverse a stack
-	public void helper_use(Stack<Integer> st)
-	{
+
+	// DFS function returns an array including all substrings derived from s.
+	List<String> DFS_140(String s, List<String> wordDict, HashMap<String, LinkedList<String>> map) {
+		if (map.containsKey(s))
+			return map.get(s);
+
+		LinkedList<String> res = new LinkedList<String>();
+		if (s.length() == 0) {
+			res.add("");
+			return res;
+		}
+		for (String word : wordDict) {
+			if (s.startsWith(word)) {
+				List<String> sublist = DFS_140(s.substring(word.length()), wordDict, map);
+				for (String sub : sublist)
+					res.add(word + (sub.isEmpty() ? "" : " ") + sub);
+			}
+		}
+		map.put(s, res);
+		return res;
+	}
+
+	// reverse a stack
+	public void helper_use(Stack<Integer> st) {
 		st.push(0);
-		for(int i=0;i<st.size()-1;i++)
-		{
-			helper_reverse(st,0,i);
+		for (int i = 0; i < st.size() - 1; i++) {
+			helper_reverse(st, 0, i);
 		}
 		st.pop();
 	}
+
 	int bottom;
-	public void helper_reverse(Stack<Integer> st,int index,int times)
-	{
-		if(st.size()>1)
-		{
-			int temp=st.pop();
-			helper_reverse(st,index+1,times);
-			if(index==times)
-			{
+
+	public void helper_reverse(Stack<Integer> st, int index, int times) {
+		if (st.size() > 1) {
+			int temp = st.pop();
+			helper_reverse(st, index + 1, times);
+			if (index == times) {
 				st.push(bottom);
 			}
 			st.push(temp);
-		}
-		else if(st.size()==1)
-		{
-			bottom=st.pop();
+		} else if (st.size() == 1) {
+			bottom = st.pop();
 			return;
 		}
-		
+
 	}
-	public void reverseStack(Stack<Integer> st){  
-		if (st.size() == 1)
-		{
-			return ;
+
+	public void reverseStack(Stack<Integer> st) {
+		if (st.size() == 1) {
+			return;
 		}
-	 
+
 		int tmp = st.peek();
 		st.pop();
-	 
+
 		reverseStack(st);
 		addToBottom(st, tmp);
-    }  
-    public void addToBottom(Stack<Integer> st,Integer data){  
-    	if (st.size() == 0)
-    	{
-    		st.push(data);
-    		return;
-    	}
-     
-    	int tmp = st.peek();
-    	st.pop();
-    	addToBottom(st, data);
-    	st.push(tmp);
-    }  
+	}
+
+	public void addToBottom(Stack<Integer> st, Integer data) {
+		if (st.size() == 0) {
+			st.push(data);
+			return;
+		}
+
+		int tmp = st.peek();
+		st.pop();
+		addToBottom(st, data);
+		st.push(tmp);
+	}
+
+	// 212. Word Search II
+	public List<String> findWords(char[][] board, String[] words) {
+		List<String> res = new ArrayList<String>();
+		TrieNode root = construct_trie(words);
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				helper212(board, words, res, j, i, root);
+			}
+		}
+		return res;
+	}
+
+	public void helper212(char[][] board, String[] words, List<String> res, int x, int y, TrieNode t) {
+		if (t.word != null) {
+			res.add(t.word);
+			t.word = null; // de-duplicate
+			return;
+		}
+		if (x < 0 || y < 0 || y >= board.length || x >= board[y].length || board[y][x] == '#') {
+			return;
+		}
+
+		char c = board[y][x];
+		if (t.next[c - 'a'] == null) {
+			return;
+		}
+		t = t.next[c - 'a'];
+		board[y][x] = '#';
+		helper212(board, words, res, x + 1, y, t);
+		helper212(board, words, res, x - 1, y, t);
+		helper212(board, words, res, x, y + 1, t);
+		helper212(board, words, res, x, y - 1, t);
+		board[y][x] = c;
+	}
+
+	public TrieNode construct_trie(String[] words) {
+		TrieNode root = new TrieNode();
+		for (String word : words) {
+			TrieNode t = root;
+			for (char c : word.toCharArray()) {
+				if (t.next[c - 'a'] == null)// it must be judged or it will be overwritten . word will disapear
+				{
+					t.next[c - 'a'] = new TrieNode();
+				}
+				t = t.next[c - 'a'];
+			}
+			t.word = word;
+		}
+		return root;
+	}
+
+	class TrieNode {
+		TrieNode[] next = new TrieNode[26];
+		String word;
+	}
+	public List<List<Integer>> getFactors(int n) {
+		List<List<Integer>> res= new ArrayList<List<Integer>>();
+		List<Integer> temp=new ArrayList<Integer>();
+		helper251(n, 2, n,temp, res);
+		return res;
+	    }
+		public void helper251(int n, int fac,int now, List<Integer> temp, List<List<Integer>> res) {
+			if(now==1&&temp.size()>1)
+			{
+				res.add(new ArrayList<Integer>(temp));
+	            return;
+			}
+			for(int i=fac;i<=now;i++)
+			{
+				if(now%i==0&&i!=n)
+				{
+				temp.add(i);
+				helper251(n, i,now/i, temp, res);
+				temp.remove(temp.size()-1);
+				}
+			}
+		}
+		public void helper251_prune(int n, int fac, List<Integer> temp, List<List<Integer>> res) {
+			if(n==1&&temp.size()>1)
+			{
+				res.add(new ArrayList<Integer>(temp));
+	            return;
+			}
+			for(int i=fac;i<Math.sqrt(n);i++)
+			{
+				if(n%i==0)
+				{
+				temp.add(i);
+				helper251_prune(n/i, i, temp, res);
+				temp.remove(temp.size()-1);
+				}
+			}
+		}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -533,22 +622,26 @@ public List<String> wordBreak_140_2(String s, List<String> wordDict) {
 				{ '1', '1', '0', '0', '0' } };
 		int[] c = new int[] { 2, 3, 6, 7 };
 		bt.helper10("mississippi", "mis*is*p*.");
-		String[] ss = {"cat","cats","and","sand","dog"};
+		String[] ss = { "cat", "cats", "and", "sand", "dog" };
 		List<String> wordList = new ArrayList<String>();
 		for (int i = 0; i < ss.length; i++) {
 			wordList.add(ss[i]);
 		}
 		bt.wordBreak("catsanddog", wordList);
 		int[] nums = new int[] { 1, 1, 2 };
-		Stack<Integer> st=new Stack<Integer>();
+		char[][] cc = new char[][] { { 'a', 'b' }, { 'c', 'd' } };
+		String[] words = { "ab", "cb", "ad", "bd", "ac", "ca", "da", "bc", "db", "adcb", "dabc", "abb", "acb" };
+		bt.findWords(cc, words);
+		Stack<Integer> st = new Stack<Integer>();
 		st.push(1);
 		st.push(2);
 		st.push(3);
 		st.push(4);
 		st.push(5);
 		st.push(6);
-		bt.reverseStack(st);
-		bt.permuteUnique(nums);
+//		bt.reverseStack(st);
+//		bt.permuteUnique(nums);
+		bt.getFactors(12);
 		System.out.println();
 	}
 

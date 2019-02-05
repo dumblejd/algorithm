@@ -40,6 +40,10 @@ public class test {
 				wordList.add(ss[i]);
 			}
 			t.wordBreak("boysandsandog", wordList);
+			
+			int a=0;
+			int b=0;
+		   a=a+1 ;
 	}
 
 }
