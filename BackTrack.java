@@ -599,21 +599,39 @@ public class BackTrack {
 				}
 			}
 		}
+		//faster  only 1ms
 		public void helper251_prune(int n, int fac, List<Integer> temp, List<List<Integer>> res) {
-			if(n==1&&temp.size()>1)
-			{
-				res.add(new ArrayList<Integer>(temp));
-	            return;
-			}
-			for(int i=fac;i<Math.sqrt(n);i++)
+			for(int i=fac;i<=Math.sqrt(n);i++)
 			{
 				if(n%i==0)
 				{
 				temp.add(i);
 				helper251_prune(n/i, i, temp, res);
+				temp.add(n/i);
+				res.add(new ArrayList<Integer>(temp));
+				temp.remove(temp.size()-1);
 				temp.remove(temp.size()-1);
 				}
 			}
+		}
+		//more dfs
+		public void helper251_prune_more_dfs(int n, int fac, List<Integer> temp, List<List<Integer>> res) {
+			
+				if(fac>Math.sqrt(n))
+				{
+					return;
+				}
+				
+				if(n%fac==0)
+				{
+				temp.add(fac);
+				helper251_prune_more_dfs(n/fac, fac, temp, res);
+				temp.add(n/fac);
+				res.add(new ArrayList<Integer>(temp));
+				temp.remove(temp.size()-1);
+				temp.remove(temp.size()-1);
+				}
+				helper251_prune_more_dfs(n, fac+1, temp, res);
 		}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
