@@ -633,6 +633,104 @@ public class BackTrack {
 				}
 				helper251_prune_more_dfs(n, fac+1, temp, res);
 		}
+		static class Trie {
+
+		    /** Initialize your data structure here. */
+			Trie[]node;
+			String word;
+		    public Trie() {
+		        node=new Trie[26];
+		    }
+		    
+		    /** Inserts a word into the trie. */
+		    public void insert(String word) {
+		    	Trie temp=this;
+		    	
+		    	char last = 0;
+		        for (char c:word.toCharArray()) {
+		        	if(temp.node[c-'a']==null)
+		        	{
+					temp.node[c-'a']=new Trie();
+		        	}
+		        	temp=temp.node[c-'a'];
+					last=c;
+				}
+		        temp.word=word;
+		    }
+		    
+		    /** Returns if the word is in the trie. */
+		    public boolean search(String word) {
+		    	Trie temp=this;
+		        for (char c:word.toCharArray()) {
+					if(temp.node[c-'a']==null)
+					{
+						return false;
+					}
+					temp=temp.node[c-'a'];
+				}
+		        if(temp.word==null)
+		        {
+		        	return false;
+		        }
+		        return true;
+		    }
+		    
+		    /** Returns if there is any word in the trie that starts with the given prefix. */
+		    public boolean startsWith(String prefix) {
+		    	Trie temp=this;
+		        for (char c:prefix.toCharArray()) {
+					if(temp.node[c-'a']==null)
+					{
+						return false;
+					}
+					temp=temp.node[c-'a'];
+				}
+		        return true;
+		    }
+		}
+		//#291 word pattern 2
+		public boolean wordPatternMatch(String pattern, String str) {
+	        return helper291(pattern, 0, str, 0, new HashMap<String,String>(), new HashSet<String>());
+	    }
+		public boolean helper291(String pattern,int i, String str,int j,Map<String,String>m,Set<String>set)
+		{
+			if(i==pattern.length()&&j==str.length())
+			{
+				return true;
+			}
+			if(i==pattern.length()||j==str.length())
+			{
+				return false;
+			}
+			String temp_p=String.valueOf(pattern.charAt(i));
+			if(m.containsKey(temp_p))
+			{
+				String temp=m.get(temp_p);
+				if(str.startsWith(temp,j))
+				{
+					return helper291(pattern, i+1, str, j+temp.length(), m, set);
+				}
+			}
+			else//not contain
+			{
+				for (int k = j+1; k <= str.length(); k++) {
+					String temp=str.substring(j, k);
+					if(set.contains(temp))
+					{
+						continue;
+					}
+					m.put(temp_p, temp);
+					set.add(temp);
+					if(helper291(pattern, i+1, str, k, m, set))
+					{
+						return true;
+					}
+					m.remove(temp_p);
+					set.remove(temp);
+				}
+			}
+			return false;
+		}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -660,6 +758,8 @@ public class BackTrack {
 //		bt.reverseStack(st);
 //		bt.permuteUnique(nums);
 		bt.getFactors(12);
+		Trie trie= new Trie();
+		trie.insert("dog");
 		System.out.println();
 	}
 
