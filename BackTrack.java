@@ -731,6 +731,67 @@ public class BackTrack {
 			}
 			return false;
 		}
+		//#294 flip game
+		//wrong version
+//		public boolean canWin(String s) {
+//			StringBuilder sb= new StringBuilder(s);
+//			if(sb.indexOf("++")==-1)
+//			{
+//				return false;
+//			}
+//			boolean flag=false;
+//			for (int i = 0; i <sb.length()-1; i++) {
+//				if(sb.substring(i,i+2).equals("++"))
+//				{
+//					sb.replace(i, i+2,"**");
+//					flag=flag||helper294(sb,1);
+//					sb.replace(i,i+2, "++");
+//				}
+//			}
+//			return flag;
+//	    }
+//		public boolean helper294(StringBuilder sb,int step)
+//		{
+//			if(sb.indexOf("++")==-1)
+//			{
+//				if(step%2==0)
+//				{
+//					return false;
+//				}
+//				else
+//				{
+//					return true;
+//				}
+//			}
+//			boolean flag=true;
+//			for (int i = 0; i <sb.length()-1; i++) {
+//				if(sb.substring(i,i+2).equals("++"))
+//				{
+//					sb.replace(i, i+2,"**");
+//					flag=flag&&helper294(sb, step+1);
+//					sb.replace(i,i+2, "++");
+//				}
+//			}
+//			return flag;
+//		}
+		//from others
+		public boolean canWin(String s) {
+			  if (s == null || s.length() < 2) {
+			    return false;
+			  }
+			    
+			  for (int i = 0; i < s.length() - 1; i++) {
+			    if (s.startsWith("++", i)) {
+			      String t = s.substring(0, i) + "--" + s.substring(i + 2);
+			      
+			      if (!canWin(t)) {
+			        return true;
+			      }
+			    }
+			  }
+			    
+			  return false;
+			}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BackTrack bt = new BackTrack();
@@ -760,6 +821,7 @@ public class BackTrack {
 		bt.getFactors(12);
 		Trie trie= new Trie();
 		trie.insert("dog");
+		bt.canWin("++++--++++");
 		System.out.println();
 	}
 
