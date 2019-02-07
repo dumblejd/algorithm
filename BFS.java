@@ -56,6 +56,63 @@ public int diff127(String a, String b) {
 	}
 	return res;
 }
+//286 walls and gates
+public void wallsAndGates(int[][] rooms) {
+	for (int i = 0; i < rooms.length; ++i) {
+        for (int j = 0; j < rooms[i].length; ++j) {
+            if (rooms[i][j]==0) 
+            {
+            	helper_dfs_286(rooms, i, j, 0,new boolean[rooms.length][rooms[0].length]);
+            }
+        }
+    }
+}
+public void helper_dfs_286(int[][] rooms,int x,int y,int num,boolean [][]visited)//start from 0   93ms
+{
+	if(x<0||y<0||x>=rooms.length||y>=rooms[x].length||rooms[x][y]==-1||rooms[x][y]<num||visited[x][y])
+	{
+		return;
+	}
+	visited[x][y]=true;
+	rooms[x][y]=num;
+	
+	helper_dfs_286(rooms, x, y+1, num+1, visited);
+	helper_dfs_286(rooms, x+1, y, num+1, visited);
+	helper_dfs_286(rooms, x, y-1, num+1, visited);
+	helper_dfs_286(rooms, x-1, y, num+1, visited);
+}
+public void wallsAndGates_v1(int[][] rooms) {
+	for (int i = 0; i < rooms.length; ++i) {
+        for (int j = 0; j < rooms[i].length; ++j) {
+            if (rooms[i][j]>0) 
+            {
+            	rooms[i][j]=helper_dfs_286_v1(rooms, i, j, 0,new boolean[rooms.length][rooms[0].length]);
+            }
+        }
+    }
+}
+public int helper_dfs_286_v1(int[][] rooms,int x,int y,int num,boolean [][]visited)//version:start from every room 647ms
+{
+	if(x<0||y<0||x>=rooms.length||y>=rooms[x].length||rooms[x][y]==-1||visited[x][y])
+	{
+		return Integer.MAX_VALUE;
+	}
+	if(rooms[x][y]==0)
+	{
+		return num;
+	}
+	else
+	{
+		int min=Integer.MAX_VALUE;
+		visited[x][y]=true;
+		min=Math.min(helper_dfs_286_v1(rooms, x+1, y, num+1,visited),min);
+		min=Math.min(helper_dfs_286_v1(rooms, x-1, y, num+1,visited),min);
+		min=Math.min(helper_dfs_286_v1(rooms, x, y-1, num+1,visited),min);
+		min=Math.min(helper_dfs_286_v1(rooms, x, y+1, num+1,visited),min);
+		visited[x][y]=false;
+		return min;
+	}
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
