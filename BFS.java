@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 public class BFS {
@@ -81,6 +82,7 @@ public void helper_dfs_286(int[][] rooms,int x,int y,int num,boolean [][]visited
 	helper_dfs_286(rooms, x, y-1, num+1, visited);
 	helper_dfs_286(rooms, x-1, y, num+1, visited);
 }
+
 public void wallsAndGates_v1(int[][] rooms) {
 	for (int i = 0; i < rooms.length; ++i) {
         for (int j = 0; j < rooms[i].length; ++j) {
@@ -113,6 +115,31 @@ public int helper_dfs_286_v1(int[][] rooms,int x,int y,int num,boolean [][]visit
 		return min;
 	}
 }
+//317. Shortest Distance from All Buildings   bfs    to complicated buy understand the idea in google note
+//public int shortestDistance(int[][] grid) {
+//  
+//}
+//public int helper317(int[][] grid)
+//{
+//	
+//	int min=Integer.MAX_VALUE;
+//
+//	for (int i = 0; i < grid.length; i++) {
+//		for (int j = 0; j < grid[i].length; j++) {
+//			int sum=0;
+//			Queue <int[]>q=new LinkedList<int[]>();
+//			q.add(new int[]{i,j});
+//			while(!q.isEmpty())
+//			{
+//				int []a=q.poll();
+//				int x=a[0];
+//				int y=a[1];
+//				if(x<0||y<0||x>=grid.length||y>=grid[x].length||grid[x][y]==2||visited[x][y])
+//			}
+//		}
+//	}
+//	
+//}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
