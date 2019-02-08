@@ -139,7 +139,45 @@ public int helper_dfs_286_v1(int[][] rooms,int x,int y,int num,boolean [][]visit
 //		}
 //	}
 //	
-//}
+//} 
+//207. Course Schedule
+//try union find (can't do it)
+//try a method similar to union find  but I can't find where
+//try dfs
+public boolean canFinish(int numCourses, int[][] prerequisites) {
+	Map<Integer,List<Integer>> path= new HashMap<Integer,List<Integer>> ();
+    for (int i = 0; i < prerequisites.length; i++) {
+    	int from=prerequisites[i][0];
+    	int to=prerequisites[i][1];
+		if(!path.containsKey(from))
+		{
+			path.put(from,new ArrayList<Integer>());
+		}
+		else
+		{
+			path.get(from).add(to);
+		}
+	}
+    boolean[][] visited=new boolean[numCourses][numCourses];
+   
+}
+public boolean helper207(Map<Integer,List<Integer>> path,Map<Integer,Integer> visited,int from,int to)
+{
+	if(from==to)
+	{
+		return true;
+	}
+	if(!path.containsKey(from)||visited.get(from)>=path.get(from).size())
+	{
+		return false;
+	}
+	boolean flag=false;
+	for(int i=0;i<path.get(from).size();i++)
+	{
+		flag=flag||helper207(path, visited, path.get(from).get(i), to);
+	}
+	return flag;
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
