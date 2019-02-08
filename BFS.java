@@ -149,35 +149,69 @@ public boolean canFinish(int numCourses, int[][] prerequisites) {
     for (int i = 0; i < prerequisites.length; i++) {
     	int from=prerequisites[i][0];
     	int to=prerequisites[i][1];
-		if(!path.containsKey(from))
-		{
-			path.put(from,new ArrayList<Integer>());
-		}
-		else
-		{
-			path.get(from).add(to);
-		}
+    	if(!helper207(path, to, from))
+    	{
+			if(!path.containsKey(from))
+			{
+				path.put(from,new ArrayList<Integer>());
+				path.get(from).add(to);
+			}
+			else
+			{
+				path.get(from).add(to);
+			}
+    	}
+    	else
+    	{
+    		return false;
+    	}
 	}
-    boolean[][] visited=new boolean[numCourses][numCourses];
+    return true;
+    
+   
    
 }
-public boolean helper207(Map<Integer,List<Integer>> path,Map<Integer,Integer> visited,int from,int to)
+public boolean helper207(Map<Integer,List<Integer>> path,int from,int to)
 {
-	if(from==to)
-	{
-		return true;
-	}
-	if(!path.containsKey(from)||visited.get(from)>=path.get(from).size())
-	{
-		return false;
-	}
-	boolean flag=false;
-	for(int i=0;i<path.get(from).size();i++)
-	{
-		flag=flag||helper207(path, visited, path.get(from).get(i), to);
-	}
-	return flag;
+	Queue<Integer> q=new LinkedList<Integer>();
+	q.offer(from);
+		 while(!q.isEmpty())
+		 {
+			 int now=q.poll();
+			 if(now==to)
+			 {
+				 return true;
+			 }
+			 if(path.containsKey(now))
+			 {
+				 List<Integer> temp=path.get(now);
+				 for(int i=0;i<temp.size();i++)
+				 {
+					 q.offer(temp.get(i));
+				 }
+			 }
+			
+		 }
+		 return false;
 }
+
+//public boolean helper207(Map<Integer,List<Integer>> path,Map<Integer,Integer> visited,int from,int to)
+//{
+//	if(from==to)
+//	{
+//		return true;
+//	}
+//	if(!path.containsKey(from)||visited.get(from)>=path.get(from).size())
+//	{
+//		return false;
+//	}
+//	boolean flag=false;
+//	for(int i=0;i<path.get(from).size();i++)
+//	{
+//		flag=flag||helper207(path, visited, path.get(from).get(i), to);
+//	}
+//	return flag;
+//}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
