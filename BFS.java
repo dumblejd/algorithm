@@ -141,8 +141,8 @@ public int helper_dfs_286_v1(int[][] rooms,int x,int y,int num,boolean [][]visit
 //	
 //} 
 //207. Course Schedule
-//try union find (can't do it)
-//try a method similar to union find  but I can't find where
+//try union find (can't do it) because parent child relation may be reverse
+//try a method similar to union find  but I can't find where. it work
 //try dfs
 public boolean canFinish(int numCourses, int[][] prerequisites) {
 	Map<Integer,List<Integer>> path= new HashMap<Integer,List<Integer>> ();
@@ -212,6 +212,44 @@ public boolean helper207(Map<Integer,List<Integer>> path,int from,int to)
 //	}
 //	return flag;
 //}
+//207 bfs from others leetcode
+public boolean canFinish_bfs(int numCourses, int[][] prerequisites) {
+    ArrayList[] graph = new ArrayList[numCourses];
+    int[] degree = new int[numCourses];
+    Queue queue = new LinkedList();
+    int count=0;
+    
+    for(int i=0;i<numCourses;i++)
+        graph[i] = new ArrayList();
+        
+    for(int i=0; i<prerequisites.length;i++){
+        degree[prerequisites[i][1]]++;
+        graph[prerequisites[i][0]].add(prerequisites[i][1]);
+    }
+    for(int i=0; i<degree.length;i++){
+        if(degree[i] == 0){
+            queue.add(i);
+            count++;
+        }
+    }
+    
+    while(queue.size() != 0){
+        int course = (int)queue.poll();
+        for(int i=0; i<graph[course].size();i++){
+            int pointer = (int)graph[course].get(i);
+            degree[pointer]--;
+            if(degree[pointer] == 0){
+                queue.add(pointer);
+                count++;
+            }
+        }
+    }
+    if(count == numCourses)
+        return true;
+    else    
+        return false;
+}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
