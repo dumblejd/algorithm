@@ -249,10 +249,61 @@ public boolean canFinish_bfs(int numCourses, int[][] prerequisites) {
     else    
         return false;
 }
-
+// 210 course schedule
+public int[] findOrder(int numCourses, int[][] prerequisites) {
+	int []res= new int[numCourses];
+	int index=0;
+	 ArrayList[] graph = new ArrayList[numCourses];
+	    Queue<Integer>queue = new LinkedList();
+	    for(int i=0;i<numCourses;i++)
+	        graph[i] = new ArrayList();
+	    for(int i = 0;i<prerequisites.length;i++)
+	    {
+	    	graph[prerequisites[i][0]].add(prerequisites[i][1]);
+	    }
+	    for (int i = 0; i < graph.length; i++) {
+			if(graph[i].size()==0)
+			{
+				queue.offer(i);
+			}
+		}
+	    if(queue.size()==0)
+	    {
+	    	return res;
+	    }
+	    while(!queue.isEmpty())
+	    {
+	    	int head=queue.poll();
+	    	res[index++]=head;
+	    	for(int i=0;i<graph.length;i++)
+	    	{
+	    		if(graph[i].contains(head))
+	    		{
+	    			int j=graph[i].indexOf(head);
+	    			graph[i].remove(j);
+	    			if(graph[i].size()==0)
+		    		{
+		    			queue.offer(i);
+		    		}
+	    		}
+	    		
+	    	}
+	    }
+	    if(index==numCourses)
+	    {
+	    	return res;
+	    }
+	    return new int[]{};
+}
+public void helper210()
+{
+	
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		BFS b= new BFS();
+		int [][]t=new int[][] {{1,0},{0,1}};
+		b.findOrder(2,new int[][]{{1,0},{0,1}});
 	}
 
 }
