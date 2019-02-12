@@ -1,5 +1,6 @@
 package algorithmtest;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -269,7 +270,7 @@ public int[] findOrder(int numCourses, int[][] prerequisites) {
 		}
 	    if(queue.size()==0)
 	    {
-	    	return res;
+	    	return new int[] {};
 	    }
 	    while(!queue.isEmpty())
 	    {
@@ -295,9 +296,31 @@ public int[] findOrder(int numCourses, int[][] prerequisites) {
 	    }
 	    return new int[]{};
 }
-public void helper210()
+//630 Course Schedule III  use dp
+public int scheduleCourse(int[][] courses) {
+    Arrays.sort(courses,(a,b)->{return a[1]-b[1];});
+    //int []dp=new int[courses.length];
+    
+    return helper630(courses, 0, 0);
+}
+public int helper630(int[][] courses,int index,int time)
 {
-	
+	if(index<0||index==courses.length)
+	{
+		return 0;
+	}
+    int notake=0;
+    int take=0;
+	if(time+courses[index][0]>courses[index][1])
+	{
+		notake = helper630(courses, index+1, time);
+	}
+	else
+	{
+		notake = helper630(courses, index+1, time);
+		take=helper630(courses, index+1, time+courses[index][0])+1;
+	}
+    return Math.max(notake,take);
 }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
