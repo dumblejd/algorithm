@@ -322,10 +322,55 @@ public int helper630(int[][] courses,int index,int time)
 	}
     return Math.max(notake,take);
 }
+//305 Number of Islands II   beats 95%   100%space
+public List<Integer> numIslands2(int m, int n, int[][] positions) {
+		int []all=new int[m*n];
+		List<Integer> res=new ArrayList<Integer>();
+		int now=0;
+		for(int i=0; i<all.length; i++) {
+		    all[i]=-1;
+		}
+		for(int i=0;i<positions.length;i++)
+		{
+			int num=positions[i][0]*n+positions[i][1];
+			all[num]=num;
+			int up=positions[i][0]==0?0:union305(num,num-n,all);
+			int down=positions[i][0]==m-1?0:union305(num,num+n,all);
+			int left=positions[i][1]==0?0:union305(num,num-1,all);
+			int right=positions[i][1]==n-1?0:union305(num,num+1,all);
+			now = now-(up+down+left+right)+1;
+			res.add(now);
+		}
+		return res;
+}
+public int union305(int original,int near,int[] all)
+{
+	if(near<0||near>=all.length||all[near]==-1)
+	{
+		return 0;
+	}
+	int f1=find305(original,all);
+	int f2=find305(near,all);
+	if(f1!=f2)
+	{
+		all[f1]=all[f2];
+		return 1;
+	}
+	return 0;
+}
+public int find305(int num,int[] all)
+{
+	while(all[num]!=(num))
+	{
+		num=all[num];
+	}
+	return num;
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BFS b= new BFS();
-		int [][]t=new int[][] {{1,0},{0,1}};
+		int [][]t=new int[][] {{0,1},{1,2},{2,1},{1,0},{0,2},{0,0},{1,1}};
+		b.numIslands2(3, 3, t);
 		b.findOrder(2,new int[][]{{1,0},{0,1}});
 	}
 
