@@ -345,7 +345,7 @@ public List<Integer> numIslands2(int m, int n, int[][] positions) {
 }
 public int union305(int original,int near,int[] all)
 {
-	if(near<0||near>=all.length||all[near]==-1)
+	if(all[near]==-1)
 	{
 		return 0;
 	}
@@ -366,11 +366,37 @@ public int find305(int num,int[] all)
 	}
 	return num;
 }
+//200 number of island 1 try union find    will work
+public int numIslands(char[][] grid) {	
+	int []all=new int[grid.length*grid[0].length];
+	int now=0;
+	for(int i=0; i<all.length; i++) {
+	    all[i]=-1;
+	}
+	for(int i=0;i<grid.length;i++)
+	{
+		for (int j = 0; j < grid[i].length; j++) {
+			
+			if(grid[i][j]=='1')
+			{
+			int num=i*grid[i].length+j;
+			all[num]=num;
+			int up=i==0?0:union305(num,num-grid[i].length,all);
+			int down=i==grid.length-1?0:union305(num,num+grid[i].length,all);
+			int left=j==0?0:union305(num,num-1,all);
+			int right=j==grid[i].length-1?0:union305(num,num+1,all);
+			now = now-(up+down+left+right)+1;
+			}
+		}
+	}
+	return now;
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BFS b= new BFS();
 		int [][]t=new int[][] {{0,1},{1,2},{2,1},{1,0},{0,2},{0,0},{1,1}};
-		b.numIslands2(3, 3, t);
+		char [][]grid=new char [][] {{'1','1','1','1','0'},{'1','1','0','1','0'},{'1','1','0','0','0'},{'0','0','0','0','0'}};
+		b.numIslands(grid);
 		b.findOrder(2,new int[][]{{1,0},{0,1}});
 	}
 
