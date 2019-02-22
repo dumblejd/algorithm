@@ -31,6 +31,25 @@ public class test {
 	    map.put(s, res);
 	    return res;
 	}
+	 public String convertToTitle(int n) {
+		 if(n<0)
+	        {
+	            return "";
+	        }
+		        String res="";
+		        while (n>0)
+		        {
+	                int temp=n%26;
+	                if(temp==0)
+	                {
+	                    temp=26;
+	                    }
+		            res=(char)(temp+'A'-1)+res;
+		            n=(n-temp)/26;
+		    }
+		        return res;
+	        }
+	    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		test t= new test();
@@ -44,6 +63,7 @@ public class test {
 			int a=0;
 			int b=0;
 		   a=a+1 ;
+		  System.out.println( t.convertToTitle(111));
 	}
 
 }
