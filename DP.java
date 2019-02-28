@@ -1,9 +1,13 @@
 package algorithmtest;
 
-import java.lang.reflect.Array;
+import java.lang.reflect.Array; 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 public class DP {
 
@@ -272,7 +276,6 @@ public class DP {
 	        for (int j = 1; j<=sum; j++) {
 	            dp[0][j] = false;
 	        }
-	        
 	     for(int i=1;i<=nums.length;i++)
 	     {
 	    	 for(int j=1;j<=sum;j++)
@@ -289,10 +292,63 @@ public class DP {
 	     }
 	     return dp[nums.length][half];
 	    }
+	 /** https://www.lintcode.com/problem/high-capacity-backpack/description
+	     * @param s: The capacity of backpack
+	     * @param v: The value of goods 
+	     * @param c: The capacity of goods
+	     * @return: The answer
+	     */
+	 public long getMaxValue(int s, int[] v, int[] c) {
+	        // Write your code here
+	    	//first try with 1-d array  failed
+	    	//second try with 2-d array 
+	    	int [][]dp=new int [v.length+1][s+1];
+	    	//means first i item with capacity j can have most value
+	    	
+	    	Arrays.fill(dp[0], 0);
+	    	
+	    	for(int i=1;i<=v.length;i++)
+	    	{
+	    		for(int j=0;j<=s;j++)
+	    		{
+	    			if(j==0)
+	    			{
+	    				dp[i][j]=0;
+	    				continue;
+	    			}
+	    			dp[i][j]=dp[i-1][j];
+	    			if(c[i-1]<=j)
+	    			{
+	    				dp[i][j]=Math.max(dp[i-1][j], dp[i-1][j-c[i-1]]+v[i-1]);
+	    			}
+	    		}
+	    	}
+	    	return dp[v.length][s];
+	    }
+	 public long getMaxValue_o_nSpace(int C, int[] v, int[] c) { //one dimension 
+		 int []dp=new int[C+1];
+		 Arrays.fill(dp, 0);
+		 for(int i=1;i<=v.length;i++)
+		 {
+			 for(int j=C;j>0;j--)
+			 {
+				 if(c[i-1]<=j)
+				 {
+					dp[j]=Math.max(dp[j],dp[j-c[i-1]]+v[i-1]);
+				 }
+				 else
+				 {
+					dp[j]=dp[j];
+				 }
+			 }
+		 }
+		 return dp[C];
+	 }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Map<String,Integer> m = new HashMap<String,Integer>();
 		int [][]b = {{1,2,3},{4,1,2},{7,5,9}};
+		
 		//dfs_uniquepath(3,7,0,0,m,"");
 		//dfs_uniquepath_two(b, 0, 0, m, "");
 		int min=9999;
@@ -304,6 +360,9 @@ public class DP {
 //		dp_triangle(t);
 		//System.out.println(min);
 		int []num = {-2,1,-3,4,-1,2,1,-5,4};
+		 
+		 Queue<Integer> q =new LinkedList<Integer>();
+		 
 		//dp_sum(num);
 		dp_editdistance("apple","a");
 		System.out.println(recur_scramble("great","rgtae"));
