@@ -1169,7 +1169,22 @@ int root(int[] parent, int i) {
 //        if(par1 != par2) par[par2] = par1, n--;
 //    }
 //    return n==1;
-
+//998 insert into maximum tree
+public TreeNode insertIntoMaxTree(TreeNode root, int val) {
+    if(root==null)
+    {
+        return new TreeNode(val);
+    }
+    else if(root.val<val)
+    {
+        TreeNode add = new TreeNode(val);
+        add.left=root;
+        return add;
+    }
+    
+        root.right=insertIntoMaxTree(root.right,val);
+    return root;
+}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
