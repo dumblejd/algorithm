@@ -86,6 +86,7 @@ public class TreeNode {
      TreeNode(int x) { val = x; }
  }
 public TreeNode insertIntoMaxTree(TreeNode root, int val) {
+	return root;
 	
     
 }
@@ -101,9 +102,10 @@ public TreeNode helper998(TreeNode root, TreeNode pre,int val)
     	}
     	else
     	{
-    		pre.right=t
+    		//pre.right=t
     	}
     }
+	return t;
 }
 public int[] gridIllumination(int N, int[][] lamps, int[][] queries) {
     int[][]board=new int[N][N];
@@ -135,6 +137,7 @@ public int[] gridIllumination(int N, int[][] lamps, int[][] queries) {
     	helper1001(board, lamps[--index][0], lamps[--index][1], 1, 1);
     	helper1001(board, lamps[--index][0], lamps[--index][1], -1, -1);
     }
+	return res;
     
 }
 public void helper1001(int[][] board,int x,int y,int mx,int my)
@@ -146,11 +149,107 @@ public void helper1001(int[][] board,int x,int y,int mx,int my)
 	board[x][y]++;
 	helper1001(board, x+mx, y+my, mx, my);
 }
+//#1002 
+public List<String> commonChars(String[] A) {
+	 List<String> res =new ArrayList<String>();
+		StringBuffer temp= new StringBuffer(A[0]);
+	    StringBuffer sb= new StringBuffer();
+	    for(int i=1;i<A.length;i++)
+	    {
+	    	StringBuffer a= new StringBuffer(A[i]);
+	    	for(int j=0;j<a.length();j++)
+	    	{
+	    		
+	    	}
+	    }
+	    return res;
+}
+//#1003
+public boolean isValid(String S) {
+	StringBuffer sb =new StringBuffer(S);
+    while(sb.indexOf("abc")!=-1)
+    {
+    	sb.delete(sb.indexOf("abc"),sb.indexOf("abc")+3);
+    }
+    if(sb.length()==0)
+    {
+    	return true;
+    }
+    return false;
+}
+//1004
+//public int longestOnes(int[] A, int K) {
+//	StringBuffer a = new StringBuffer();
+//	for(int i:A)
+//	{
+//		a.append(i);
+//	}
+//	helper1004(a, K, 0);
+//	return onemax;
+//}
+//static int onemax=0;
+//public void helper1004(StringBuffer a,int k,int index)
+//{
+//	if(index==a.length()||k<=0)
+//	{
+//		return;
+//	}
+//	for(int i=index;i<a.length();i++)
+//	{
+//		if(a.charAt(i)=='0')
+//		{
+//		a.replace(i, i+1, "1");
+//		onemax=Math.max(onemax,findone(a));
+//		helper1004(a, k-1, index);
+//		a.replace(i, i+1, "0");
+//		}
+//	}
+//}
+//public int findone(StringBuffer a)
+//{
+//	int max=0;
+//	String temp="";
+//	for(int i=0;i<a.length();i++)
+//	{
+//		temp+="1";
+//		if(a.indexOf(temp)!=-1)
+//		{
+//			max=Math.max(temp.length(),max);
+//		}
+//	}
+//	return max;
+//}
+//1004
+public int longestOnes(int[] A, int k) {
+	int countzero=0;
+	int left=0;
+	int max=0;
+	for(int right=0;right<A.length;right++)
+	{
+		if(A[right]==0)
+		{
+			countzero++;
+		}
+		max=Math.max(right-left,max);
+		while(countzero>k)
+		{
+			if(A[left]==0)
+			{
+				countzero--;
+			}
+			left++;
+		}
+	}
+	return max;
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 char [][]a= {{'p','B','p'},{'B','R','B'},{'p','B','p'},{'p','p','p'}};
+String []A= {"bella","label","roller"};
+int []ia= {1,0,0,0,1,1,0,0,1,1,0,0,0};
 Contest t =new Contest();
 t.numRookCaptures(a);
+t.longestOnes(ia,4);
 	}
 
 }

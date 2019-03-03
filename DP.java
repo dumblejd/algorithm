@@ -344,6 +344,11 @@ public class DP {
 		 }
 		 return dp[C];
 	 }
+	 //718 Maximum Length of Repeated Subarray
+	 //without dp
+	 public int findLength(int[] A, int[] B) {
+	        for(int i=0;i<A.length;)
+	    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Map<String,Integer> m = new HashMap<String,Integer>();
