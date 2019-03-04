@@ -152,17 +152,21 @@ public void helper1001(int[][] board,int x,int y,int mx,int my)
 //#1002 
 public List<String> commonChars(String[] A) {
 	 List<String> res =new ArrayList<String>();
-		StringBuffer temp= new StringBuffer(A[0]);
-	    StringBuffer sb= new StringBuffer();
-	    for(int i=1;i<A.length;i++)
-	    {
-	    	StringBuffer a= new StringBuffer(A[i]);
-	    	for(int j=0;j<a.length();j++)
-	    	{
-	    		
-	    	}
-	    }
-	    return res;
+		Map<String,Integer> m = new HashMap<String,Integer>();
+		Map<String,Integer> temp = new HashMap<String,Integer>();
+		for(int i=0;i<A[0].length();i++)
+		{
+			String s=A[0].substring(i,i+1);
+			m.put(s,m.getOrDefault(s, 0)+1);
+		}
+		
+		for(int i=1;i<A.length;i++)
+		{
+			for(int j=0;j<A[i].length();j++)
+			{
+				if(m.contains)
+			}
+		}
 }
 //#1003
 public boolean isValid(String S) {

@@ -49,7 +49,13 @@ public class test {
 		    }
 		        return res;
 	        }
-	    }
+		public static void getIndex(String str){
+			byte[] bytes = str.getBytes();
+			for (int i = 0; i < bytes.length; i++) {
+				byte b = bytes[i];
+				System.out.println(b - 'A'+1);
+			}
+		}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		test t= new test();
@@ -63,7 +69,9 @@ public class test {
 			int a=0;
 			int b=0;
 		   a=a+1 ;
-		  System.out.println( t.convertToTitle(111));
+		  getIndex("TENNIS UDOMJR CRICKET");
+//		  System.out.println("----");
+//		  getIndex("fzhkf");
 	}
 
 }
