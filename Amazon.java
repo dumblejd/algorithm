@@ -87,45 +87,92 @@ public class Amazon {
 		ListNode next = null;
 		while (head != null) {
 			next = head.next;
-			head.next=pre;
-			pre=head;
-			head=next;
-			
+			head.next = pre;
+			pre = head;
+			head = next;
+
 		}
 		return pre;
 	}
+
 	public static int maxAreaOfIsland(int[][] grid) {
-        max=0;
-        boolean[][]visit=new boolean[grid.length][grid[0].length];
-        for(int i=0;i<grid.length;i++)
-        {
-            for(int j=0;j<grid[i].length;j++)
-            {
-                islandfinder(grid,i,j,visit);
-            }
-        }
-        return max;
-    }
-    static int max=0;
-    public static int islandfinder(int [][]grid,int x,int y, boolean [][]visit)
-    {
-        
-        if(x<0||y<0||x>=grid.length||y>=grid[x].length||visit[x][y]||grid[x][y]==0)
-        {   return 0;}
-        int sum=1;
-        if(grid[x][y]==1)
-        {
-        
-            visit[x][y]=true;
-            sum+=islandfinder(grid,x+1,y,visit);
-            sum+=islandfinder(grid,x-1,y,visit);
-            sum+=islandfinder(grid,x,y+1,visit);
-            sum+=islandfinder(grid,x,y-1,visit);
-            
-        }
-        max=Math.max(max,sum);
-        return sum;
-    }
+		max = 0;
+		boolean[][] visit = new boolean[grid.length][grid[0].length];
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[i].length; j++) {
+				islandfinder(grid, i, j, visit);
+			}
+		}
+		return max;
+	}
+
+	static int max = 0;
+
+	public static int islandfinder(int[][] grid, int x, int y, boolean[][] visit) {
+
+		if (x < 0 || y < 0 || x >= grid.length || y >= grid[x].length || visit[x][y] || grid[x][y] == 0) {
+			return 0;
+		}
+		int sum = 1;
+		if (grid[x][y] == 1) {
+
+			visit[x][y] = true;
+			sum += islandfinder(grid, x + 1, y, visit);
+			sum += islandfinder(grid, x - 1, y, visit);
+			sum += islandfinder(grid, x, y + 1, visit);
+			sum += islandfinder(grid, x, y - 1, visit);
+
+		}
+		max = Math.max(max, sum);
+		return sum;
+	}
+
+	public boolean validTicTacToe(String[] board) {
+		return false;
+	}
+
+	public boolean validboard(char[][] board, int size)
+
+	{
+		// y=x+b
+		int[] pxyx = new int[((size - 1) * 2) + 1];
+		int[] nxyx = new int[((size - 1) * 2) + 1];
+		int[] pxyo = new int[((size - 1) * 2) + 1];
+		int[] nxyo = new int[((size - 1) * 2) + 1];
+		int[] xx = new int[size];
+		int[] yx = new int[size];
+		int[] xo = new int[size];
+		int[] yo = new int[size];
+		int x=0;
+		int o=0;
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board[i].length; j++) {
+				if (board[i][j] == 'X') {
+					xx[j]++;
+					yx[i]++;
+					pxyx[j - i]++;
+					nxyx[j + i]++;
+					x++;
+				}
+				if (board[i][j] == 'O') {
+					xo[j]++;
+					yo[i]++;
+					pxyo[j - i]++;
+					nxyo[j + i]++;
+					o++;
+				}
+				if (board[i][j] == ' ') {
+				}
+			}
+		}
+		if(x>o+1||o>x)
+		{
+			return false;
+		}
+		return true;
+		
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String text = "Jack and Jill went to the market to buy bread and cheese. Cheese is Jack's and Jill's favorite food.";
@@ -143,11 +190,10 @@ public class Amazon {
 			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
 		System.out.println("php".hashCode() == "c++".hashCode());
-			
-		
+
 		int[][] maze = { { 1, 1, 0, 0, 0 }, { 1, 1, 0, 0, 0 }, { 0, 0, 0, 1, 1 }, { 0, 0, 0, 1, 1 },
 				{ 0, 0, 0, 0, 0 } };
-		int [][]is= {{0,1}};
+		int[][] is = { { 0, 1 } };
 		maxAreaOfIsland(is);
 	}
 

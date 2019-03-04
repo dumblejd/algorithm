@@ -396,6 +396,53 @@ public class Array {
 				}
 		}
 	}
+	//#15 three 3 sum
+	public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++)
+        {
+            if(i>0&&nums[i]==nums[i-1])
+            {
+                continue;
+            }
+            int l=i+1;
+            int r=nums.length-1;
+            while(l<r)
+            {
+                if(l-1!=i&&nums[l-1]==nums[l])
+                {
+                    l++;
+                    continue;
+                }
+                if(r+1<=nums.length-1&&nums[r]==nums[r+1])
+                {
+                    r--;
+                    continue;
+                }
+                int sum=nums[l]+nums[r]+nums[i];
+                if(sum>0)
+                {
+                    r--;
+                }
+                else if(sum<0)
+                {
+                    l++;
+                }
+                else
+                {
+                    List<Integer> sub=new ArrayList<Integer>();
+                    sub.add(nums[i]);
+                    sub.add(nums[l]);
+                    sub.add(nums[r]);
+                    res.add(sub);
+                    l++;
+                    r--;
+                }
+            }
+        }
+        return res;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[] a = { 5, 4, 7, 5, 3, 2 };
