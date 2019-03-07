@@ -6,7 +6,7 @@ import java.util.Map;
 public class interview {
 
 	
-	public static void findlongestsub(String s)
+	public static void findlongestsub(String s)  //最大非重复单个字符 的 
 	{
 		Map<Character,Integer> m = new HashMap<Character,Integer>();
 		String out="";
@@ -30,7 +30,7 @@ public class interview {
 		}
 		System.out.println(out);
 	}
-    public static int longestPalindrome(String s) {
+    public static int longestPalindrome(String s) {  //find sub palindrome
         StringBuffer sb=new StringBuffer();
         for(int i=0;i<s.length();i++)
         {
@@ -58,10 +58,34 @@ public class interview {
         }
         return max-1;
     }
+    //#409 easy
+    public static int longestPalindrome409(String s) {
+        int[]c =new int[26];
+        for(int i=0;i<s.length();i++)
+        {
+            c[s.charAt(i)-'a']++;
+        }
+        int single=0;
+        int max=0;
+        for(int temp:c)
+        {
+            if(temp%2==0)
+            {
+                max+=temp;
+            }
+            else
+            {
+                single=1;
+                max+=temp-1;
+            }
+        }
+        max=max+single;
+        return max;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		findlongestsub("abbccdbabcdccdd");
-		longestPalindrome("aabbaa");
+		longestPalindrome409("aabbaa");
 	}
 
 }
