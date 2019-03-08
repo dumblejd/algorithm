@@ -82,10 +82,43 @@ public class interview {
         max=max+single;
         return max;
     }
+    public static int longestPalindrome_dp(String s) 
+    {
+    	boolean [][]dp=new boolean[s.length()][s.length()];
+    	int max=0;
+//    	for(int i=0;i<s.length();i++)
+//    	{
+//    		dp[i][i]=true;
+//    	}
+    	for(int i=0;i<s.length();i++)
+    	{
+    		for(int j=0;j+i<s.length();j++)
+    		{
+    			if(j==i+j)
+    			{
+    				dp[j][j+i]=true;
+    				
+    			}
+    			else if(i==1)
+    			{
+    				dp[j][j+i]=(s.charAt(i+j)==s.charAt(j));
+    			}
+    			else 
+    			{
+    				dp[j][j+i]=dp[j+1][j+i-1]&&(s.charAt(i+j)==s.charAt(j));
+    			}
+    			if(dp[j][j+i])
+    			{
+    				max=Math.max(max,i+1);
+    			}
+    		}
+    	}
+    	return max;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		findlongestsub("abbccdbabcdccdd");
-		longestPalindrome409("aabbaa");
+		longestPalindrome_dp("aabbabac");
 	}
 
 }

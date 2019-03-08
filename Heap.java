@@ -16,6 +16,15 @@ public class Heap {
 		}
 		return q.peek();
 	}
+	
+	 class Record {
+	      public int id, score;
+	      public Record(int id, int score){
+	        this.id = id;
+	         this.score = score;
+	     }
+	 }
+	 
 	public static int findKthMin(int[] nums,int k)
 	{
 		PriorityQueue<Integer> q=new PriorityQueue<Integer>((a,b)->b-a);
@@ -33,6 +42,7 @@ public class Heap {
 public static void main(String[] args) {
 	int []num=new int[] {1,2,10,4,5,3};
 	findKthMin(num,2);
-	
+	String a ="123";
+	//a.substring(beginIndex)
 }
 }
