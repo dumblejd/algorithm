@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.Stack;
 public class Contest {
@@ -246,14 +247,129 @@ public int longestOnes(int[] A, int k) {
 	}
 	return max;
 }
+//public int clumsy(int N) {
+//	int res=0;
+//	for(int i=N+1-4;i>0;i=i-4)
+//    {
+//    	res+=i;
+//    }
+//    return clumsy_helper(N)[0]+res;
+//}
+//public int[] clumsy_helper(int N) {
+//    int already=1;
+//    int res=N;
+//    int index=0;
+//    for(int i=N-1;i>=1;i--)
+//    {
+//        if(already%4==0)
+//        {
+//            if(i>=1)
+//            {
+//            	int []t=clumsy_helper(i);
+//                res-=t[0];
+//                i=t[1];
+//                already+=t[2];
+//            }
+//        }
+//        else
+//        {
+//            if(already%4==1)
+//            {
+//                res=res*i;
+//            }
+//            else if(already%4==2)
+//            {
+//                res/=i;
+//            }
+////            else if(already%4==3)  do nothing
+////            {
+////                plus+=i;
+////            }
+//            already++;
+//        }
+//        index=i;
+//    }
+//    return new int[]{res,index,already};
+//}
+//#1005
+public int largestSumAfterKNegations(int[] A, int K) {
+    Arrays.sort(A);
+    int sum=0;
+    PriorityQueue<Integer> q = new PriorityQueue<Integer>();
+    for(int i=0;i<A.length;i++)
+    {
+        q.offer(A[i]);
+    }
+    for(int i=0;i<K;i++)
+    {
+        int temp=q.poll();
+        temp=-1*temp;
+        q.offer(temp);
+    }
+    for(int i=0;i<A.length;i++)
+    {
+        sum+=q.poll();
+    }
+    return sum;
+}
+//#1006 
+public int clumsy(int N) {
+    return clumsy_helper(N);
+}
+public int clumsy_helper(int N) {
+    int already=0;
+    int res=0;
+    for(int i=N;i>=1;i--)
+    {
+        if(already%4==0)
+        {
+            if(i>=1)
+            {
+            	int []t=helper_clu(i);
+            	res+=already==0?t[0]:-1*t[0];
+            	already+=i-t[1]+1;
+            	i=t[1];
+            	
+            }
+        }
+        else
+        {
+            if(already%4==3)  
+            {
+                res+=i;
+            }
+            already++;
+        }
+    }
+    return res;
+}
+public int[] helper_clu(int n)
+{
+	int res=n;
+	if(n-1>=1)
+	{
+		res*=n-1;
+		n=n-1;
+	}
+	if(n-1>=1)
+	{
+		res/=n-1;
+		n=n-1;
+	}
+	return new int[]{res,n};
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
 char [][]a= {{'p','B','p'},{'B','R','B'},{'p','B','p'},{'p','p','p'}};
 String []A= {"bella","label","roller"};
+
 int []ia= {1,0,0,0,1,1,0,0,1,1,0,0,0};
+PriorityQueue<Integer> q = new PriorityQueue<Integer>();
 Contest t =new Contest();
 t.numRookCaptures(a);
 t.longestOnes(ia,4);
+t.clumsy(10);
 	}
 
 }

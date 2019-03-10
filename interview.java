@@ -2,6 +2,7 @@ package algorithmtest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class interview {
 
@@ -115,10 +116,21 @@ public class interview {
     	}
     	return max;
     }
+    
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		findlongestsub("abbccdbabcdccdd");
 		longestPalindrome_dp("aabbabac");
+		
+	        Scanner sc = new Scanner(System.in);
+	        int size=sc.nextInt();
+	        int []input=new int[size*2];
+	        for(int i=0;i<input.length;i++)
+	        {
+	            input[i]=sc.nextInt();
+	            System.out.println(input[i]);
+	        }
+	       
 	}
 
 }
