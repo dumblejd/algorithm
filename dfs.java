@@ -1042,6 +1042,52 @@ public void helper841(List<List<Integer>> rooms,boolean []visited,int now)
 	for (int i = 0; i < rooms.get(now).size(); i++) {
 		helper841(rooms, visited, rooms.get(now).get(i));
     }
+}public boolean canFinish(int numCourses, int[][] prerequisites) {
+    int[]visited= new int [numCourses];//0 is unknow -1 is loop 1 is no loop ,2 is visiting
+    int []n=new int[numCourses]
+    for (int i = 0; i < prerequisites.length; i++) 
+    {
+    	int from=prerequisites[i][0];
+    	int to=prerequisites[i][1];
+			if(graph.get(from)==null)
+			{
+				graph.add(new ArrayList<Integer>());
+			}
+			graph.get(from).add(to);
+	}
+    for( int i = 0; i<graph.size();i++)
+    {
+        if(dfs207(i,graph,visited))
+        {
+            return false;
+        }
+    }
+    return true;
+    
+   
+   
+}
+public boolean dfs207(int cur, List<List<Integer>> graph,int[]visited)
+{
+	if(visited[cur]==2||visited[cur]==-1)
+	{
+		return true;
+	}
+	if(visited[cur]==1)
+	{
+		return false;
+	}
+	visited[cur]=2;
+	for(int i=0;i<graph.get(cur).size();i++)
+	{
+		if(dfs207(graph.get(cur).get(i), graph, visited))
+		{
+			visited[cur]=-1;
+			return true;
+		}
+	}
+	visited[cur]=1;
+	return false;
 }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubs

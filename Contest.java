@@ -1,5 +1,6 @@
 package algorithmtest;
-import java.util.ArrayList;  
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -151,24 +152,24 @@ public void helper1001(int[][] board,int x,int y,int mx,int my)
 	helper1001(board, x+mx, y+my, mx, my);
 }
 //#1002 
-public List<String> commonChars(String[] A) {
-	 List<String> res =new ArrayList<String>();
-		Map<String,Integer> m = new HashMap<String,Integer>();
-		Map<String,Integer> temp = new HashMap<String,Integer>();
-		for(int i=0;i<A[0].length();i++)
-		{
-			String s=A[0].substring(i,i+1);
-			m.put(s,m.getOrDefault(s, 0)+1);
-		}
-		
-		for(int i=1;i<A.length;i++)
-		{
-			for(int j=0;j<A[i].length();j++)
-			{
-				if(m.contains)
-			}
-		}
-}
+//public List<String> commonChars(String[] A) {
+//	 List<String> res =new ArrayList<String>();
+//		Map<String,Integer> m = new HashMap<String,Integer>();
+//		Map<String,Integer> temp = new HashMap<String,Integer>();
+//		for(int i=0;i<A[0].length();i++)
+//		{
+//			String s=A[0].substring(i,i+1);
+//			m.put(s,m.getOrDefault(s, 0)+1);
+//		}
+//		
+//		for(int i=1;i<A.length;i++)
+//		{
+//			for(int j=0;j<A[i].length();j++)
+//			{
+//				//if(m.contains)
+//			}
+//		}
+//}
 //#1003
 public boolean isValid(String S) {
 	StringBuffer sb =new StringBuffer(S);
@@ -357,6 +358,79 @@ public int[] helper_clu(int n)
 		n=n-1;
 	}
 	return new int[]{res,n};
+}
+
+//1007  理解错了，我这个写法是 他们合相同
+//public int minDominoRotations(int[] A, int[] B) {
+//    int diffAB=0;
+//    min=A.length;
+//    for(int i=0;i<A.length;i++)
+//    {
+//        diffAB+=A[i]-B[i];
+//    }
+//    dfsDomino(A,B,diffAB,0,0);
+//    return min;
+//}
+//public static int min=0;
+//public void dfsDomino(int[] A, int[] B,int target,int index,int times)
+//{
+//    if(index==A.length)
+//    {
+//        return;
+//    }
+//    if(target==0)
+//    {
+//        min=Math.min(min,times);
+//    }
+//    for(int i=index;i<A.length;i++)
+//    {
+//        int tar=A[i]-B[i];
+//        swapDomino(A,B,i);
+//        dfsDomino(A,B,target-2*tar,i+1,times+1);
+//        swapDomino(A,B,i);
+//    }
+//}
+//public void swapDomino(int[] A, int[] B,int index)
+//{
+//    int temp=A[index];
+//    A[index]=B[index];
+//    B[index]=temp;
+//}
+//1007
+public int minDominoRotations(int[] A, int[] B) {
+    int diffAB=0;
+    min=A.length;
+    for(int i=0;i<A.length;i++)
+    {
+        diffAB+=A[i]-B[i];
+    }
+    dfsDomino(A,B,diffAB,0,0);
+    return min;
+}
+public static int min=0;
+public void dfsDomino(int[] A, int[] B,int target,int index,int times)
+{
+    if(index==A.length)
+    {
+        return;
+    }
+    if(target==0)
+    {
+        min=Math.min(min,times);
+    }
+    for(int i=index;i<A.length;i++)
+    {
+        int tar=A[i]-B[i];
+        swapDomino(A,B,i);
+        dfsDomino(A,B,target-2*tar,i+1,times+1);
+        swapDomino(A,B,i);
+    }
+}
+public void swapDomino(int[] A, int[] B,int index)
+{
+    int temp=A[index];
+    A[index]=B[index];
+    B[index]=temp;
 }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

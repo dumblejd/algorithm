@@ -31,6 +31,7 @@ public class tencent {
         if(start==array.length)
         {
         	//total++;
+        	//System.out.println(Arrays.toString(array));
             check(array,L);
         }
         else{
