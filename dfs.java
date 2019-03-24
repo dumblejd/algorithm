@@ -1042,18 +1042,19 @@ public void helper841(List<List<Integer>> rooms,boolean []visited,int now)
 	for (int i = 0; i < rooms.get(now).size(); i++) {
 		helper841(rooms, visited, rooms.get(now).get(i));
     }
-}public boolean canFinish(int numCourses, int[][] prerequisites) {
+}
+public boolean canFinish(int numCourses, int[][] prerequisites) {
     int[]visited= new int [numCourses];//0 is unknow -1 is loop 1 is no loop ,2 is visiting
-    int []n=new int[numCourses]
+    List<List<Integer>> graph= new ArrayList<List<Integer>>();
+    for (int i=0;i<numCourses;i++)
+    {
+       graph.add(new ArrayList<Integer>());
+    }
     for (int i = 0; i < prerequisites.length; i++) 
     {
     	int from=prerequisites[i][0];
     	int to=prerequisites[i][1];
-			if(graph.get(from)==null)
-			{
-				graph.add(new ArrayList<Integer>());
-			}
-			graph.get(from).add(to);
+        graph.get(from).add(to);
 	}
     for( int i = 0; i<graph.size();i++)
     {
@@ -1063,9 +1064,6 @@ public void helper841(List<List<Integer>> rooms,boolean []visited,int now)
         }
     }
     return true;
-    
-   
-   
 }
 public boolean dfs207(int cur, List<List<Integer>> graph,int[]visited)
 {
