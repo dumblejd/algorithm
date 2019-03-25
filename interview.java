@@ -117,11 +117,27 @@ public class interview {
     	return max;
     }
     
+    public static void intToBinary(int num)
+    {
+    	StringBuffer sb = new StringBuffer();
+    	if(num==0)
+    	{
+    		System.out.println("0");
+    		return;
+    	}
+    	while(num>0)
+    	{
+    		int left=num%2;
+    		sb.insert(0, left);
+    		num=num/2;
+    	}
+    	System.out.println(sb.toString());
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		findlongestsub("abbccdbabcdccdd");
 		longestPalindrome_dp("aabbabac");
-		
+		intToBinary(1024);
 	        Scanner sc = new Scanner(System.in);
 	        int size=sc.nextInt();
 	        int []input=new int[size*2];

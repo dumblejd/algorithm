@@ -432,13 +432,34 @@ public void swapDomino(int[] A, int[] B,int index)
     A[index]=B[index];
     B[index]=temp;
 }
+//#1022
+public static boolean canThreePartsEqualSum(int[] A) {
+    int []sum=new int [A.length];
+    sum[0]=A[0];
+    for(int i=1;i<A.length;i++)
+    {
+        sum[i]=sum[i-1]+A[i];
+    }
+    for(int i=1;i<A.length;i++)
+    {
+        for(int j=i;j<A.length;j++)
+        {
+            if(i-1>=0&&sum[i-1]==sum[j-1]-sum[i-1]&&sum[j-1]-sum[i-1]==sum[A.length-1]-sum[j-1])
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
 char [][]a= {{'p','B','p'},{'B','R','B'},{'p','B','p'},{'p','p','p'}};
 String []A= {"bella","label","roller"};
 
-int []ia= {1,0,0,0,1,1,0,0,1,1,0,0,0};
+int []ia= {3,3,6,5,-2,2,5,1,-9,4};
+canThreePartsEqualSum(ia);
 PriorityQueue<Integer> q = new PriorityQueue<Integer>();
 Contest t =new Contest();
 t.numRookCaptures(a);
