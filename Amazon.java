@@ -172,7 +172,59 @@ public class Amazon {
 		return true;
 		
 	}
-
+//输出所有人的共同好友 dfs
+	public List<ArrayList<Integer>> printallfriend(int[][]list)
+	{
+		List<List<Integer>> res= new ArrayList<List<Integer>> ();
+		boolean [][]added=new boolean[list.length][];
+		for(int i=0;i<list.length;i++)
+		{
+			added[i]=new boolean[list[i].length];
+		}
+		for(int i=0;i<list.length;i++)
+		{
+			List<Integer> temp=new ArrayList<Integer>();
+			temp.add(i);
+			find_connection_one(temp, list, added, i);
+			if(temp.size()>0)
+			{
+				res.add(temp);
+			}
+		}
+		return null;
+	}
+	public void find_connection_one(List<Integer> temp,int[][]list,boolean added[][],int x)
+	{
+		for(int i=0;i<list[x].length;i++)
+		{
+			if(!added[x][i])//not visited
+			{
+				temp.add(list[x][i]);
+				added[x][i]=true;
+				find_connection_one(temp, list, added,list[x][i]);  //to (x,i) 's list
+			}
+		}
+	}
+	//输出所有人的共同好友 union find
+	public List<ArrayList<Integer>> uf_friend(int[][]list)
+	{
+		List<List<Integer>> res= new ArrayList<List<Integer>> ();
+		boolean [][]added=new boolean[list.length][];
+		for(int i=0;i<list.length;i++)
+		{
+			added[i]=new boolean[list[i].length];
+		}
+		for(int i=0;i<list.length;i++)
+		{
+			List<Integer> temp=new ArrayList<Integer>();
+			find_connection_one(temp, list, added, i);
+			if(temp.size()>0)
+			{
+				res.add(temp);
+			}
+		}
+		return null;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String text = "Jack and Jill went to the market to buy bread and cheese. Cheese is Jack's and Jill's favorite food.";
