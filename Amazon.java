@@ -333,9 +333,105 @@ public class Amazon {
         }
         return res;
     }
+    public static int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int closest = Integer.MAX_VALUE;
+        for(int i=0;i<nums.length-2;i++)
+        {
+            int temp=target-nums[i];
+            int l=i+1;
+            int r=nums.length-1;
+            while(l<r)
+            {
+                int twosum=nums[l]+nums[r];
+                int sum=nums[l]+nums[r]+nums[i];
+                if(twosum>temp)
+                {
+                    
+                    closest=Math.abs(sum-target)<=Math.abs(closest-target)?sum:closest;
+                    r--;
+                }
+                else if(twosum<temp)
+                {
+                    closest=Math.abs(sum-target)<=Math.abs(closest-target)?sum:closest;
+                    l++;
+                }
+                else{
+                    return 0;
+                }
+            }
+        }
+        return closest;
+    }
+   
+      static class TreeNode {
+          int val;
+          TreeNode left;
+          TreeNode right;
+          TreeNode(int x) { val = x; }
+      }
+     
+//    public static TreeNode desi(StringBuffer data)  only work with single value
+//    {
+//        
+//        String now = data.substring(0,1);
+//        data.delete(0,1);
+//        if(now.equals("x"))
+//        {
+//            return null;
+//        }
+//        TreeNode root = new TreeNode(Integer.valueOf(now));
+//        root.left=desi(data);
+//        root.right=desi(data);
+//        return root;
+//    }
+   // Encodes a tree to a single string.
+      public String serialize(TreeNode root) {
+          StringBuffer sb = new StringBuffer();
+          seri(sb,root);
+          sb.deleteCharAt(sb.length()-1);
+          return sb.toString();
+      }
+      public void seri(StringBuffer sb,TreeNode root)
+      {
+          if(root==null)
+          {
+              sb.append("x,");
+              return;
+          }
+          sb.append(root.val);
+          sb.append(",");
+          seri(sb,root.left);
+          seri(sb,root.right);
+      }
+
+      // Decodes your encoded data to tree.
+      public TreeNode deserialize(String data) {
+          String[] stringArray = data.split(",");
+          ArrayList<String> list = new ArrayList<String>();
+          for(String t:stringArray)
+          {
+              list.add(t);
+          }
+          return desi(list);
+      }
+      public  TreeNode desi(ArrayList<String>list)
+      {
+          
+          String now = list.get(0);
+          list.remove(0);
+          if(now.equals("x"))
+          {
+              return null;
+          }
+          TreeNode root = new TreeNode(Integer.valueOf(now));
+          root.left=desi(list);
+          root.right=desi(list);
+          return root;
+      }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		String text = "Jack and Jill went to the market to buy bread and cheese. Cheese is Jack's and Jill's favorite food.";
+		String text = "Jack and Jill went to the market to buy bread and cheese. Cheese is Jack's and Jill's favorite food.";
 //		String[] exclude = { "and", "he", "the", "to", "is", "Jack", "Jill" };
 //		highfeqword(text, exclude);
 //
@@ -356,11 +452,14 @@ public class Amazon {
 //				{ 0, 0, 0, 0, 0 } };
 //		int[][] is = { { 0, 1 } };
 //		maxAreaOfIsland(is);
-		StringBuffer sb= new StringBuffer();
+		StringBuffer sb= new StringBuffer("2,1,x,x,3,x,x");
+		desi(sb.toString().split(","),0);
 		reverseString("dijin",sb , 0);
 		System.out.println(sb.toString());
-		int []input=new int[] {-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6};
-		threeSum(input);
+		//int []input=new int[] {-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6};
+		int []input=new int[] {-3,-2,-5,3,-4};
+		threeSumClosest(input, -1);
+		//threeSum(input);
 	}
 
 }
