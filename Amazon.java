@@ -1,11 +1,12 @@
 package algorithmtest;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.*;
 
 public class Amazon {
 
@@ -225,28 +226,141 @@ public class Amazon {
 		}
 		return null;
 	}
+	//union find 做
+	public static int findCircleNum(int[][] M) {
+        int[] uf = new int[M.length];
+        for(int i=0;i<M.length;i++)
+        {
+            uf[i]=i;
+        }
+        for(int i=0;i<M.length;i++)
+        {
+            for(int j=0;j<M[i].length;j++)
+            {
+                if(M[i][j]==1&&i!=j)
+                {
+                    union(uf,i,j);
+                }
+            }
+        }
+        int res=0;
+        for(int i=0;i<M.length;i++)
+        {
+            if(uf[i]==i)
+            {
+                res++;
+            }
+        }
+        return res;
+    }
+    public static int find(int[] uf,int index)
+    {
+        while(uf[index]!=index)
+        {
+            index=uf[index];
+        }
+        return index;
+    }
+    public static void union(int[] uf,int a,int b)
+    {
+        int a_sup=find(uf,a);
+        int b_sup=find(uf,b);
+        if(a_sup!=b_sup)
+        {
+            uf[a_sup]=b_sup;
+        }
+    }
+    public int[][] kClosest(int[][] points, int K) {
+        Arrays.sort(points, Comparator.comparing(p -> p[0] * p[0] + p[1] * p[1]));
+        return Arrays.copyOfRange(points, 0, K);
+    }
+    public static void reverseString(String s,StringBuffer sb,int index)
+    {
+    	if(index+1<s.length())
+    	{
+    		reverseString(s, sb, index+1);
+    	}
+    	sb.append(s.charAt(index));
+    }
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        Arrays.sort(nums);
+        for(int i=nums.length-1;i>=2;i--)
+        {
+            while(i>=2&&i<=nums.length-2&&nums[i]==nums[i+1])
+            {
+                i--;
+            }
+            if(i<2)
+            {
+                continue;
+            }
+            int l=0;
+            int r=i-1;
+            while(l<r)
+            {
+                  while(r>l&&r+1<i&&nums[r+1]==nums[r])
+                    {
+                        r--;
+                    }
+                  while(r>l&&l-1>=0&&nums[l-1]==nums[l])
+                    {
+                        l++;
+                    }
+                if(l>=r)
+                {
+                    break;
+                }
+                if(nums[l]+nums[r]+nums[i]<0)
+                {
+                    l++;
+                }
+                else if(nums[l]+nums[r]+nums[i]>0)
+                {
+                    r--;
+                }
+                else
+                {
+                    List<Integer> temp=new ArrayList<Integer>();
+                    temp.add(nums[l]);
+                    temp.add(nums[r]);
+                    temp.add(nums[i]);
+                    res.add(temp);
+                    r--;
+                    l++;
+                }
+            }
+        }
+        return res;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String text = "Jack and Jill went to the market to buy bread and cheese. Cheese is Jack's and Jill's favorite food.";
-		String[] exclude = { "and", "he", "the", "to", "is", "Jack", "Jill" };
-		highfeqword(text, exclude);
-
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put(null, 0);
-		map.put("java", 1);
-		map.put("c++", 2);
-		map.put("python", 3);
-		map.put("php", 4);
-		map.put("nodejs", 5);
-		for (Entry<String, Integer> entry : map.entrySet()) {
-			System.out.println(entry.getKey() + ": " + entry.getValue());
-		}
-		System.out.println("php".hashCode() == "c++".hashCode());
-
-		int[][] maze = { { 1, 1, 0, 0, 0 }, { 1, 1, 0, 0, 0 }, { 0, 0, 0, 1, 1 }, { 0, 0, 0, 1, 1 },
-				{ 0, 0, 0, 0, 0 } };
-		int[][] is = { { 0, 1 } };
-		maxAreaOfIsland(is);
+//		String text = "Jack and Jill went to the market to buy bread and cheese. Cheese is Jack's and Jill's favorite food.";
+//		String[] exclude = { "and", "he", "the", "to", "is", "Jack", "Jill" };
+//		highfeqword(text, exclude);
+//
+//		Map<String, Integer> map = new HashMap<String, Integer>();
+//		map.put(null, 0);
+//		map.put("java", 1);
+//		map.put("c++", 2);
+//		map.put("python", 3);
+//		map.put("php", 4);
+//		map.put("nodejs", 5);
+//		for (Entry<String, Integer> entry : map.entrySet()) {
+//			System.out.println(entry.getKey() + ": " + entry.getValue());
+//		}
+//		System.out.println("php".hashCode() == "c++".hashCode());
+//		 int[][] m= new int[][]{{1,1,0},{1,1,0},{0,0,1}};
+//		 findCircleNum(m);
+//		int[][] maze = { { 1, 1, 0, 0, 0 }, { 1, 1, 0, 0, 0 }, { 0, 0, 0, 1, 1 }, { 0, 0, 0, 1, 1 },
+//				{ 0, 0, 0, 0, 0 } };
+//		int[][] is = { { 0, 1 } };
+//		maxAreaOfIsland(is);
+		StringBuffer sb= new StringBuffer();
+		reverseString("dijin",sb , 0);
+		System.out.println(sb.toString());
+		int []input=new int[] {-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6};
+		threeSum(input);
 	}
 
 }
