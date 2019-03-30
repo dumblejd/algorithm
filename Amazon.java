@@ -453,7 +453,7 @@ public class Amazon {
 //		int[][] is = { { 0, 1 } };
 //		maxAreaOfIsland(is);
 		StringBuffer sb= new StringBuffer("2,1,x,x,3,x,x");
-		desi(sb.toString().split(","),0);
+		//desi(sb.toString().split(","),0);
 		reverseString("dijin",sb , 0);
 		System.out.println(sb.toString());
 		//int []input=new int[] {-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6};
