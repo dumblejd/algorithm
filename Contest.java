@@ -452,6 +452,120 @@ public static boolean canThreePartsEqualSum(int[] A) {
     }
     return false;
 }
+//理解错了  我理解的和题是返回来的 ，这个是反过来的解 
+public static List<Boolean> prefixesDivBy5_reverse(int[] A) {
+    boolean []res = new boolean[A.length];
+    
+    int []rest=new int [A.length];
+    rest[0]=A[0];
+    res[0]=rest[0]%5==0;
+    int temp=1;
+    for(int i=1;i<A.length;i++)
+    {
+        temp=temp*2%5;
+       if(A[i]==1)
+       {
+           rest[i]=(rest[i-1]+temp)%5;
+          
+        }
+        else
+        {
+            rest[i]=rest[i-1];
+        }
+        res[i]=rest[i]%5==0;
+    }
+    List<Boolean> r = new ArrayList<Boolean>();
+    for(boolean b:res)
+    {
+    	r.add(b);
+    }
+    return r;
+}
+public List<Boolean> prefixesDivBy5(int[] A) {
+    int rest=A[0];
+    ArrayList<Boolean> res=new ArrayList<Boolean>();
+    res.add(rest%5==0);
+    for(int i=1;i<A.length;i++)
+    {
+        if(A[i]==1)
+        {
+        rest=rest*2%5+1;
+        }
+        else
+        {
+            rest=rest*2%5;
+        }
+        res.add(rest%5==0);
+    }
+    return res;
+}
+static String res="";
+public static String baseNeg2(int N) {
+	if(N==0)
+	{
+		return "0";
+	}
+	int limit=(int)(Math.log((double)N)/Math.log(2.0)+1);
+    helper1028(N,new StringBuffer(),0,0,limit);
+    return res;
+}
+public static void helper1028(int N,StringBuffer now,int value,int index,int limit)
+{
+	if(index-4>limit)
+	{
+		return;
+	}
+    if(N==value)
+    {
+        res=new String(now);
+        return;
+    }
+    helper1028(N,now.insert(0,1),value+(int)Math.pow(-2,index),index+1,limit);
+    now.delete(0,1);
+    helper1028(N,now.insert(0,0),value,index+1,limit);
+    now.delete(0,1);
+}
+public class ListNode {
+	     int val;
+	     ListNode next;
+	     ListNode(int x) { val = x; }
+	 }
+//1030 
+public int[] nextLargerNodes(ListNode head) {
+    Stack <ListNode> s = new Stack<ListNode>();
+    ListNode temp=head;
+    s.push(temp);
+    
+    temp=temp.next;
+    Map<ListNode,Integer> m = new HashMap<ListNode,Integer>();
+    int count=1;
+    while(!s.isEmpty()&&temp!=null)
+    {
+        count++;
+        while(!s.isEmpty()&&temp.val>s.peek().val)
+        {
+            m.put(s.pop(),temp.val);
+        }
+        s.push(temp);
+        temp=temp.next;
+    }
+    int []res=new int[count];
+    int i=0;
+    while(head!=null)
+    {
+        res[i++]=m.getOrDefault(head,0);
+        head=head.next;
+    }
+    return res;
+}
+public static String baseNeg2_2(int N) {
+    String res = "";
+    while (N != 0) {
+        res = Integer.toString(N & 1) + res;
+        N = -(N >> 1);
+    }
+    return res == ""  ? "0" : res;
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -465,6 +579,9 @@ Contest t =new Contest();
 t.numRookCaptures(a);
 t.longestOnes(ia,4);
 t.clumsy(10);
+int []aa= {1,1,0,0,0,1,0,0,1};
+StringBuffer sb= new StringBuffer();
+baseNeg2_2(6);
 	}
 
 }

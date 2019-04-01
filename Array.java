@@ -457,6 +457,7 @@ public class Array {
 		// nextPermutation(a);
 		// print(a);
 		System.out.println(maxSlidingWindow(b, 3)[2]);
+	
 	}
 
 }

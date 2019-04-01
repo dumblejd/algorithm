@@ -349,6 +349,45 @@ public class DP {
 	 public int findLength(int[] A, int[] B) {
 	        for(int i=0;i<A.length;)
 	    }
+	//416. Partition Equal Subset Sum
+		 public static boolean tcanPartition(int[] nums) {
+			 int sum=0;
+		        for(int i:nums) {
+		        	sum+=i;
+		        }
+		        if(sum%2==1)
+		        {
+		        	return false;
+		        }
+		     int half=sum/2;
+		     boolean [][]dp=new boolean[nums.length+1][half+1];
+		     dp[0][0]=true;
+		     // 第一列
+		        for (int i = 1;i<=nums.length; i++) {
+		            dp[i][0] = true;
+		        }
+		        
+		        // 第一行
+		        for (int j = 1; j<=half; j++) {
+		            dp[0][j] = false;
+		        }
+		        
+		     for(int i=1;i<=nums.length;i++)
+		     {
+		    	 for(int j=1;j<=half;j++)
+		    	 {
+	                 if(j>=nums[i-1])
+	                 {
+		    		    dp[i][j]=dp[i-1][j-nums[i-1]];
+	                 }
+	                 else
+	                 {
+	                     dp[i][j] = dp[i - 1][j];
+	                 }
+		    	 }
+		     }
+		     return dp[nums.length][half];
+		    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Map<String,Integer> m = new HashMap<String,Integer>();
@@ -365,9 +404,9 @@ public class DP {
 //		dp_triangle(t);
 		//System.out.println(min);
 		int []num = {-2,1,-3,4,-1,2,1,-5,4};
-		 
+		 int []t= {18,40,62,33,83,64,10,92,67,31,42,51,10,97,41,7,82,71,80,81,41,38,88,25,38,89,24,89,90,12,97,21,22,85,11,59,83,6,51,47,32,82,83,100,29,78,36,32,1,31,36,19,35,3,36,21,24,93,42,33,10,26,2,39,36,62,85,24,41,5,66,53,7,1,59,53,40,59,41,95,7,67,20,29,80,59,49,49,51,90,13,52,6,90,5,6,31,81,95,26};
 		 Queue<Integer> q =new LinkedList<Integer>();
-		 
+		 tcanPartition(t);
 		//dp_sum(num);
 		dp_editdistance("apple","a");
 		System.out.println(recur_scramble("great","rgtae"));
