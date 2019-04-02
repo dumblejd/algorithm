@@ -347,7 +347,8 @@ public class DP {
 	 //718 Maximum Length of Repeated Subarray
 	 //without dp
 	 public int findLength(int[] A, int[] B) {
-	        for(int i=0;i<A.length;)
+	       // for(int i=0;i<A.length;)
+		 return 0;
 	    }
 	//416. Partition Equal Subset Sum
 		 public static boolean tcanPartition(int[] nums) {
@@ -387,6 +388,41 @@ public class DP {
 		    	 }
 		     }
 		     return dp[nums.length][half];
+		    }
+		 //#494
+		//dp
+		    public int findTargetSumWays(int[] nums, int S) {
+		        int sum=0;
+		        for(int i:nums)
+		        {
+		            sum+=i;
+		        }
+		        if(S>sum||S<-1*sum)
+		        {
+		            return 0;
+		        }
+		        //represent ways of previous i items to sum to j
+		        //because it's -sum to sum  we should have sum*2+1
+		        int[][]dp= new int[nums.length+1][sum*2+1];
+		        //minus dp[i][j]+=dp[i-1][j+nums[i]];
+		        //add  dp[i][j]+=dp[i-1][j-nums[i]]
+		        dp[0][sum]=1;
+		        for(int i=1;i<=nums.length;i++)
+		        {
+		            for(int j=0;j<2*sum+1;j++)
+		            {
+		                if(j+nums[i-1]<2*sum+1)
+		                {
+		                    dp[i][j]+=dp[i-1][j+nums[i-1]];
+		                }
+		                if(j-nums[i-1]>=0)
+		                {
+		                    dp[i][j]+=dp[i-1][j-nums[i-1]];
+		                }
+		            }
+		        }
+		        return dp[nums.length][sum+S];
+		            
 		    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
