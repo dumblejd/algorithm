@@ -424,6 +424,16 @@ public class DP {
 		        return dp[nums.length][sum+S];
 		            
 		    }
+		    
+//		    518 coin change
+//		    应该理解成 前i-1个coin形成的数字n  在 第i个coin加入后 可以形成
+//		    num[n]+num[n-coin[i]] 这个视频说的听清楚的
+//		    https://www.youtube.com/watch?v=jaNZ83Q3QGc
+		    
+//		    377 combination sum IV   !!!结合coin change2  看！！！
+//		    可重复组合 target.  挺难理解的
+//		    理解成  如果要4  过程就是  有一个1打头的话数量就是 和为3的方法数   有一个2打头的话就是和为2的方法数，有一个3打头的话  就是和为1的方法数
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Map<String,Integer> m = new HashMap<String,Integer>();
