@@ -429,6 +429,31 @@ public class Amazon {
           root.right=desi(list);
           return root;
       }
+      public String customSortString(String S, String T) {
+          int[]c = new int[26];
+          char[]res= T.toCharArray();
+          int index=Integer.MAX_VALUE;
+          for(char temp:S.toCharArray())
+          {
+              c[temp-'a']=index--;
+          }
+          Arrays.sort(res,(char aa,char bb)->{return c[bb-'a']-c[aa-'a'];});
+          for(int i=0;i<T.length();i++)
+          {
+              for(int j=i;j<T.length();j++)
+              {
+                  int a=T.charAt(i)-'a';
+                  int b=T.charAt(j)-'a';
+                  if(c[a]<c[b])
+                  {
+                      char temp =res[i];
+                      res[i]=res[j];
+                      res[j]=temp;
+                  }
+              }
+          }
+          return new String(res);
+      }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String text = "Jack and Jill went to the market to buy bread and cheese. Cheese is Jack's and Jill's favorite food.";
