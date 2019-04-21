@@ -1,6 +1,7 @@
 package algorithmtest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -8,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 public class Contest {
@@ -566,6 +568,109 @@ public static String baseNeg2_2(int N) {
     }
     return res == ""  ? "0" : res;
 }
+
+public int twoCitySchedCost(int[][] costs) {
+	min1029=Integer.MAX_VALUE;
+    helper(costs,0,0,0);
+    return min1029;
+}
+static int min1029=0;
+public void helper(int[][] costs,int index,int balance,int sum)
+{
+    if(index>costs.length||balance>costs.length/2||balance<costs.length/2*-1)
+    {
+        return;
+    }
+    if(index==costs.length&&balance==0)
+    {
+        if(sum<min1029)
+        {
+        	min1029=sum;
+        }
+        return;
+    }
+    if(index==costs.length&&balance!=0)
+    {
+        return;
+    }
+    helper(costs,index+1,balance+1,sum+costs[index][0]);
+     helper(costs,index+1,balance-1,sum+costs[index][1]);
+    
+}
+//1029 mine
+public int twoCitySchedCost_pq(int[][] costs) {
+	PriorityQueue<int[]>q=new PriorityQueue<int[]>(new Comparator<int[]>() {
+
+		@Override
+		public int compare(int[] o1, int[] o2) {
+			// TODO Auto-generated method stub
+			return Math.abs(o1[0]-o1[1])>=Math.abs(o2[0]-o2[1])?-1:1;
+		}
+		
+	});
+	for(int i=0;i<costs.length;i++)
+	{
+		q.offer(costs[i].clone());
+	}
+	int n1=costs.length/2;
+	int n2=n1;
+	int sum=0;
+	while(!q.isEmpty())
+	{
+		int []temp=q.poll();
+		if(n1==0)
+		{
+			sum+=temp[1];
+			n2--;
+			continue;
+		}
+		if(n2==0)
+		{
+			sum+=temp[0];
+			n1--;
+			continue;
+		}
+		if(temp[0]>=temp[1])
+		{
+			sum+=temp[1];
+			n2--;
+		}
+		else
+		{
+			sum+=temp[0];
+			n1--;
+		}
+	}
+	return sum;
+	
+}
+//1031
+public int maxSumTwoNoOverlap(int[] A, int L, int M) {
+//    int []resl=new int[A.length-L+1];
+//    int []resm=new int[A.length-M+1];
+//    int temp=0;
+//    for(int i=0;i<L;i++)
+//    {
+//    	temp+=A[i];
+//    }
+//    resl[0]=temp;
+//    for(int l=0,r=L-1,j=1;r<A.length;r++,l++,j++)
+//    {
+//    	resl[j]=resl[j-1]+A[r]-A[l];
+//    }
+//    
+//    temp=0;
+//    for(int i=0;i<M;i++)
+//    {
+//    	temp+=A[i];
+//    }
+//    resm[0]=temp;
+//    for(int l=0,r=M-1,j=1;r<A.length;r++,l++,j++)
+//    {
+//    	resl[j]=resm[j-1]+A[r]-A[l];
+//    }
+    
+}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -574,7 +679,8 @@ String []A= {"bella","label","roller"};
 
 int []ia= {3,3,6,5,-2,2,5,1,-9,4};
 canThreePartsEqualSum(ia);
-PriorityQueue<Integer> q = new PriorityQueue<Integer>();
+Queue<int[]> q = new LinkedList<int[]>();
+q.offer(new int[] {0,1});
 Contest t =new Contest();
 t.numRookCaptures(a);
 t.longestOnes(ia,4);
@@ -582,6 +688,8 @@ t.clumsy(10);
 int []aa= {1,1,0,0,0,1,0,0,1};
 StringBuffer sb= new StringBuffer();
 baseNeg2_2(6);
+int [][]test=new int[][] {{10,20},{30,200},{400,50},{30,20}};
+t.twoCitySchedCost_pq(test);
 	}
 
 }
