@@ -645,7 +645,7 @@ public int twoCitySchedCost_pq(int[][] costs) {
 	
 }
 //1031
-public int maxSumTwoNoOverlap(int[] A, int L, int M) {
+//public int maxSumTwoNoOverlap(int[] A, int L, int M) {
 //    int []resl=new int[A.length-L+1];
 //    int []resm=new int[A.length-M+1];
 //    int temp=0;
@@ -670,26 +670,51 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
 //    	resl[j]=resm[j-1]+A[r]-A[l];
 //    }
     
+//}
+//1031
+public int maxSumTwoNoOverlap(int[] A, int L, int M) {
+    int n = A.length;
+    int[] prefix = new int[n+1];
+
+    for(int i = 1; i <= n; i++) {
+        prefix[i] = A[i-1] + prefix[i-1];
+    }
+    int res = 0;
+    
+    for(int i = 0; i <= n-L; i++) {
+        int sum = prefix[i+L] - prefix[i];
+        for(int j = 0; j <= i-M; j++) {
+            res = Math.max(sum+prefix[j+M]-prefix[j], res);
+        }
+        for(int j = i+L; j <= n-M; j++) {
+            res = Math.max(sum+prefix[j+M]-prefix[j], res);
+        }
+
+    }
+    return res;
 }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-char [][]a= {{'p','B','p'},{'B','R','B'},{'p','B','p'},{'p','p','p'}};
-String []A= {"bella","label","roller"};
-
-int []ia= {3,3,6,5,-2,2,5,1,-9,4};
-canThreePartsEqualSum(ia);
-Queue<int[]> q = new LinkedList<int[]>();
-q.offer(new int[] {0,1});
-Contest t =new Contest();
-t.numRookCaptures(a);
-t.longestOnes(ia,4);
-t.clumsy(10);
-int []aa= {1,1,0,0,0,1,0,0,1};
-StringBuffer sb= new StringBuffer();
-baseNeg2_2(6);
-int [][]test=new int[][] {{10,20},{30,200},{400,50},{30,20}};
-t.twoCitySchedCost_pq(test);
+		Contest t =new Contest();
+//char [][]a= {{'p','B','p'},{'B','R','B'},{'p','B','p'},{'p','p','p'}};
+//String []A= {"bella","label","roller"};
+//
+//int []ia= {3,3,6,5,-2,2,5,1,-9,4};
+//canThreePartsEqualSum(ia);
+//Queue<int[]> q = new LinkedList<int[]>();
+//q.offer(new int[] {0,1});
+//
+//t.numRookCaptures(a);
+//t.longestOnes(ia,4);
+//t.clumsy(10);
+//int []aa= {1,1,0,0,0,1,0,0,1};
+//StringBuffer sb= new StringBuffer();
+//baseNeg2_2(6);
+//int [][]test=new int[][] {{10,20},{30,200},{400,50},{30,20}};
+//t.twoCitySchedCost_pq(test);
+String a="";
+String b="";String c="";
+a = b == null ? "12" : 20 + "?" + 55;
 	}
 
 }
