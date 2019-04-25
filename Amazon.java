@@ -432,90 +432,219 @@ public class Amazon {
     }
 
     class LRUCache {
-        class Node{
+        class Node {
             int k;
             int v;
             Node next;
             Node pre; // in order to get the last one quickly
-            public  Node(int key,int value)
-            {
-                this.k=key;
-                this.v=value;
+
+            public Node(int key, int value) {
+                this.k = key;
+                this.v = value;
             }
         }
 
-        Map<Integer,Node> m;
+        Map<Integer, Node> m;
         Node head;
         Node tail;
         int capacity;
         int count;
+
         public LRUCache(int capacity) {
-            m= new HashMap<Integer,Node>();
-            count=0;
-            this.capacity=capacity;
-            head = new Node(0,0);
-            tail = new Node(0,0);
-            head.next=tail;
-            tail.pre=head;
+            m = new HashMap<Integer, Node>();
+            count = 0;
+            this.capacity = capacity;
+            head = new Node(0, 0);
+            tail = new Node(0, 0);
+            head.next = tail;
+            tail.pre = head;
         }
 
         public int get(int key) {
-            if(m.get(key)!=null)
-            {
+            if (m.get(key) != null) {
                 Node temp = m.get(key);
                 remove_f_list(temp);
                 add_t_list(temp);
                 return temp.v;
-            }
-            else
-            {
+            } else {
                 return -1;
             }
         }
-        public void remove_f_list(Node remove)
-        {
+
+        public void remove_f_list(Node remove) {
             //m.remove(remove.k);//remove from hashmap
-            remove.pre.next=remove.next;
-            remove.next.pre=remove.pre;
+            remove.pre.next = remove.next;
+            remove.next.pre = remove.pre;
         }
-        public void add_t_list(Node add)
-        {
+
+        public void add_t_list(Node add) {
             Node second = head.next;
-            head.next=add;
-            add.pre=head;
-            add.next=second;
-            second.pre=add;
+            head.next = add;
+            add.pre = head;
+            add.next = second;
+            second.pre = add;
 
         }
+
         public void put(int key, int value) {
-            if(m.get(key)!=null)
-            {
+            if (m.get(key) != null) {
                 Node temp = m.get(key);
-                temp.v=value;
+                temp.v = value;
                 remove_f_list(temp);
                 add_t_list(temp);
-            }
-            else
-            {
-                if(count>=capacity)
-                {
-                    Node delete=tail.pre;
+            } else {
+                if (count >= capacity) {
+                    Node delete = tail.pre;
                     remove_f_list(delete);
                     m.remove(delete.k);
                     count--;
-                    put(key,value);
-                }
-                else
-                {
-                    Node add = new Node(key,value);
+                    put(key, value);
+                } else {
+                    Node add = new Node(key, value);
                     add_t_list(add);
-                    m.put(key,add);
+                    m.put(key, add);
                     count++;
                 }
 
             }
         }
     }
+
+    //5 longest substring Palindrome   dp
+    public String longestPalindrome(String s) {
+
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        int len = s.length();
+        if (len < 2) {
+            return s;
+        }
+        int max = 0;
+        int left = 0;
+        int right = 0;
+        for (int i = len - 1; i >= 0; i--) {
+            for (int j = i; j < len; j++) {
+                dp[i][j] = s.charAt(i) == s.charAt(j) && ((j - i < 2) || dp[i + 1][j - 1]);
+                if (dp[i][j] && j - i + 1 > max) {
+                    max = j - i + 1;
+                    left = i;
+                    right = j;
+                }
+            }
+        }
+        return s.substring(left, right + 1);
+    }
+// 819 most common word 自己写的太蹩脚了 这是别人的 自己的再leetcode端
+    public String mostCommonWord(String p, String[] banned) {
+        Set<String> ban = new HashSet<>(Arrays.asList(banned));
+        Map<String, Integer> count = new HashMap<>();
+        String[] words = p.replaceAll("\\W+" , " ").toLowerCase().split("\\s+");
+        for (String w : words) if (!ban.contains(w)) count.put(w, count.getOrDefault(w, 0) + 1);
+        return Collections.max(count.entrySet(), Map.Entry.comparingByValue()).getKey();
+    }
+//937 重新排序文件   主要用到了String[]asub=a.split(" ",2);
+public String[] reorderLogFiles(String[] logs) {
+    Arrays.sort(logs,new Comparator<String>(){
+        @Override
+        public int compare(String a,String b)
+        {
+            String[]asub=a.split(" ",2);
+            String[]bsub=b.split(" ",2);
+
+            boolean an=Character.isDigit(asub[1].charAt(0));
+            boolean bn=Character.isDigit(bsub[1].charAt(0));
+            if(!an&&!bn)
+            {
+                int compare=asub[1].compareTo(bsub[1]);
+                if(compare==0)
+                {
+                    return asub[0].compareTo(bsub[0]);
+                }
+                return compare;
+            }
+            else if(an&&bn){
+                return 0;
+            }
+            else
+            {
+                //put the english before number
+                return asub[1].charAt(0)<bsub[1].charAt(0)?1:-1;
+            }
+        }
+    });
+    return logs;
+}
+//138 copy list with random pointer
+class Node {
+    public int val;
+    public Node next;
+    public Node random;
+
+    public Node() {}
+
+    public Node(int _val,Node _next,Node _random) {
+        val = _val;
+        next = _next;
+        random = _random;
+    }
+};
+public Node copyRandomList(Node head) {
+    Map<Node,Node> m=new HashMap<Node,Node>();
+    Node point=head;
+    while(point!=null)
+    {
+        Node clone=new Node();
+        clone.val=point.val;
+        m.put(point,clone);
+        point=point.next;
+    }
+    point=head;
+    while(point!=null)
+    {
+        Node clone=m.get(point);
+        clone.next=m.get(point.next);
+        clone.random=m.get(point.random);
+        point=point.next;
+    }
+    return m.get(head);
+
+}
+//138 copy list with random pointer, without map
+//solve it without map , use extra o(n) space
+public Node copyRandomList_2(Node head) {
+    if(head==null)
+    {
+        return null;
+    }
+    Node p=head;
+    while(p!=null)
+    {
+        Node clone=new Node();
+        clone.val=p.val;
+        clone.next=p.next;
+        p.next=clone;
+        p=clone.next;
+    }
+    p=head;
+    Node res=head.next;
+    while(p!=null)
+    {
+        Node clone=p.next;
+        if(p.random!=null)
+        {
+            clone.random=p.random.next;
+        }
+        p=clone.next;
+    }
+    p=head;
+    while(p!=null)
+    {
+        Node clone=p.next;
+        p.next=clone.next;
+        clone.next=p.next==null?null:p.next.next;
+        p=p.next;
+    }
+    return res;
+}
     // k closest to original point  ads
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -549,9 +678,8 @@ public class Amazon {
         threeSumClosest(input, -1);
         //threeSum(input);
         PriorityQueue<int[]> pq = new PriorityQueue<int[]>((int[] a, int[] b) -> a[0] * a[0] + a[1] * a[1] <= b[0] * b[0] + b[1] * b[1] ? -1 : 1);
-        Amazon  a =new Amazon();
-
-
+        Amazon a = new Amazon();
+        Set<String>ban=new HashSet<String>();
 //        LRUCache lru=new LRUCache(2);
 //        lru.put(1,1);
 //        lru.put(2,2);
