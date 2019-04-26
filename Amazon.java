@@ -645,6 +645,41 @@ public Node copyRandomList_2(Node head) {
     }
     return res;
 }
+//prison
+public int[] prisonAfterNDays(int[] cells, int N) {
+    Map<String,Integer> m = new HashMap<String,Integer>();
+    m.put(Arrays.toString(cells),0);
+    int cur=1;
+    while(N>=cur)
+    {
+        int[] cell=new int[cells.length];
+        cell[0]=0;
+        cell[cell.length-1]=0;
+        for(int i=1;i<cell.length-1;i++)
+        {
+            cell[i]=cells[i-1]==cells[i+1]?1:0;
+        }
+        String temp=Arrays.toString(cell);
+        if(m.get(temp)==null)
+        {
+            m.put(temp,cur);
+        }
+        else
+        {
+            int start=m.get(temp);
+            int loop=cur-start;
+            while(cur+loop<=N)
+            {
+                cur+=(N-cur)/loop*loop;  //faster
+            }
+            m.put(temp,cur);
+        }
+
+        cur++;
+        cells=cell;
+    }
+    return cells;
+}
     // k closest to original point  ads
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -687,7 +722,8 @@ public Node copyRandomList_2(Node head) {
 //        lru.put(3,3);
 //        lru.get(2);
 //        lru.put(4,4);
-
+        int []test=new int[]{0,1,0,1,1,0,0,1};
+        a.prisonAfterNDays(test,27);
     }
 
 }
