@@ -680,6 +680,39 @@ public int[] prisonAfterNDays(int[] cells, int N) {
     }
     return cells;
 }
+    class MedianFinder {
+
+        /** initialize your data structure here. */
+        PriorityQueue<Integer> pqlg;
+        PriorityQueue<Integer> pqsm;
+        int size=0;
+        public MedianFinder() {
+            pqlg=new PriorityQueue<Integer>((a,b)->b-a);//
+            pqsm=new PriorityQueue<Integer>();
+            size=0;
+        }
+
+        public void addNum(int num) {
+            pqlg.add(num);
+            pqsm.add(pqlg.poll());
+            if(pqsm.size()-1>pqlg.size())
+            {
+                pqlg.add(pqsm.poll());
+            }
+            size++;
+        }
+
+        public double findMedian() {
+            if(size%2==0)
+            {
+                return (pqlg.peek()+pqsm.peek())/2.0;
+            }
+            else
+            {
+                return pqsm.peek();
+            }
+        }
+    }
     // k closest to original point  ads
     public static void main(String[] args) {
         // TODO Auto-generated method stub
