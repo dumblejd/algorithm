@@ -693,6 +693,55 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
     }
     return res;
 }
+    public int[] numMovesStones(int a, int b, int c) {
+        int []arr=new int[]{a,b,c};
+        Arrays.sort(arr);
+
+        int minres=arr[2]-arr[1]>1?1:0;
+        minres+=(arr[1]-arr[0])>1?1:0;
+        int maxres=(arr[2]-arr[0]-2)>=0?arr[2]-arr[0]-2:0;
+        return new int[]{minres,maxres};
+    }
+    public int[][] colorBorder(int[][] grid, int r0, int c0, int color) {
+        int[][]clone=new int[grid.length][grid[0].length];
+        boolean [][]visited=new boolean[grid.length][grid[0].length];
+        for(int i=0;i<grid.length;i++)
+        {
+            clone[i]=grid[i].clone();
+        }
+        helper_1034(clone,grid,visited,r0,c0,grid[r0][c0],color);
+        return grid;
+    }
+
+    public void helper_1034(int[][]clone,int[][] grid,boolean[][] visited,int x,int y,int origin,int color)
+    {
+        if(x<0||y<0||x>=grid.length||y>=grid[x].length||visited[x][y]||clone[x][y]!=origin)
+        {
+            return;
+        }
+        visited[x][y]=true;
+        if(judge_1034(clone,x-1,y,origin)||judge_1034(clone,x,y-1,origin)||judge_1034(clone,x,y+1,origin)||judge_1034(clone,x+1,y,origin))
+        {
+            if(clone[x][y]==origin)
+            {
+                grid[x][y]=color;
+            }
+        }
+        helper_1034(clone,grid,visited,x+1,y,origin,color);
+        helper_1034(clone,grid,visited,x,y+1,origin,color);
+        helper_1034(clone,grid,visited,x-1,y,origin,color);
+        helper_1034(clone,grid,visited,x,y-1,origin,color);
+    }
+    public boolean judge_1034(int[][]clone,int x,int y,int origin)
+    {
+        if(x<0||y<0||x>=clone.length||y>=clone[x].length||clone[x][y]!=origin)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Contest t =new Contest();
