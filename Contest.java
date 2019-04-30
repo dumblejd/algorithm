@@ -740,8 +740,47 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
         }
         return false;
     }
+    public int maxUncrossedLines(int[] A, int[] B) {
+        int[][]res=new int[A.length+1][B.length+1];
+        for(int i=1;i<=A.length;i++)
+        {
+            for(int j=1;j<=B.length;j++)
+            {
+                if(A[i-1]==B[j-1])
+                {
+                    res[i][j]=1+res[i-1][j-1];
+                }
+                else
+                {
+                    res[i][j]=Math.max(res[i-1][j],res[i][j-1]);
+                }
+            }
+        }
+        return res[A.length][B.length];
+    }
+//370
+    public int[] getModifiedArray(int length, int[][] updates) {
+        int []res=new int[length];
 
-
+        for(int i=0;i<updates.length;i++)
+        {
+            int s=updates[i][0];
+            int e=updates[i][1];
+            int add=updates[i][2];
+            res[s]+=add;
+            if(e<length-1)
+            {
+                res[e+1]-=add;
+            }
+        }
+        int sum=0;
+        for(int i=0;i<length;i++)
+        {
+            sum+=res[i];
+            res[i]=sum;
+        }
+        return res;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Contest t =new Contest();
