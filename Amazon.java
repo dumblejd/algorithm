@@ -713,6 +713,49 @@ public int[] prisonAfterNDays(int[] cells, int N) {
             }
         }
     }
+    //103 zig zag
+    //this is bfs   if for dfs just use normal dfs and res.get(level).add(0,element) or nomral add
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(root==null)
+        {
+            return res;
+        }
+        Queue <TreeNode>q = new LinkedList<TreeNode>();
+        q.offer(root);
+        int seq=1;
+        while(!q.isEmpty())
+        {
+            int limit=q.size();
+            List<Integer> tmp = new ArrayList<Integer>();
+            for(int i=0;i<limit;i++)
+            {
+                TreeNode now = q.poll();
+                //each level add according to level number  //这题只是 每一层add(0,element) 或者正常add的问题
+                if(seq%2==0)
+                {
+                    tmp.add(0,now.val);
+                }
+                else
+                {
+                    tmp.add(now.val);
+                }
+                if(now.left!=null)
+                {
+                    q.offer(now.left);
+                }
+                if(now.right!=null)
+                {
+                    q.offer(now.right);
+                }
+
+            }
+            res.add(tmp);
+            seq++;
+        }
+        return res;
+    }
     // k closest to original point  ads
     public static void main(String[] args) {
         // TODO Auto-generated method stub
