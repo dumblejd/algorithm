@@ -756,6 +756,35 @@ public int[] prisonAfterNDays(int[] cells, int N) {
         }
         return res;
     }
+    //895
+    class FreqStack {
+        List<Stack<Integer>> sl;
+        Map<Integer,Integer> map;
+        public FreqStack() {
+            sl= new ArrayList<Stack<Integer>>();
+            map= new HashMap<Integer,Integer>();
+        }
+
+        public void push(int x) {
+            int times = map.getOrDefault(x,0);
+            if(sl.size()<times+1)
+            {
+                sl.add(new Stack<Integer>());
+            }
+            sl.get(times).push(x);
+            map.put(x,times+1);
+        }
+
+        public int pop() {
+            int res = sl.get(sl.size()-1).pop();
+            if(sl.get(sl.size()-1).size()==0)
+            {
+                sl.remove(sl.size()-1);
+            }
+            map.put(res,map.get(res)-1);
+            return res;
+        }
+    }
     // k closest to original point  ads
     public static void main(String[] args) {
         // TODO Auto-generated method stub
