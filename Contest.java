@@ -781,6 +781,46 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
         }
         return res;
     }
+    //1041   i think it will in the loop at most four step
+    public boolean isRobotBounded(String instructions) {
+        if(instructions==null||instructions.equals(""))
+        {
+            return true;
+        }
+        int x=0;
+        int y=0;
+        int [][]dir={{0,1},{-1,0},{0,-1},{1,0}};
+        int dir_c=0;
+        for(int i=0;i<4;i++)
+        {
+            for(int j=0;j<instructions.length();j++)
+            {
+                if(instructions.charAt(j)=='G')
+                {
+                    dir_c=dir_c%4;
+                    x+=dir[dir_c][0];
+                    y+=dir[dir_c][1];
+                }
+                else if(instructions.charAt(j)=='L')
+                {
+                    dir_c++;
+                }
+                else
+                {
+                    dir_c--;
+                    if(dir_c<0)
+                    {
+                        dir_c=3;
+                    }
+                }
+            }
+            if(x==0&&y==0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Contest t =new Contest();
@@ -803,6 +843,10 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
 String a="";
 String b="";String c="";
 a = b == null ? "12" : 20 + "?" + 55;
+
+
+       // t.isRobotBounded("GLRLGLLGLGRGLGL");
 	}
+
 
 }
