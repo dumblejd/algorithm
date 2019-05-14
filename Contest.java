@@ -821,6 +821,37 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
         }
         return false;
     }
+    //1042 flower painting 涂色问题
+    public int[] gardenNoAdj(int N, int[][] paths) {
+        List<HashSet<Integer>> setlist = new ArrayList<HashSet<Integer>>();
+        for(int i=0;i<N;i++)
+        {
+            setlist.add(new HashSet<Integer>());//set a set for each garden to record the # of connected gardens
+        }
+        for(int i=0;i<paths.length;i++)
+        {
+            setlist.get(paths[i][0]-1).add(paths[i][1]);
+            setlist.get(paths[i][1]-1).add(paths[i][0]);
+        }
+        int []res=new int[N];
+        for(int i=0;i<res.length;i++)//greedy
+        {
+            HashSet<Integer> exist = new HashSet<Integer>();
+            for(int t:setlist.get(i))
+            {
+                exist.add(res[t-1]);//record the color of connected garden
+            }
+            for(int j=1;j<=N;j++)
+            {
+                if(!exist.contains(j))
+                {
+                    res[i]=j;
+                    break;
+                }
+            }
+        }
+        return res;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Contest t =new Contest();
