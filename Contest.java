@@ -852,6 +852,30 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
         }
         return res;
     }
+    //2 两数相加add two number
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode res = new ListNode(0);
+        ListNode p = res;
+        int bring=0;
+        while(l1!=null||l2!=null||bring!=0)
+        {
+            int now = (l1!=null?l1.val:0)+(l2!=null?l2.val:0)+bring;
+            bring = now/10;
+            now = now % 10;
+            ListNode t = new ListNode(now);
+            p.next=t;
+            p=p.next;
+            if(l1!=null)
+            {
+                l1=l1.next;
+            }
+            if(l2!=null)
+            {
+                l2=l2.next;
+            }
+        }
+        return res.next;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Contest t =new Contest();
