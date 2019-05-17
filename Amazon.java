@@ -785,6 +785,101 @@ public int[] prisonAfterNDays(int[] cells, int N) {
             return res;
         }
     }
+    //2 两数相加add two number
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode res = new ListNode(0);
+        ListNode p = res;
+        int bring=0;
+        while(l1!=null||l2!=null||bring!=0)
+        {
+            int now = (l1!=null?l1.val:0)+(l2!=null?l2.val:0)+bring;
+            bring = now/10;
+            now = now % 10;
+            ListNode t = new ListNode(now);
+            p.next=t;
+            p=p.next;
+            if(l1!=null)
+            {
+                l1=l1.next;
+            }
+            if(l2!=null)
+            {
+                l2=l2.next;
+            }
+        }
+        return res.next;
+    }
+    //675 golf tree cut
+    static int[][] dir = {{0,1}, {0, -1}, {1, 0}, {-1, 0}};
+    public int cutOffTree(List<List<Integer>> forest) {
+        if(forest.get(0).get(0)==0)
+        {
+            return -1;
+        }
+        PriorityQueue<int[]> pq= new PriorityQueue<int[]>((a,b)->a[2]-b[2]);
+        for(int i=0;i<forest.size();i++)
+        {
+            for(int j=0;j<forest.get(i).size();j++)
+            {
+                if(forest.get(i).get(j)>0)
+                {
+                    int[] t = new int[]{i,j,forest.get(i).get(j)};
+                    pq.add(t);
+                }
+            }
+        }
+        int step=0;
+        int []s=new int[2];//to start with 0,0
+        while(!pq.isEmpty())
+        {
+
+            int[] e=pq.poll();
+            int available=step;
+            step+=findminstep(forest,s,e);//find from now to next node;
+            if(available>step)
+            {
+                return -1;
+            }
+            s=e.clone();
+        }
+        return step;
+
+    }
+    public int findminstep(List<List<Integer>> forest,int[]s,int[]e)
+    {
+        boolean[][] visited=new boolean[forest.size()][forest.get(0).size()];
+        Queue <int[]>q = new LinkedList<int[]>();
+        q.add(s);
+        int step=0;
+        while(!q.isEmpty())
+        {
+            int size=q.size();
+            for(int i=0;i<size;i++)
+            {
+                int[]t=q.poll();
+                if(t[0]==e[0]&&t[1]==e[1])
+                {
+                    return step;
+                }
+                visited[t[0]][t[1]]=true;
+                for(int[]d:dir)//four direction
+                {
+                    int x=t[0]+d[0];
+                    int y=t[1]+d[1];
+                    if(x<0||y<0||x>=forest.size()||y>=forest.get(0).size()||visited[x][y]||forest.get(x).get(y)==0)
+                    {
+
+                    }
+                    else
+                    {
+                        q.add(new int[]{x,y});
+                    }
+                }
+            }
+            step++;
+        }
+        return -1;
+    }
     // k closest to original point  ads
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -827,6 +922,23 @@ public int[] prisonAfterNDays(int[] cells, int N) {
 //        lru.put(3,3);
 //        lru.get(2);
 //        lru.put(4,4);
+        List<List<Integer>> forest = new ArrayList<List<Integer>>();
+       List<Integer> t1 =new ArrayList<>();
+       t1.add(1);
+       t1.add(2);
+       t1.add(3);
+        forest.add(t1);
+        List<Integer> t2 =new ArrayList<>();
+        t2.add(0);
+        t2.add(0);
+        t2.add(4);
+        forest.add(t2);
+        List<Integer> t3 =new ArrayList<>();
+        t3.add(7);
+        t3.add(6);
+        t3.add(5);
+        forest.add(t3);
+        a.cutOffTree(forest);
         int []test=new int[]{0,1,0,1,1,0,0,1};
         a.prisonAfterNDays(test,27);
     }
