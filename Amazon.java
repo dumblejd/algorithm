@@ -880,6 +880,102 @@ public int[] prisonAfterNDays(int[] cells, int N) {
         }
         return -1;
     }
+    //642 design search auto complete  注意下面的想法
+    class AutocompleteSystem {
+        Trie root;
+        String prefix;//so far the words the user input
+        class Trie{
+            HashMap<String,Integer>history;//times of string
+            HashMap<Character,Trie>node;//trie node that can have son
+            boolean isSentence;
+            Trie()
+            {
+                history=new HashMap<String,Integer>();
+                node=new HashMap<Character,Trie>();
+            }
+        }
+        class Times{ //for pq use
+            String sentence;
+            int count;
+            Times(String s,int c)
+            {
+                this.sentence=s;
+                this.count=c;
+            }
+        }
+        public void add(String s, int count)
+        {
+            Trie point=root;
+            for(char t:s.toCharArray())
+            {
+                if(point.node.get(t)==null)//grow the tree
+                {
+                    point.node.put(t,new Trie());
+                }
+
+                point=point.node.get(t);
+                point.history.put(s,point.history.getOrDefault(s,0)+count);//will add times of sentence in each node
+
+            }
+            point.isSentence=true;//bottom
+        }
+        public AutocompleteSystem(String[] s, int[] times) {
+            root=new Trie();
+            prefix="";
+            for(int i=0;i<s.length;i++)
+            {
+                add(s[i],times[i]);
+            }
+        }
+
+        public List<String> input(char c)
+        {
+            if (c == '#') {
+                add(prefix, 1);
+                prefix = "";
+                return new ArrayList<String>();
+            }
+            PriorityQueue<Times> pq=new PriorityQueue<Times>(new Comparator<Times>(){
+                @Override
+                public int compare(Times a,Times b)
+                {
+                    if(a.count==b.count)
+                    {
+                        return a.sentence.compareTo(b.sentence);
+                    }
+                    else
+                    {
+                        return b.count-a.count;
+                    }
+                }
+            });
+            prefix+=c;
+            Trie point=root;
+            for(char t:prefix.toCharArray())
+            {
+                if(point.node.get(t)==null)
+                {
+                    return new ArrayList<String>();
+                }
+                point=point.node.get(t);
+            }
+            for(String s:point.history.keySet())
+            {
+                pq.add(new Times(s,point.history.get(s)));
+            }
+            List<String> res = new ArrayList<String>();
+            for (int i = 0; i < 3 && !pq.isEmpty(); i++) {
+                res.add(pq.poll().sentence);
+            }
+            return res;
+        }
+    }
+
+    /**
+     * Your AutocompleteSystem object will be instantiated and called as such:
+     * AutocompleteSystem obj = new AutocompleteSystem(sentences, times);
+     * List<String> param_1 = obj.input(c);
+     */
     // k closest to original point  ads
     public static void main(String[] args) {
         // TODO Auto-generated method stub
@@ -937,6 +1033,9 @@ public int[] prisonAfterNDays(int[] cells, int N) {
         t3.add(7);
         t3.add(6);
         t3.add(5);
+        String aaa = "2";
+        aaa+='c';
+
         forest.add(t3);
         a.cutOffTree(forest);
         int []test=new int[]{0,1,0,1,1,0,0,1};
