@@ -852,7 +852,108 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
         }
         return res;
     }
-
+    //
+    public int lastStoneWeight(int[] stones) {
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>((a,b)->b-a);
+        for(int t:stones)
+        {
+            pq.add(t);
+        }
+        while(pq.size()>1)
+        {
+            int a=pq.poll();
+            int b=pq.poll();
+            if(a==b)
+            {
+                continue;
+            }
+            pq.add(Math.abs(a-b));
+        }
+        return pq.size()==0?0:pq.poll();
+    }
+    //
+    public String removeDuplicates(String S) {
+        StringBuffer sb= new StringBuffer(S);
+        int size=sb.length()-1;
+        int i=0;
+        while(i<size)
+        {
+            int l=i;
+            int r=i+1;
+            if(sb.charAt(l)==sb.charAt(r))
+            {
+                while(sb.charAt(l)==sb.charAt(r)&&l-1>=0&&r+1<sb.length()&&sb.charAt(l-1)==sb.charAt(r+1))
+                {
+                    l--;
+                    r++;
+                }
+                sb.delete(l,r+1);
+                i=0;
+                size=sb.length()-1;
+            }
+            else
+            {
+                i++;
+            }
+        }
+        return new String(sb);
+    }
+//1048
+public int longestStrChain(String[] words) {
+    max=1;
+    for(int i=0;i<words.length;i++)
+    {
+        dfs_1048(words,words[i],1,new boolean[words.length]);
+    }
+    return max;
+}
+    static int max=1;
+    public void dfs_1048(String[] words,String pre,int count,boolean[] visited)
+    {
+        max=Math.max(max,count);
+        for(int i=0;i<words.length;i++)
+        {
+            if(words[i].length()-1!=pre.length()||visited[i])
+            {
+                continue;
+            }
+            if(compare(pre,words[i]))
+            {
+                visited[i]=true;
+                dfs_1048(words,words[i],count+1,visited);
+                visited[i]=false;
+            }
+        }
+    }
+    public boolean compare(String a,String b)
+    {
+        if(a.length()>b.length())
+        {
+            String temp=a;
+            a=b;
+            b=temp;
+        }
+        if(a.length()+1!=b.length())
+        {
+            return false;
+        }
+        int count=0;
+        int i=0,j=0;
+        while(i<a.length()&&j<b.length())
+        {
+            if(a.charAt(i)==b.charAt(j))
+            {
+                i++;
+                j++;
+            }
+            else
+            {
+                j++;
+                count++;
+            }
+        }
+        return count<=1;
+    }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Contest t =new Contest();
@@ -872,11 +973,11 @@ public int maxSumTwoNoOverlap(int[] A, int L, int M) {
 //baseNeg2_2(6);
 //int [][]test=new int[][] {{10,20},{30,200},{400,50},{30,20}};
 //t.twoCitySchedCost_pq(test);
-String a="";
-String b="";String c="";
-a = b == null ? "12" : 20 + "?" + 55;
-
-
+String a="aaaa";
+//String b="";String c="";
+//a = b == null ? "12" : 20 + "?" + 55;
+String []sa={"ksqvsyq","ks","kss","czvh","zczpzvdhx","zczpzvh","zczpzvhx","zcpzvh","zczvh","gr","grukmj","ksqvsq","gruj","kssq","ksqsq","grukkmj","grukj","zczpzfvdhx","gru"};
+t.longestStrChain(sa);
        // t.isRobotBounded("GLRLGLLGLGRGLGL");
 	}
 
